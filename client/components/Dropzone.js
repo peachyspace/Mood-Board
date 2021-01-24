@@ -9,6 +9,10 @@ const Dropzone = ({onDrop, accept}) => {
     onDrop,
     accept
   })
+  const getClassName = (className, isDActive) => {
+    if (!isDActive) return className
+    return `${className}-DragActive`
+  }
 
   /* 
     useDropzone hooks exposes two functions called getRootProps and getInputProps
@@ -16,7 +20,10 @@ const Dropzone = ({onDrop, accept}) => {
   */
 
   return (
-    <div className="dropzone" {...getRootProps()}>
+    <div
+      className={`${getClassName('dropzone', isDragActive)}`}
+      {...getRootProps()}
+    >
       <input className="dropzone-input" {...getInputProps()} />
       <div className="text-center">
         {isDragActive ? (

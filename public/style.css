@@ -29,8 +29,25 @@ form div {
 .dropzone {
   border: 10px dashed rgba(0, 0, 0, 0.3);
   background-color: rgb(218, 181, 153);
+
+  padding: 100px 100px;
+}
+.dropzone-DragActive {
+  border: 10px dashed rgba(0, 0, 0, 0.3);
+  background-color: rgb(227, 159, 130);
   padding: 200px 200px;
 }
 .dropzone-content {
   text-align: center;
+}
+
+.file-item {
+  border: 10px solid rgba(250, 123, 25, 0.3);
+}
+
+.file-list {
+  border: 10px solid rgba(235, 177, 132, 0.527);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
