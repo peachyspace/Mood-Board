@@ -44,7 +44,7 @@ export default function CreatePage() {
   return (
     <main className="parentOfDropzone">
       <h3>Time To Create</h3>
-      <h4 className="text-center">Drag and Drop Example</h4>
+      <h4 className="text-center">Drag and Drop </h4>
       <Dropzone onDrop={onDrop} accept="image/*" />
 
       <ListOfAllUploadedImages images={images} moveImage={moveImage} />

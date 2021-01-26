@@ -1,34 +1,139 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import Typography from '@material-ui/core/Typography'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from '@material-ui/core/Toolbar'
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import {withStyles} from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>Mood Board</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/">Home</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/create">CreatePage</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
-)
+const styles = theme => ({
+  toolbar: {
+    paddingTop: '1em',
+    paddingBottom: '1em'
+  },
+  toolbarMargin: {
+    ...theme.mixins.toolbar,
+    marginBottom: '4em'
+  },
+  navbar: {
+    backgroundColor: theme.palette.common.colorWhite,
+    maxWidth: '100%',
+    minWidth: 1450,
+    marginRight: 'auto',
+    marginLeft: 'auto'
+  },
+  tabsCont: {
+    marginLeft: '9em'
+  },
+  tab: {
+    ...theme.typography.tab
+  },
+  tabs2: {
+    ...theme.typography.tab
+  },
+  cartButtonImg: {
+    width: '4em'
+  },
+  menu: {
+    ...theme.typography.tab,
+    backgroundColor: theme.palette.common.colorThree
+  },
+
+  menuItem: {
+    fontSize: '0.7em'
+  },
+  signOutButt: {
+    textTransform: 'none',
+    fontFamily: 'Lato',
+    backgroundColor: theme.palette.common.colorTwo,
+    height: '2em',
+    alignSelf: 'center',
+    marginRight: '1em'
+  }
+})
+
+const Navbar = ({handleClick, isLoggedIn}) => {
+  const [value, setValue] = useState(0)
+  return (
+    <React.Fragment>
+      <AppBar>
+        {isLoggedIn ? (
+          <Toolbar className={styles.tabsCont} indicatorColor="primary">
+            {/* The navbar will show these links after you log in */}
+            <Tabs
+              className={styles.tabsCont}
+              value={value}
+              indicatorColor="primary"
+            >
+              <Tab
+                className={styles.tab}
+                component={Link}
+                to="/"
+                label="Home"
+              />
+
+              <Tab
+                className={styles.tab}
+                component={Link}
+                to="/create"
+                label="Create"
+              />
+              <Button
+                component="a"
+                /* onClick={this.handleLogout} */
+                style={{marginLeft: '55em'}}
+                classes={{root: styles.signOutButt}}
+              >
+                Sign Out
+              </Button>
+            </Tabs>
+          </Toolbar>
+        ) : (
+          <Toolbar>
+            <Tabs
+              className={styles.tabsCont}
+              value={value}
+              indicatorColor="primary"
+            >
+              {/* The navbar will show these links before you log in */}
+              <Tab
+                className={styles.tab}
+                component={Link}
+                to="/"
+                label="Home"
+              />
+              <Tab
+                className={styles.tab}
+                component={Link}
+                to="/create"
+                label="Create"
+              />
+              <Tab
+                component={Link}
+                to="/login"
+                label="Sign In"
+                className={styles.tabs2}
+                style={{marginLeft: '55em'}}
+              />
+              <Tab
+                component={Link}
+                to="/signup"
+                label="Sign Up"
+                className={styles.tabs2}
+                style={{marginLeft: '55em'}}
+              />
+            </Tabs>
+          </Toolbar>
+        )}
+      </AppBar>
+    </React.Fragment>
+  )
+}
 
 /**
  * CONTAINER
