@@ -1,14 +1,19 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useState, useRef} from 'react'
 // Import the dropzone component
 import Dropzone from './Dropzone'
 import ListOfAllUploadedImages from './ListOfAllUploadedImages'
 import cuid from 'cuid'
+import update from 'immutability-helper'
 
 export default function CreatePage() {
   //intial value of the images state is an array
+  const accepts = 'IMAGE'
   const [images, setImages] = useState([])
+  console.log('image Stare: ', images)
+  const [index, setindex] = useState(0)
   // onDrop function
   const onDrop = useCallback(acceptedFiles => {
+    console.log(acceptedFiles)
     // Loop through accepted files
     acceptedFiles.map(file => {
       // Initialize FileReader browser API
@@ -27,12 +32,22 @@ export default function CreatePage() {
     })
   }, [])
 
+  const moveImage = (dragIndex, hoverIndex) => {
+    const draggedImage = images[dragIndex]
+    setImages(
+      update(images, {
+        $splice: [[dragIndex, 1], [hoverIndex, 0, draggedImage]]
+      })
+    )
+  }
+
   return (
     <main className="parentOfDropzone">
       <h3>Time To Create</h3>
       <h4 className="text-center">Drag and Drop Example</h4>
       <Dropzone onDrop={onDrop} accept="image/*" />
-      <ListOfAllUploadedImages images={images} />
+
+      <ListOfAllUploadedImages images={images} moveImage={moveImage} />
     </main>
   )
 }

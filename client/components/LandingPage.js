@@ -26,7 +26,9 @@ class Landing extends React.Component {
 
     return (
       <Grid container direction="column">
-        {/* ------------------------------------------------------------ hero section */}
+        <Typography variant="body2" paragraph>
+          Release your creativity
+        </Typography>
         <Grid item container direction="row">
           <Grid item lg={3}>
             <img

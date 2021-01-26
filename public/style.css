@@ -51,3 +51,7 @@ form div {
   flex-direction: row;
   flex-wrap: wrap;
 }
+.file-img {
+  height: 290px;
+  width: 290px;
+}
