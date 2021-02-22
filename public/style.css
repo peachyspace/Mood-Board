@@ -55,3 +55,7 @@ form div {
   height: 290px;
   width: 290px;
 }
+
+#canvas {
+  background-color: rgb(245, 239, 234);
+}

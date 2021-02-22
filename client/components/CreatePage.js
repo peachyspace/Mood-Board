@@ -1,9 +1,10 @@
-import React, {useCallback, useState, useRef} from 'react'
-// Import the dropzone component
+import React, {useCallback, useState} from 'react'
+
 import Dropzone from './Dropzone'
 import ListOfAllUploadedImages from './ListOfAllUploadedImages'
 import cuid from 'cuid'
 import update from 'immutability-helper'
+import Canvas from './Canvas'
 
 export default function CreatePage() {
   //intial value of the images state is an array
@@ -31,7 +32,7 @@ export default function CreatePage() {
       return file
     })
   }, [])
-
+  //might not need this
   const moveImage = (dragIndex, hoverIndex) => {
     const draggedImage = images[dragIndex]
     setImages(
@@ -44,7 +45,8 @@ export default function CreatePage() {
   return (
     <main className="parentOfDropzone">
       <h3>Time To Create</h3>
-      <h4 className="text-center">Drag and Drop </h4>
+      <h4 className="text-center">Moodboard </h4>
+      <Canvas />
       <Dropzone onDrop={onDrop} accept="image/*" />
 
       <ListOfAllUploadedImages images={images} moveImage={moveImage} />
