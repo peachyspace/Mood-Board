@@ -4,7 +4,8 @@ import Dropzone from './Dropzone'
 import ListOfAllUploadedImages from './ListOfAllUploadedImages'
 import cuid from 'cuid'
 import update from 'immutability-helper'
-import Canvas from './Canvas'
+
+import CanvasBoard from './Canvas'
 
 export default function CreatePage() {
   //intial value of the images state is an array
@@ -46,7 +47,7 @@ export default function CreatePage() {
     <main className="parentOfDropzone">
       <h3>Time To Create</h3>
       <h4 className="text-center">Moodboard </h4>
-      <Canvas />
+      <CanvasBoard images={images[0]} />
       <Dropzone onDrop={onDrop} accept="image/*" />
 
       <ListOfAllUploadedImages images={images} moveImage={moveImage} />
