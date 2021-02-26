@@ -59,6 +59,7 @@ const styles = theme => ({
 
 const Navbar = ({handleClick, isLoggedIn}) => {
   const [value, setValue] = useState(0)
+  console.log(isLoggedIn)
   return (
     <React.Fragment>
       <AppBar>
@@ -85,7 +86,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
               />
               <Button
                 component="a"
-                /* onClick={this.handleLogout} */
+                onClick={handleClick()}
                 style={{marginLeft: '55em'}}
                 classes={{root: styles.signOutButt}}
               >
@@ -116,7 +117,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
               <Tab
                 component={Link}
                 to="/login"
-                label="Sign In"
+                label="Login"
                 className={styles.tabs2}
                 style={{marginLeft: '55em'}}
               />
