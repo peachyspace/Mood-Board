@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
@@ -57,9 +57,17 @@ const styles = theme => ({
   }
 })
 
-const Navbar = ({handleClick, isLoggedIn}) => {
+const Navbar = ({handleLogOut, isLoggedIn}) => {
   const [value, setValue] = useState(0)
-  console.log(isLoggedIn)
+  console.log('isLoggedIn: ', isLoggedIn)
+  useEffect(
+    () => {
+      if (isLoggedIn) {
+        console.log('logged in')
+      }
+    },
+    [isLoggedIn]
+  )
   return (
     <React.Fragment>
       <AppBar>
@@ -86,7 +94,7 @@ const Navbar = ({handleClick, isLoggedIn}) => {
               />
               <Button
                 component="a"
-                onClick={handleClick()}
+                onClick={handleLogOut()}
                 style={{marginLeft: '55em'}}
                 classes={{root: styles.signOutButt}}
               >
@@ -147,7 +155,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    handleClick() {
+    handleLogOut() {
       dispatch(logout())
     }
   }

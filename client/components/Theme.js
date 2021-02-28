@@ -26,25 +26,25 @@ export default createMuiTheme({
     h1: {
       fontSize: '2.8rem',
       fontWeight: 400,
-      fontFamily: 'Playfair Display',
+      fontFamily: ['Josefin Slab, serif'].join(','),
       letterSpacing: 5
     },
     tab: {
       fontSize: '1em',
       fontWeight: 400,
-      fontFamily: 'Lato',
+      fontFamily: ['Josefin Slab, serif'].join(','),
       letterSpacing: 2
     },
     body1: {
       fontSize: '1.25em',
       fontWeight: 500,
-      fontFamily: 'Lato',
+      fontFamily: ['Josefin Slab, serif'].join(','),
       letterSpacing: 2
     },
     body2: {
       fontSize: '1.25em',
       fontWeight: 300,
-      fontFamily: 'Lato',
+      fontFamily: ['Josefin Slab, serif'].join(','),
       letterSpacing: 2
     }
   },
