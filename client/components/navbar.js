@@ -8,7 +8,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import {withStyles} from '@material-ui/core/styles'
+import {useHistory} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
@@ -60,14 +60,17 @@ const styles = theme => ({
 const Navbar = ({handleLogOut, isLoggedIn}) => {
   const [value, setValue] = useState(0)
   console.log('isLoggedIn: ', isLoggedIn)
-  useEffect(
-    () => {
-      if (isLoggedIn) {
-        console.log('logged in')
-      }
-    },
-    [isLoggedIn]
-  )
+  const history = useHistory()
+  const handleSignOutButton = async e => {
+    e.preventDefault()
+    try {
+      await handleLogOut()
+      history.push('/login')
+      location.reload()
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <React.Fragment>
       <AppBar>
@@ -94,7 +97,7 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
               />
               <Button
                 component="a"
-                onClick={handleLogOut()}
+                onClick={e => handleSignOutButton(e)}
                 style={{marginLeft: '55em'}}
                 classes={{root: styles.signOutButt}}
               >

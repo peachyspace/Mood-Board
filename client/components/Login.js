@@ -1,20 +1,22 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {login} from '../store/user'
-
+import {useHistory} from 'react-router-dom'
 import LoginForm from './LoginForm'
 
 const Login = ({loginUser, user}) => {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+  console.log('user:', user)
   console.log('email: ', email)
   console.log('password: ', password)
-  console.log('user:', user)
+  const history = useHistory()
   const onSubButtonClick = async e => {
     try {
       e.preventDefault()
       console.log(email, password)
       await loginUser(email, password)
+      console.log('user:', user)
       history.push('/home')
       location.reload()
     } catch (error) {
