@@ -48,11 +48,13 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
 
   passport.use(strategy)
 
+  //Google authentication and login (GET /auth/google)
   router.get(
     '/',
     passport.authenticate('google', {scope: ['email', 'profile']})
   )
 
+  //handles the callback after Google has authenticated the user (Get /auth/google/callback)
   router.get(
     '/callback',
     passport.authenticate('google', {

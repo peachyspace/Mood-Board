@@ -68,16 +68,39 @@ const LoginForm = ({
             id="password"
             autoComplete="current-password"
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={e => onSubClick(e)}
-          >
-            Submit
-          </Button>
+          <Grid container>
+            <Grid item>
+              <Button
+                type="submit"
+                fullWidth={false}
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={e => onSubClick(e)}
+              >
+                <Typography component="h6" variant="h6">
+                  Login
+                </Typography>
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item>
+              <Button
+                style={{marginTop: '2em', marginRight: '1em'}}
+                variant="contained"
+                color="secondary"
+                component="a"
+                href="/auth/Google"
+                className={classes.button}
+              >
+                <Typography component="h6" variant="h6">
+                  Login With Google
+                </Typography>
+              </Button>
+            </Grid>
+          </Grid>
+
           <Grid container>
             <Grid item>
               <Link href="#" variant="body2">

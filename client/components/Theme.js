@@ -1,7 +1,7 @@
 import {createMuiTheme} from '@material-ui/core/styles'
 
 const colorOne = '#C3A789'
-const colorTwo = '#D8DDE7'
+const colorTwo = '#d4c0ab'
 const colorThree = '#EFE9E4'
 const colorFour = '#D1C9B3'
 const colorWhite = '#fff'
@@ -31,6 +31,12 @@ export default createMuiTheme({
     },
     h3: {
       fontSize: '1.8rem',
+      fontWeight: 400,
+      fontFamily: ['Josefin Slab, serif'].join(','),
+      letterSpacing: 5
+    },
+    h6: {
+      fontSize: '0.8rem',
       fontWeight: 400,
       fontFamily: ['Josefin Slab, serif'].join(','),
       letterSpacing: 5
