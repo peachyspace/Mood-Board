@@ -29,14 +29,16 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }))
-export const UserHome = ({email, name}) => {
+export const UserHome = ({email, name, lastName, username}) => {
   //const {email, name} = props
+  console.log(lastName)
   const classes = useStyles()
+  console.log('username: ', username)
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h1">
-          Welcome, {name}
+          Welcome, {name} {lastName}
         </Typography>
         <Typography component="h3" variant="h3">
           info:{email}
@@ -52,7 +54,9 @@ export const UserHome = ({email, name}) => {
 const mapState = state => {
   return {
     email: state.user.email,
-    name: state.user.firstName
+    name: state.user.firstName,
+    lastName: state.user.name,
+    username: state.user.username
   }
 }
 

@@ -52,6 +52,36 @@ export const login = (email, password) => async dispatch => {
   }
 }
 
+export const signup = (
+  firstName,
+  lastName,
+  username,
+  email,
+  password
+) => async dispatch => {
+  let res
+  console.log('in redux')
+  try {
+    console.log('in redux')
+    res = await axios.post('/auth/signup', {
+      firstName,
+      lastName,
+      username,
+      email,
+      password
+    })
+  } catch (authError) {
+    console.log('redux: ', authError)
+    return dispatch(getUser({error: authError}))
+  }
+  try {
+    dispatch(getUser(res.data))
+    history.push('/home')
+  } catch (dispatchOrHistoryErr) {
+    console.error(dispatchOrHistoryErr)
+  }
+}
+
 export const logout = () => async dispatch => {
   try {
     console.log('R: LOGINNG OUUUUTTTT!!!!')

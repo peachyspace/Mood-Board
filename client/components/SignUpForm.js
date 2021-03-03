@@ -4,7 +4,6 @@ import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
-import Link from '@material-ui/core/Link'
 import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -26,33 +25,83 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }))
-const LoginForm = ({
+const SignUpForm = ({
+  firstName,
+  handleFirstNameChange,
+  lastName,
+  handleLastNameChange,
+  username,
+  handleUsernameChange,
   email,
-  password,
-  //onEmailChange,
   handleEmailChange,
+  password,
   handlePasswordChange,
-  onSubClick
+  onSignUpButtonClick,
+  errors,
+  focused,
+  setFocusedTrue,
+  setFocusedFalse,
+  isRequried,
+  validate
 }) => {
   const classes = useStyles()
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h1">
-          Login
+          Sign Up
         </Typography>
         <form className={classes.form} noValidate>
+          <TextField
+            value={firstName}
+            onChange={e => handleFirstNameChange(e)}
+            required={true}
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="firstName"
+            label="First Name"
+            name="firstName"
+            onFocus={() => setFocusedTrue()}
+            onBlur={() => {
+              setFocusedFalse()
+              validate([isRequried])
+            }}
+          />
+          <TextField
+            value={lastName}
+            onChange={e => handleLastNameChange(e)}
+            variant="outlined"
+            margin="normal"
+            required={true}
+            fullWidth
+            id="lastName"
+            label="Last Name"
+            name="lastName"
+            autoFocus
+          />
+          <TextField
+            value={username}
+            onChange={e => handleUsernameChange(e)}
+            variant="outlined"
+            margin="normal"
+            required={true}
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoFocus
+          />
           <TextField
             value={email}
             onChange={e => handleEmailChange(e)}
             variant="outlined"
             margin="normal"
-            required
+            required={true}
             fullWidth
             id="email"
-            label="Email Address"
+            label="Email"
             name="email"
-            autoComplete="email"
             autoFocus
           />
           <TextField
@@ -60,13 +109,13 @@ const LoginForm = ({
             onChange={e => handlePasswordChange(e)}
             variant="outlined"
             margin="normal"
-            required
+            required={true}
             fullWidth
-            name="password"
+            id="password"
             label="Password"
             type="password"
-            id="password"
-            autoComplete="current-password"
+            name="password"
+            autoFocus
           />
           <Grid container>
             <Grid item>
@@ -76,36 +125,12 @@ const LoginForm = ({
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                onClick={e => onSubClick(e)}
+                onClick={e => onSignUpButtonClick(e)}
               >
                 <Typography component="h6" variant="h6">
-                  Login
+                  Sign Up
                 </Typography>
               </Button>
-            </Grid>
-          </Grid>
-          <Grid container>
-            <Grid item>
-              <Button
-                style={{marginTop: '2em', marginRight: '1em'}}
-                variant="contained"
-                color="secondary"
-                component="a"
-                href="/auth/Google"
-                className={classes.button}
-              >
-                <Typography component="h6" variant="h6">
-                  Login With Google
-                </Typography>
-              </Button>
-            </Grid>
-          </Grid>
-
-          <Grid container>
-            <Grid item>
-              <Link href="/signup" variant="body2">
-                Don't have an account? Sign Up
-              </Link>
             </Grid>
           </Grid>
         </form>
@@ -113,5 +138,4 @@ const LoginForm = ({
     </Container>
   )
 }
-
-export default LoginForm
+export default SignUpForm

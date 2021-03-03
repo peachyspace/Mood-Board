@@ -5,8 +5,8 @@ import {useHistory} from 'react-router-dom'
 import LoginForm from './LoginForm'
 
 const Login = ({loginUser, user}) => {
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   console.log('user:', user)
   console.log('email: ', email)
   console.log('password: ', password)
