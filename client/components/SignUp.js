@@ -4,34 +4,70 @@ import {signup} from '../store'
 import {useHistory} from 'react-router-dom'
 import SignUpForm from './SignUpForm'
 
+const isRequried = val => {
+  console.log('EMPTY !!!!!!!!!!!!')
+  console.log('val: ', val.length)
+  console.log('trinary: ', val.length > 0 ? '' : 'cannot be blank')
+  return val.length > 0 ? '' : 'cannot be blank'
+}
+const isEmail = val => {
+  const atIndex = val.indexOf('@')
+  //if current integer is a dot then retun the current index otherwise we will retun the accumulator
+  //acc value of starting accumulator
+  const greatestDotIndex = val
+    .split('')
+    .reduce((acc, char, index) => (char === '.' ? index : acc), 0)
+  return atIndex > -1 && greatestDotIndex > atIndex ? '' : 'must be an email'
+}
+const intialErrors = {
+  firstName: [],
+  lastName: [],
+  username: [],
+  email: [],
+  password: []
+}
+
 const SignUp = ({signUpUser}) => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState([])
-  const [focused, setFocused] = useState(false)
+  const [errors, setErrors] = useState(intialErrors)
+  const [submitMsg, setSubmitMsg] = useState('')
   const history = useHistory()
+  console.log('email errors: ', errors.email.length === 0)
+  console.log(
+    firstName.length !== 0 &&
+      lastName.length !== 0 &&
+      username.length !== 0 &&
+      email.length !== 0 &&
+      password.length !== 0 &&
+      errors.email.length === 0
+  )
   const onSignUpButtonClick = async e => {
-    try {
+    if (
+      firstName.length !== 0 &&
+      lastName.length !== 0 &&
+      username.length !== 0 &&
+      email.length !== 0 &&
+      errors.email.length === 0 &&
+      password.length !== 0
+    ) {
+      try {
+        e.preventDefault()
+        console.log('clicked!!!!!!!!!!!!!')
+        await signUpUser(firstName, lastName, username, email, password)
+
+        history.push('/home')
+        location.reload()
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
       e.preventDefault()
-      console.log('clicked!!!!!!!!!!!!!')
-      await signUpUser(firstName, lastName, username, email, password)
-      console.log('done!!!')
-      history.push('/home')
-      location.reload()
-    } catch (error) {
-      console.log(error)
+      setSubmitMsg('Submission Failed')
     }
-  }
-  const isRequried = val => {
-    return val.length > 0 ? '' : 'cannot be blank'
-  }
-  const validate = validations => {
-    //map over the validations
-    //validations is an array of validators and those validators return error messeges
-    setErrors(validations.map(errorsFor => errorsFor(firstName)))
   }
 
   return (
@@ -57,13 +93,12 @@ const SignUp = ({signUpUser}) => {
         setPassword(e.target.value)
       }}
       errors={errors}
-      focused={focused}
-      setFocusedTrue={() => setFocused(true)}
+      setErrors={setErrors}
       onSignUpButtonClick={onSignUpButtonClick}
       isRequried={val => isRequried(val)}
-      validate={validation => {
-        validate(validation)
-      }}
+      validations={[isRequried]}
+      emailValidation={[isRequried, isEmail]}
+      submitMsg={submitMsg}
     />
   )
 }

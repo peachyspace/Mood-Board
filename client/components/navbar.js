@@ -1,25 +1,17 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import {logout} from '../store'
 import Typography from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import {useHistory} from 'react-router-dom'
+
 import Button from '@material-ui/core/Button'
 
 const styles = theme => ({
-  toolbar: {
-    paddingTop: '1em',
-    paddingBottom: '1em'
-  },
-  toolbarMargin: {
-    ...theme.mixins.toolbar,
-    marginBottom: '4em'
-  },
   navbar: {
     backgroundColor: theme.palette.common.colorWhite,
     maxWidth: '100%',
@@ -36,18 +28,8 @@ const styles = theme => ({
   tabs2: {
     ...theme.typography.tab
   },
-  cartButtonImg: {
-    width: '4em'
-  },
-  menu: {
-    ...theme.typography.tab,
-    backgroundColor: theme.palette.common.colorThree
-  },
 
-  menuItem: {
-    fontSize: '0.7em'
-  },
-  signOutButt: {
+  signOutButton: {
     textTransform: 'none',
     fontFamily: 'Lato',
     backgroundColor: theme.palette.common.colorTwo,
@@ -61,6 +43,15 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
   const [value, setValue] = useState(0)
   console.log('isLoggedIn: ', isLoggedIn)
   const history = useHistory()
+  useEffect(() => {
+    if (window.location.pathname === '/' && value !== 0) {
+      setValue(0)
+    } else if (window.location.pathname === '/create' && value !== 1) {
+      setValue(1)
+    } else if (window.location.pathname === '/home' && value !== 2) {
+      setValue(2)
+    }
+  })
   const handleSignOutButton = async e => {
     e.preventDefault()
     try {
@@ -71,17 +62,61 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
       console.log(error)
     }
   }
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+  }
+
   return (
     <React.Fragment>
       <AppBar>
         {isLoggedIn ? (
-          <Toolbar className={styles.tabsCont} indicatorColor="primary">
-            {/* The navbar will show these links after you log in */}
+          <Toolbar className={styles.navbar}>
+            {/*  Navbar will render these links after a user logs in */}
             <Tabs
               className={styles.tabsCont}
               value={value}
+              onChange={handleChange}
               indicatorColor="primary"
+              textColor="secondary"
             >
+              <Tab
+                className={styles.tab}
+                component={Link}
+                to="/"
+                label="Main"
+              />
+              <Tab
+                className={styles.tab}
+                component={Link}
+                to="/create"
+                label="Create"
+              />
+              <Tab
+                className={styles.tab}
+                component={Link}
+                to="/home"
+                label="Home"
+              />
+            </Tabs>
+            <Button
+              component="a"
+              onClick={e => handleSignOutButton(e)}
+              style={{marginLeft: 'auto'}}
+              classes={{root: styles.signOutButton}}
+            >
+              Sign Out
+            </Button>
+          </Toolbar>
+        ) : (
+          <Toolbar>
+            <Tabs
+              className={styles.tabsCont}
+              value={value}
+              onChange={handleChange}
+              indicatorColor="primary"
+              textColor="secondary"
+            >
+              {/* Renders before users logs in */}
               <Tab
                 className={styles.tab}
                 component={Link}
@@ -89,42 +124,6 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
                 label="Home"
               />
 
-              <Tab
-                className={styles.tab}
-                component={Link}
-                to="/create"
-                label="Create"
-              />
-              <Button
-                component="a"
-                onClick={e => handleSignOutButton(e)}
-                style={{marginLeft: '55em'}}
-                classes={{root: styles.signOutButt}}
-              >
-                Sign Out
-              </Button>
-            </Tabs>
-          </Toolbar>
-        ) : (
-          <Toolbar>
-            <Tabs
-              className={styles.tabsCont}
-              value={value}
-              indicatorColor="primary"
-            >
-              {/* The navbar will show these links before you log in */}
-              <Tab
-                className={styles.tab}
-                component={Link}
-                to="/"
-                label="Home"
-              />
-              <Tab
-                className={styles.tab}
-                component={Link}
-                to="/create"
-                label="Create"
-              />
               <Tab
                 component={Link}
                 to="/login"
@@ -170,6 +169,5 @@ export default connect(mapState, mapDispatch)(Navbar)
  * PROP TYPES
  */
 Navbar.propTypes = {
-  handleClick: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
 }

@@ -2,11 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Container from '@material-ui/core/Container'
-import Grid from '@material-ui/core/Grid'
-import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
-import Link from '@material-ui/core/Link'
 import {makeStyles} from '@material-ui/core/styles'
 /**
  * COMPONENT
@@ -66,5 +62,8 @@ export default connect(mapState)(UserHome)
  * PROP TYPES
  */
 UserHome.propTypes = {
-  email: PropTypes.string
+  email: PropTypes.string,
+  name: PropTypes.string,
+  lastName: PropTypes.string,
+  username: PropTypes.string
 }

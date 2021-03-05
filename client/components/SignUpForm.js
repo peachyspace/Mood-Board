@@ -23,6 +23,9 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  failedSubmit: {
+    color: 'red'
   }
 }))
 const SignUpForm = ({
@@ -38,21 +41,37 @@ const SignUpForm = ({
   handlePasswordChange,
   onSignUpButtonClick,
   errors,
-  focused,
-  setFocusedTrue,
-  setFocusedFalse,
-  isRequried,
-  validate
+  setErrors,
+  validations,
+  emailValidation,
+  submitMsg
 }) => {
   const classes = useStyles()
+
+  const validate = (validationsArray, value, string) => {
+    //map over the validationsArray
+    //validationsArray is an array of validators and those validators return error messeges
+
+    setErrors(() => ({
+      ...errors,
+      [string]: validationsArray
+        .map(errorsFor => errorsFor(value))
+        .filter(errorMsg => errorMsg.length > 0)
+    }))
+
+    console.log('errors : ', errors)
+  }
+  console.log('form: ', errors.firstName)
+  //const firstNameErrors = errors.firstName.length || ''
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Typography component="h1" variant="h1">
           Sign Up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form}>
           <TextField
+            error={errors.firstName.length !== 0}
             value={firstName}
             onChange={e => handleFirstNameChange(e)}
             required={true}
@@ -62,13 +81,13 @@ const SignUpForm = ({
             id="firstName"
             label="First Name"
             name="firstName"
-            onFocus={() => setFocusedTrue()}
-            onBlur={() => {
-              setFocusedFalse()
-              validate([isRequried])
-            }}
+            onBlur={() => validate(validations, firstName, 'firstName')}
+            helperText={
+              errors.firstName.length === 0 ? null : errors.firstName.join(', ')
+            }
           />
           <TextField
+            error={errors.lastName.length !== 0}
             value={lastName}
             onChange={e => handleLastNameChange(e)}
             variant="outlined"
@@ -78,9 +97,13 @@ const SignUpForm = ({
             id="lastName"
             label="Last Name"
             name="lastName"
-            autoFocus
+            onBlur={() => validate(validations, lastName, 'lastName')}
+            helperText={
+              errors.lastName.length === 0 ? null : errors.lastName.join(', ')
+            }
           />
           <TextField
+            error={errors.username.length !== 0}
             value={username}
             onChange={e => handleUsernameChange(e)}
             variant="outlined"
@@ -90,9 +113,13 @@ const SignUpForm = ({
             id="username"
             label="Username"
             name="username"
-            autoFocus
+            onBlur={() => validate(validations, username, 'username')}
+            helperText={
+              errors.username.length === 0 ? null : errors.username.join(', ')
+            }
           />
           <TextField
+            error={errors.email.length !== 0}
             value={email}
             onChange={e => handleEmailChange(e)}
             variant="outlined"
@@ -102,9 +129,13 @@ const SignUpForm = ({
             id="email"
             label="Email"
             name="email"
-            autoFocus
+            onBlur={() => validate(emailValidation, email, 'email')}
+            helperText={
+              errors.email.length === 0 ? null : errors.email.join(', ')
+            }
           />
           <TextField
+            error={errors.password.length !== 0}
             value={password}
             onChange={e => handlePasswordChange(e)}
             variant="outlined"
@@ -115,10 +146,18 @@ const SignUpForm = ({
             label="Password"
             type="password"
             name="password"
-            autoFocus
+            onBlur={() => validate(validations, password, 'password')}
+            helperText={
+              errors.password.length === 0 ? null : errors.password.join(', ')
+            }
           />
           <Grid container>
             <Grid item>
+              {submitMsg === '' ? null : (
+                <Typography className={classes.failedSubmit}>
+                  {submitMsg}
+                </Typography>
+              )}
               <Button
                 type="submit"
                 fullWidth={false}

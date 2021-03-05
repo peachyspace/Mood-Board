@@ -4,10 +4,10 @@ import Dropzone from './Dropzone'
 import ListOfAllUploadedImages from './ListOfAllUploadedImages'
 import cuid from 'cuid'
 import update from 'immutability-helper'
-
+import {connect} from 'react-redux'
 import CanvasBoard from './Canvas'
 
-export default function CreatePage() {
+function CreatePage() {
   //intial value of the images state is an array
   const accepts = 'IMAGE'
   const [images, setImages] = useState([])
@@ -54,3 +54,9 @@ export default function CreatePage() {
     </main>
   )
 }
+const mapState = state => {
+  return {
+    user: state.user
+  }
+}
+export default connect(mapState, null)(CreatePage)

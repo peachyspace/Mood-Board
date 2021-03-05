@@ -24,15 +24,19 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  failedLogin: {
+    color: 'red'
   }
 }))
 const LoginForm = ({
   email,
   password,
-  //onEmailChange,
   handleEmailChange,
   handlePasswordChange,
-  onSubClick
+  onSubClick,
+  loginMsg,
+  error
 }) => {
   const classes = useStyles()
   return (
@@ -70,6 +74,19 @@ const LoginForm = ({
           />
           <Grid container>
             <Grid item>
+              {loginMsg === '' ? null : (
+                <Typography className={classes.failedLogin}>
+                  {loginMsg}
+                </Typography>
+              )}
+
+              {error &&
+                error.response && (
+                  <Typography className={classes.failedLogin}>
+                    {' '}
+                    {error.response.data}
+                  </Typography>
+                )}
               <Button
                 type="submit"
                 fullWidth={false}

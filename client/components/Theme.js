@@ -19,7 +19,7 @@ export default createMuiTheme({
       main: colorOne
     },
     secondary: {
-      main: colorTwo
+      main: colorWhite
     }
   },
   typography: {
