@@ -26,15 +26,14 @@ const Login = ({loginUser, user, error}) => {
         console.log(error)
       }
       try {
-        console.log(typeof error === 'undefined')
-        console.log('outside')
-        console.log('error Messege:', error)
+        console.log('undefined: ', typeof error === 'undefined')
 
-        if (typeof error === 'undefined') {
+        if (typeof error !== 'undefined') {
           e.persist()
-          console.log('inside')
+
           console.log('error Messege:', error)
         } else {
+          console.log('pushing ')
           history.push('/home')
           location.reload()
         }

@@ -44,11 +44,35 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
   console.log('isLoggedIn: ', isLoggedIn)
   const history = useHistory()
   useEffect(() => {
-    if (window.location.pathname === '/' && value !== 0) {
+    if (
+      window.location.pathname === '/' &&
+      value !== 0 &&
+      isLoggedIn === false
+    ) {
       setValue(0)
-    } else if (window.location.pathname === '/create' && value !== 1) {
+    } else if (
+      window.location.pathname === '/login' &&
+      value !== 1 &&
+      isLoggedIn === false
+    ) {
       setValue(1)
-    } else if (window.location.pathname === '/home' && value !== 2) {
+    } else if (
+      window.location.pathname === '/' &&
+      value !== 0 &&
+      isLoggedIn === true
+    ) {
+      setValue(0)
+    } else if (
+      window.location.pathname === '/create' &&
+      value !== 1 &&
+      isLoggedIn === true
+    ) {
+      setValue(1)
+    } else if (
+      window.location.pathname === '/home' &&
+      value !== 2 &&
+      isLoggedIn === true
+    ) {
       setValue(2)
     }
   })
@@ -121,7 +145,7 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
                 className={styles.tab}
                 component={Link}
                 to="/"
-                label="Home"
+                label="Main"
               />
 
               <Tab
