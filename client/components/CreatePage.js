@@ -1,19 +1,31 @@
 import React, {useCallback, useState} from 'react'
-
 import Dropzone from './Dropzone'
 import ListOfAllUploadedImages from './ListOfAllUploadedImages'
 import cuid from 'cuid'
 import update from 'immutability-helper'
 import {connect} from 'react-redux'
+import {canvasSaver} from '../store'
 import CanvasBoard from './Canvas'
 
-function CreatePage() {
+function CreatePage({saveMoodboard, userId}) {
+  const [userCanvas, setUserCanvas] = useState({})
   //intial value of the images state is an array
   const accepts = 'IMAGE'
   const [images, setImages] = useState([])
   console.log('image Stare: ', images)
   const [index, setindex] = useState(0)
   // onDrop function
+  const saveButtonClick = async (e, canvasObject) => {
+    e.preventDefault()
+    setUserCanvas(canvasObject)
+    const canvasString = JSON.stringify(canvasObject.toJSON())
+    console.log(canvasString)
+    try {
+      await saveMoodboard(userId, 1, canvasString)
+    } catch (error) {
+      console.error(error)
+    }
+  }
   const onDrop = useCallback(acceptedFiles => {
     console.log(acceptedFiles)
     // Loop through accepted files
@@ -47,7 +59,11 @@ function CreatePage() {
     <main className="parentOfDropzone">
       <h3>Time To Create</h3>
       <h4 className="text-center">Moodboard </h4>
-      <CanvasBoard images={images[0]} />
+      <CanvasBoard
+        images={images[0]}
+        setUserCanvas={setUserCanvas}
+        saveButtonClick={saveButtonClick}
+      />
       <Dropzone onDrop={onDrop} accept="image/*" />
 
       <ListOfAllUploadedImages images={images} moveImage={moveImage} />
@@ -56,7 +72,14 @@ function CreatePage() {
 }
 const mapState = state => {
   return {
-    user: state.user
+    userId: state.user.id
   }
 }
-export default connect(mapState, null)(CreatePage)
+const mapDispatch = dispatch => {
+  return {
+    saveMoodboard: (userId, moodboardId, fabricCanvas) => {
+      dispatch(canvasSaver(userId, moodboardId, fabricCanvas))
+    }
+  }
+}
+export default connect(mapState, mapDispatch)(CreatePage)

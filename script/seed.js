@@ -2,6 +2,7 @@
 
 const db = require('../server/db')
 const {User} = require('../server/db/models')
+const {Moodboard} = require('../server/db/models')
 
 async function seed() {
   await db.sync({force: true})
@@ -21,6 +22,27 @@ async function seed() {
       firstName: 'Timmy',
       lastName: 'Turner',
       username: 'thechoosenOne'
+    })
+  ])
+
+  const moodboard = await Promise.all([
+    Moodboard.create({
+      userId: 1,
+      description: 'puppies playing around',
+      canvas: 'puppy pics',
+      numberOfHearts: 101
+    }),
+    Moodboard.create({
+      userId: 1,
+      description: ' fall inspo for bedroom',
+      canvas: 'leaves and coffee pics',
+      numberOfHearts: 23
+    }),
+    Moodboard.create({
+      userId: 2,
+      description: 'Career dream board',
+      canvas: 'code and book pics',
+      numberOfHearts: 41
     })
   ])
 

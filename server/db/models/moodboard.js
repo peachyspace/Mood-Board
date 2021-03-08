@@ -10,12 +10,9 @@ const Moodboard = db.define('moodboard', {
     type: Sequelize.TEXT
   },
   canvas: {
-    type: Sequelize.STRING
+    type: Sequelize.TEXT
   },
   numberOfHearts: {
-    type: Sequelize.INTEGER
-  },
-  numberOfFollowers: {
     type: Sequelize.INTEGER
   }
 })

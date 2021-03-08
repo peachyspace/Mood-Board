@@ -95,7 +95,7 @@ const SignUp = ({signUpUser}) => {
       errors={errors}
       setErrors={setErrors}
       onSignUpButtonClick={onSignUpButtonClick}
-      isRequried={val => isRequried(val)}
+      //isRequried={val => isRequried(val)}
       validations={[isRequried]}
       emailValidation={[isRequried, isEmail]}
       submitMsg={submitMsg}

@@ -1,3 +1,5 @@
+import Axios from 'axios'
+
 const SAVE_CANVAS = 'SAVE_CANVAS'
 
 const savingCanvas = fabricCanvas => ({
@@ -5,8 +7,21 @@ const savingCanvas = fabricCanvas => ({
   fabricCanvas
 })
 
-export const canvasSaverThunk = fabricCanvas => dispatch => {
-  dispatch(savingCanvas(fabricCanvas))
+export const canvasSaver = (
+  userId,
+  moodboardId,
+  fabricCanvas
+) => async dispatch => {
+  let res
+  try {
+    res = await Axios.put(
+      `/api/moodboards/saveCanvas/${userId}/${moodboardId}`,
+      {canvas: fabricCanvas}
+    )
+    dispatch(savingCanvas(fabricCanvas))
+  } catch (error) {
+    console.error(error)
+  }
 }
 const initialState = {}
 
