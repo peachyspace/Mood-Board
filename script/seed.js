@@ -3,6 +3,9 @@
 const db = require('../server/db')
 const {User} = require('../server/db/models')
 const {Moodboard} = require('../server/db/models')
+const {dogsCanvas} = require('./canvas')
+const {fallCanvas} = require('./canvas')
+const {careerCanvas} = require('./canvas')
 
 async function seed() {
   await db.sync({force: true})
@@ -28,20 +31,23 @@ async function seed() {
   const moodboard = await Promise.all([
     Moodboard.create({
       userId: 1,
-      description: 'puppies playing around',
-      canvas: 'puppy pics',
+      title: 'Playful Pups',
+      description: 'Puppies playing around',
+      canvas: dogsCanvas,
       numberOfHearts: 101
     }),
     Moodboard.create({
       userId: 1,
-      description: ' fall inspo for bedroom',
-      canvas: 'leaves and coffee pics',
+      title: 'Fall Inspiration',
+      description: ' Fall inspiration for outfits',
+      canvas: fallCanvas,
       numberOfHearts: 23
     }),
     Moodboard.create({
       userId: 2,
+      title: 'Career Dreams',
       description: 'Career dream board',
-      canvas: 'code and book pics',
+      canvas: careerCanvas,
       numberOfHearts: 41
     })
   ])

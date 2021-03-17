@@ -1,15 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import {makeStyles} from '@material-ui/core/styles'
+import {fetchAMoodboard, fetchUserMoodboards} from '../store'
+import {Button, Grid} from '@material-ui/core'
+import {Link, useHistory} from 'react-router-dom'
+
 /**
  * COMPONENT
  */
 const useStyles = makeStyles(theme => ({
   container: {
-    marginTop: 20
+    marginTop: 50
   },
   paper: {
     marginTop: theme.spacing(10),
@@ -25,11 +29,40 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }))
-export const UserHome = ({email, name, lastName, username}) => {
+export const UserHome = ({
+  email,
+  name,
+  lastName,
+  username,
+  userId,
+  moodboards,
+  getMoodboards,
+  getSelecetedMoodboard,
+  state
+}) => {
   //const {email, name} = props
   console.log(lastName)
   const classes = useStyles()
+  const history = useHistory()
   console.log('username: ', username)
+  useEffect(() => {
+    console.log(userId)
+    getMoodboards(userId)
+  }, [])
+
+  const handleSelecetedMoodboard = async (e, moodboardId) => {
+    try {
+      e.preventDefault()
+      await getSelecetedMoodboard(userId, moodboardId)
+      history.push(`/edit/${userId}/${moodboardId}`)
+      location.reload()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  console.log('state: ', state)
+  console.log('moodboard: ', moodboards)
+  const userHasMoodboards = moodboards && moodboards.length
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>
@@ -37,9 +70,60 @@ export const UserHome = ({email, name, lastName, username}) => {
           Welcome, {name} {lastName}
         </Typography>
         <Typography component="h3" variant="h3">
-          info:{email}
+          info:{email} userId: {userId}
         </Typography>
       </div>
+      <Grid container>
+        <Grid container className={classes.container} justify="center">
+          {userHasMoodboards ? (
+            <Typography component="h3" variant="h3">
+              Your Moodboards
+            </Typography>
+          ) : (
+            <Typography component="h3" variant="h3">
+              User has no moodboards
+            </Typography>
+          )}
+        </Grid>
+      </Grid>
+      <Grid container direction="row" style={{marginTop: '5em'}}>
+        <Grid item container style={{width: '50%'}}>
+          <Grid item container direction="column" style={{width: 100}}>
+            {moodboards &&
+              moodboards.map(moodboard => (
+                <Grid key={moodboard.id}>
+                  <Grid
+                    item
+                    container
+                    alignItems="center"
+                    style={{marginTop: '4em', marginLeft: '6em'}}
+                  >
+                    <Grid item style={{marginLeft: '2em'}}>
+                      <Typography variant="h3">
+                        {moodboard.description}
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      component={Link}
+                      to={`/edit/${userId}/${moodboard.id}`}
+                      key={moodboard.id}
+                      style={{marginLeft: '2em'}}
+                    >
+                      <Button
+                        onClick={e => {
+                          handleSelecetedMoodboard(e, moodboard.id)
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              ))}
+          </Grid>
+        </Grid>
+      </Grid>
     </Container>
   )
 }
@@ -52,11 +136,24 @@ const mapState = state => {
     email: state.user.email,
     name: state.user.firstName,
     lastName: state.user.name,
-    username: state.user.username
+    username: state.user.username,
+    userId: state.user.id,
+    moodboards: state.moodboards,
+    state: state
+  }
+}
+const mapDispatch = dispatch => {
+  return {
+    getMoodboards: userId => {
+      dispatch(fetchUserMoodboards(userId))
+    },
+    getSelecetedMoodboard: (userId, moodboardId) => {
+      dispatch(fetchAMoodboard(userId, moodboardId))
+    }
   }
 }
 
-export default connect(mapState)(UserHome)
+export default connect(mapState, mapDispatch)(UserHome)
 
 /**
  * PROP TYPES

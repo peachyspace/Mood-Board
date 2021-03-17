@@ -2,10 +2,17 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, SignUp, UserHome, LandingPage, CreatePage} from './components'
+import {
+  Login,
+  SignUp,
+  UserHome,
+  LandingPage,
+  EditPage,
+  CreatePage
+} from './components'
 import {me} from './store'
 //import LandingPage from './components/LandingPage'
-//import CreatePage from './components/CreatePage'
+//import EditPage from './components/EditPage'
 /**
  * COMPONENT
  */
@@ -23,11 +30,17 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />
         <Route exact path="/" component={LandingPage} />
-        <Route exact path="/create" component={CreatePage} />
+
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route path="/create" component={CreatePage} />
+            <Route
+              exact
+              path="/edit/:userId/:moodboardId"
+              component={EditPage}
+            />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

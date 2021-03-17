@@ -1,20 +1,60 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {fabric} from 'fabric'
-//import {canvasSaver} from '../store'
+import {makeStyles} from '@material-ui/core/styles'
+import {Button, Grid} from '@material-ui/core'
+import Icon from '@material-ui/core/Icon'
+import SaveIcon from '@material-ui/icons/Save'
+import Fab from '@material-ui/core/Fab'
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 
-const CanvasBoard = ({setUserCanvas, saveButtonClick}) => {
+const useStyles = makeStyles(theme => ({
+  input: {
+    display: 'none'
+  },
+  button: {
+    margin: theme.spacing(1)
+  },
+  container: {
+    marginTop: 50
+  },
+  paper: {
+    marginTop: theme.spacing(10),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  form: {
+    width: '80%',
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  }
+}))
+
+const CanvasBoard = ({saveButtonClick, moodboardCanvas}) => {
+  const classes = useStyles()
   const [canvas, setCanvas] = useState('')
   useEffect(() => {
-    setCanvas(initCanvas())
+    //create canvas
+    let canvBoard = new fabric.Canvas('canvas', {
+      height: 800,
+      width: 800
+    })
+    //if mmodboardCanvas has keys then execute the following
+    console.log('moodboardCanvas: ', moodboardCanvas)
+    let parsed = JSON.parse(moodboardCanvas.canvas)
+    //uploading users canvas from database
+    canvBoard.loadFromJSON(parsed, () => {
+      canvBoard.renderAll()
+    })
+    setCanvas(canvBoard)
   }, [])
 
-  const initCanvas = () =>
-    new fabric.Canvas('canvas', {
-      height: 800,
-      width: 800,
-      backgroundColor: 'white'
-    })
+  console.log('object of BOard: ', JSON.parse(moodboardCanvas.canvas))
+
+  const hiddenFileInput = React.useRef(null)
 
   const addPicture = canv => {
     fabric.Image.fromURL(
@@ -30,6 +70,7 @@ const CanvasBoard = ({setUserCanvas, saveButtonClick}) => {
 
   const addFile = canv => {
     let uploaded = 0
+    hiddenFileInput.current.click()
     document.getElementById('file').addEventListener('change', function(e) {
       const file = e.target.files[0]
       const reader = new FileReader()
@@ -52,20 +93,20 @@ const CanvasBoard = ({setUserCanvas, saveButtonClick}) => {
     })
   }
 
-  function dataURLtoBlob(dataurl) {
-    const arr = dataurl.split(',')
-    const mime = arr[0].match(/:(.*?);/)[1]
+  function dataURLtoBlob(dataURL) {
+    const arrayOfDataURL = dataURL.split(',')
+    //grabbing the mine type from arrayOfDataURL
+    const mime = arrayOfDataURL[0].match(/:(.*?);/)[1]
     console.log('mime: ', mime)
-    const bstr = atob(arr[1])
-    // console.log('arr[1]: ', arr[1])
-    //console.log('bstr: ', bstr)
-    //console.log('gkgkgjhhkh')
+    //using the atob() function to decode a base-64 encoded string
+    const bstr = atob(arrayOfDataURL[1])
     let n = bstr.length
     const u8arr = new Uint8Array(n)
     while (n--) {
+      /*  the charCodeAt() funtion returns an integer that represents a unit in the UTF-16 code */
       u8arr[n] = bstr.charCodeAt(n)
-      //console.log(`ur8ar[${n}]: `, u8arr[n])
     }
+    //creating a new blob
     return new Blob([u8arr], {type: 'image/png'})
   }
 
@@ -73,50 +114,88 @@ const CanvasBoard = ({setUserCanvas, saveButtonClick}) => {
     //an HTML <a> element is represented by an anchor object
     const link = document.createElement('a')
     //conveting canvas to URL
-    //a data URI is returned and it holds a representstion of the canvas in the format you specified
-    //const imgData = canvas.toDataURL({format: 'png', multiplier: 4})
+    /* a data URI is returned and it holds a representstion of the canvas in the format you specified */
     const imgData = canvas.toDataURL('image/png')
-    //const strDataURI = imgData.substr(22, imgData.length)
     const blob = dataURLtoBlob(imgData)
-    console.log('BLOB: ', blob)
+    /* creates a DOMstring that contains a URL representing the object (blob) passed as an agrument */
     const objurl = URL.createObjectURL(blob)
-
+    //gives the anchor object(<a>) a fiename
     link.download = 'holapic.png'
-
+    //the URL is being given to the anchor object(<a>)
     link.href = objurl
-
+    //we are simulating a mouse click on the <a> element
     link.click()
   }
-
-  /* const downloadButtonClick = (e) => {
+  const changeBackgroundColor = e => {
     e.preventDefault()
-    const canvas1 = document.getElementById('canvas')
-    const dataURI = canvas1.toDataURL('png')
-    console.log(dataURI)
-    console.log(canvas.toSVG())
-  } */
+    canvas.backgroundColor = '#c8691c'
+    //'#d6e2e9'
+    canvas.renderAll()
+  }
 
   return (
     <div>
-      <button type="button" onClick={() => addPicture(canvas)}>
+      {/* <button type="button" onClick={() => addPicture(canvas)}>
         Add Picture
-      </button>
+      </button> */}
 
       <br />
       <br />
-      <input type="file" id="file" onClick={() => addFile(canvas)} />
 
+      <input
+        type="file"
+        id="file"
+        ref={hiddenFileInput}
+        style={{display: 'none'}}
+      />
+      <label htmlFor="contained-button-file">
+        <Button
+          type="button"
+          className={classes.button}
+          variant="contained"
+          color="primary"
+          startIcon={<AddPhotoAlternateIcon />}
+          onClick={() => addFile(canvas)}
+        >
+          {' '}
+          Upload{' '}
+        </Button>
+      </label>
+      <br />
       <br />
       <canvas id="canvas" />
       <br />
-      <button type="button" onClick={e => saveButtonClick(e, canvas)}>
+      <Button
+        type="button"
+        className={classes.button}
+        variant="contained"
+        color="primary"
+        onClick={e => saveButtonClick(e, canvas)}
+        startIcon={<SaveIcon />}
+      >
         {' '}
         Save Moodboard{' '}
-      </button>
+      </Button>
       <br />
-      <button type="button" onClick={e => downloadButtonClick(e)}>
+      <Button
+        type="button"
+        className={classes.button}
+        variant="contained"
+        color="primary"
+        onClick={e => downloadButtonClick(e)}
+      >
         Download
-      </button>
+      </Button>
+      <br />
+      <Button
+        type="button"
+        className={classes.button}
+        variant="contained"
+        color="primary"
+        onClick={e => changeBackgroundColor(e)}
+      >
+        change color
+      </Button>
     </div>
   )
 }

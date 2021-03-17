@@ -6,6 +6,9 @@ const Moodboard = db.define('moodboard', {
     type: Sequelize.INTEGER,
     allowNull: false
   },
+  title: {
+    type: Sequelize.STRING
+  },
   description: {
     type: Sequelize.TEXT
   },

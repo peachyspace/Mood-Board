@@ -1,11 +1,14 @@
 import React, {useCallback, useState, useEffect} from 'react'
+import Dropzone from './Dropzone'
+import ListOfAllUploadedImages from './ListOfAllUploadedImages'
+import cuid from 'cuid'
+import update from 'immutability-helper'
 import {connect} from 'react-redux'
-import {canvasSaver, fetchAMoodboard, createAMoodboard} from '../store'
+import {canvasSaver, fetchAMoodboard} from '../store'
 import CanvasBoard from './Canvas'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
 import {Button, Grid} from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
@@ -32,26 +35,38 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }))
-function CreatePage({
+function EditPage({
   saveMoodboard,
-  idOfUser,
-  idOfMoodboard,
+
   match,
   moodboards,
-
   getMoodboard,
-  createMoodboard,
   oneMoodboard,
   state
 }) {
   const classes = useStyles()
+  console.log('MOODBOARDID: ', match.params.moodboardId)
+  const moodboardId = match.params.moodboardId
+  const userId = match.params.userId
+  console.log('userId: ', userId)
   const [userCanvas, setUserCanvas] = useState({})
+  //intial value of the images state is an array
+  const accepts = 'IMAGE'
+  const [images, setImages] = useState([])
 
+  const [index, setindex] = useState(0)
   const [board, setBoard] = useState('')
 
+  /*  useEffect(() => {
+    console.log(userId)
+    getMoodboard(userId, moodboardId)
+    //setBoard(oneMoodboard)
+  }, []) */
   useEffect(() => {
     async function fetchMoodboard() {
-      await createMoodboard(idOfUser, '{}')
+      console.log('INSIDE: ', userId)
+      await getMoodboard(userId, moodboardId)
+
       setBoard(oneMoodboard)
       console.log('######oneMoodboard: ', oneMoodboard)
     }
@@ -65,26 +80,61 @@ function CreatePage({
     const canvasString = JSON.stringify(canvasObject)
     console.log(canvasString)
     try {
-      await saveMoodboard(idOfUser, idOfMoodboard, canvasString)
+      await saveMoodboard(userId, moodboardId, canvasString)
     } catch (error) {
       console.error(error)
     }
   }
   console.log('state: ', state)
-
+  // onDrop function
+  const onDrop = useCallback(acceptedFiles => {
+    console.log(acceptedFiles)
+    // Loop through accepted files
+    acceptedFiles.map(file => {
+      // Initialize FileReader browser API
+      const readerOfFiles = new FileReader()
+      // onload callback gets called after the readerOfFiles reads the file data
+      readerOfFiles.onload = function(e) {
+        // add the image into the state. Since FileReader reading process is asynchronous, its better to get the latest snapshot state (i.e., prevState) and update it.
+        setImages(prevState => [
+          ...prevState,
+          {id: cuid(), src: e.target.result}
+        ])
+      }
+      // Read the file as Data URL (since we accept only images)
+      readerOfFiles.readAsDataURL(file)
+      return file
+    })
+  }, [])
+  //might not need this
+  const moveImage = (dragIndex, hoverIndex) => {
+    const draggedImage = images[dragIndex]
+    setImages(
+      update(images, {
+        $splice: [[dragIndex, 1], [hoverIndex, 0, draggedImage]]
+      })
+    )
+  }
   const canvasDescription = oneMoodboard && oneMoodboard.description
 
+  //moodboards[moodboardId] && moodboards[moodboardId].description
+  //let moodboardCanvas = oneMoodboard && oneMoodboard.canvas
+
+  //moodboards[moodboardId] && moodboards[moodboardId].canvas
+  //console.log('Create typeof:', typeof moodboardCanvas)
+  //console.log(canvasDescription)
   console.log('oneMoodboard: ', oneMoodboard)
   let moodKeys = Object.keys(oneMoodboard)
   let hasMoodboard = oneMoodboard && moodKeys.length
   console.log('hasmoodboard @@@@: ', hasMoodboard)
   console.log('oneMoodboard: ', typeof oneMoodboard)
+  //console.log('board: ', board)
 
   return (
     <Container maxWidth="xs">
       <Grid className={classes.titlesContainer}>
         <Typography component="h1" variant="h1">
-          Unleash Your Creativity
+          Edit Your Moodboard
         </Typography>
 
         <Typography component="h3" variant="h3">
@@ -94,6 +144,7 @@ function CreatePage({
       {hasMoodboard ? (
         <div>
           <CanvasBoard
+            images={images[0]}
             saveButtonClick={saveButtonClick}
             moodboardCanvas={oneMoodboard}
           />
@@ -101,15 +152,18 @@ function CreatePage({
       ) : (
         <h4>No canvas</h4>
       )}
+
+      {/* <Dropzone onDrop={onDrop} accept="image/*" />
+
+      <ListOfAllUploadedImages images={images} moveImage={moveImage} /> */}
     </Container>
   )
 }
 const mapState = state => {
   return {
-    idOfUser: state.user.id,
+    userId: state.user.id,
     moodboards: state.moodboards,
     oneMoodboard: state.singleMoodboard,
-    idOfMoodboard: state.singleMoodboard.id,
     state: state
   }
 }
@@ -120,88 +174,7 @@ const mapDispatch = dispatch => {
     },
     getMoodboard: (userId, moodboardId) => {
       dispatch(fetchAMoodboard(userId, moodboardId))
-    },
-    createMoodboard: (userId, canvas) => {
-      dispatch(createAMoodboard(userId, canvas))
     }
   }
 }
-export default connect(mapState, mapDispatch)(CreatePage)
-
-/* import React, {useCallback, useState, useEffect} from 'react'
-import {connect} from 'react-redux'
-import CanvasBoard from './Canvas'
-import {makeStyles} from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
-import Typography from '@material-ui/core/Typography'
-import {Button, Grid} from '@material-ui/core'
-import { canvasSaver, createAMoodboard , fetchAMoodboard } from '../store'
-
-const useStyles = makeStyles((theme) => ({
-  titlesContainer: {
-    marginTop: 70,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  container: {
-    marginTop: 50,
-  },
-  paper: {
-    marginTop: theme.spacing(10),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '80%',
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}))
-
-const CreatePage = ({createMoodboard, getMoodboard, saveMoodboard}) => {
-  const classes = useStyles()
-  const [board, setBoard] = useState('')
-  let canvas = {}
-  useEffect(() => {
-    async function buildMoodboard() {
-      console.log('INSIDE: ', userId)
-      
-      await createMoodboard(userId, canvas)
-
-      await getMoodboard(userId, moodboardId)
-      setBoard(oneMoodboard)
-      console.log('######oneMoodboard: ', oneMoodboard)
-    }
-    buildMoodboard()
-  }, [])
-  return (
-    <Container maxWidth="xs">
-      <Grid className={classes.titlesContainer}>
-        <Typography component="h1" variant="h1">
-          Create Your Moodboard
-        </Typography>
-      </Grid>
-    </Container>
-  )
-}
-
-const mapDispatch = (dispatch) => {
-    return {
-      saveMoodboard: (userId, moodboardId, fabricCanvas) => {
-        dispatch(canvasSaver(userId, moodboardId, fabricCanvas))
-      },
-      createMoodboard: (userId, canvas)=>{
-          dispatch(createAMoodboard(userId, canvas))
-      },
-      getMoodboard: (userId, moodboardId) => {
-        dispatch(fetchAMoodboard(userId, moodboardId))
-      },
-    }
-  }
-  export default connect(null, mapDispatch)(CreatePage)
-
- */
+export default connect(mapState, mapDispatch)(EditPage)
