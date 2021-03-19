@@ -24,14 +24,19 @@ const savingMoodboard = moodboard => ({
 /**
  * THUNK CREATORS
  */
-export const createAMoodboard = (userId, canvas) => async dispatch => {
+export const createAMoodboard = (
+  userId,
+  title,
+  description,
+  canvas
+) => async dispatch => {
   try {
     const {data} = await Axios.post(`/api/moodboards/create`, {
       userId,
+      title,
+      description,
       canvas,
-      title: 'untitled',
-      description: 'none',
-      numOfHearts: 0
+      numberOfHearts: 0
     })
     dispatch(getAMoodboard(data))
   } catch (error) {
@@ -41,7 +46,6 @@ export const createAMoodboard = (userId, canvas) => async dispatch => {
 
 export const fetchAMoodboard = (userId, moodboardId) => async dispatch => {
   try {
-    console.log('AXIOS: ', userId, moodboardId)
     const {data} = await Axios.get(`/api/moodboards/${userId}/${moodboardId}`)
     dispatch(getAMoodboard(data))
   } catch (error) {
@@ -57,13 +61,13 @@ export const saveMoodboard = (
   description
 ) => async dispatch => {
   try {
+    console.log('Inn   REDUX:  ', title, description)
     const {data} = await Axios.put(
-      `/api/moodboards/saveCanvas/:userId/:moodboardId`,
+      `/api/moodboards/saveCanvas/${userId}/${moodboardId}`,
       {
-        moodboardId,
-        fabricCanvas,
         title,
-        description
+        description,
+        canvas: fabricCanvas
       }
     )
     dispatch(getAMoodboard(data))

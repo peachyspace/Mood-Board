@@ -35,6 +35,12 @@ export default createMuiTheme({
       fontFamily: ['Josefin Slab, serif'].join(','),
       letterSpacing: 5
     },
+    h5: {
+      fontSize: '1.2rem',
+      fontWeight: 400,
+      fontFamily: ['Josefin Slab, serif'].join(','),
+      letterSpacing: 5
+    },
     h6: {
       fontSize: '0.8rem',
       fontWeight: 400,

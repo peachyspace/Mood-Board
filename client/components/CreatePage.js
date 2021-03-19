@@ -1,19 +1,21 @@
 import React, {useCallback, useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import {canvasSaver, fetchAMoodboard, createAMoodboard} from '../store'
+import {createAMoodboard} from '../store'
 import CanvasBoard from './Canvas'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
-import TextField from '@material-ui/core/TextField'
 import {Button, Grid} from '@material-ui/core'
+import MoodboardForm from './MoodboardForm'
+import {useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   titlesContainer: {
     marginTop: 70,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    //alignItems: 'center',
+    justify: 'center'
   },
   container: {
     marginTop: 50
@@ -28,180 +30,147 @@ const useStyles = makeStyles(theme => ({
     width: '80%',
     marginTop: theme.spacing(1)
   },
+  formContainer: {
+    marginTop: 20
+  },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  failedSubmit: {
+    color: 'red'
   }
 }))
-function CreatePage({
-  saveMoodboard,
-  idOfUser,
-  idOfMoodboard,
-  match,
-  moodboards,
+const intialErrors = {
+  title: [],
+  description: []
+}
+const isRequried = val => {
+  return val.length > 0 ? '' : 'cannot be blank'
+}
 
-  getMoodboard,
-  createMoodboard,
-  oneMoodboard,
-  state
-}) {
+function CreatePage({idOfUser, createMoodboard, state}) {
   const classes = useStyles()
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [errors, setErrors] = useState(intialErrors)
+  const [submitMsg, setSubmitMsg] = useState('')
   const [userCanvas, setUserCanvas] = useState({})
-
   const [board, setBoard] = useState('')
-
+  const history = useHistory()
   useEffect(() => {
     async function fetchMoodboard() {
-      await createMoodboard(idOfUser, '{}')
-      setBoard(oneMoodboard)
-      console.log('######oneMoodboard: ', oneMoodboard)
+      /* await createMoodboard(idOfUser, '{}')
+      setBoard(oneMoodboard) */
+      console.log('NOTHING: ')
     }
     fetchMoodboard()
   }, [])
 
-  console.log('board: ', board)
-  const saveButtonClick = async (e, canvasObject) => {
-    e.preventDefault()
-    setUserCanvas(canvasObject)
-    const canvasString = JSON.stringify(canvasObject)
-    console.log(canvasString)
-    try {
-      await saveMoodboard(idOfUser, idOfMoodboard, canvasString)
-    } catch (error) {
-      console.error(error)
+  const createMoodboardButton = async e => {
+    if (title.length !== 0 && description.length !== 0) {
+      try {
+        e.preventDefault()
+        const canvasString = JSON.stringify(userCanvas)
+        console.log(title, description)
+        await createMoodboard(idOfUser, title, description, canvasString)
+        history.push('/home')
+        location.reload()
+      } catch (error) {
+        console.error(error)
+      }
+    } else {
+      e.preventDefault()
+      setSubmitMsg('Submission Failed')
     }
   }
-  console.log('state: ', state)
-
-  const canvasDescription = oneMoodboard && oneMoodboard.description
-
-  console.log('oneMoodboard: ', oneMoodboard)
-  let moodKeys = Object.keys(oneMoodboard)
-  let hasMoodboard = oneMoodboard && moodKeys.length
-  console.log('hasmoodboard @@@@: ', hasMoodboard)
-  console.log('oneMoodboard: ', typeof oneMoodboard)
+  //console.log('state: ', state)
 
   return (
-    <Container maxWidth="xs">
-      <Grid className={classes.titlesContainer}>
-        <Typography component="h1" variant="h1">
-          Unleash Your Creativity
-        </Typography>
+    <Container maxWidth="xs" justify="center">
+      <Grid container>
+        <Grid item container className={classes.container} justify="center">
+          <Grid
+            item
+            container
+            className={classes.container}
+            justify="center"
+            style={{marginTop: '1em', marginLeft: '6em'}}
+          >
+            <Typography component="h1" variant="h1">
+              Unleash Your Creativity
+            </Typography>
+          </Grid>
+          <div>
+            <Grid
+              item
+              container
+              className={classes.container}
+              justify="center"
+              style={{marginTop: '1em', marginLeft: '6em'}}
+            >
+              <MoodboardForm
+                title={title}
+                handleTitleChange={e => {
+                  setTitle(e.target.value)
+                }}
+                description={description}
+                handleDescriptionChange={e => {
+                  setDescription(e.target.value)
+                }}
+                validations={[isRequried]}
+                errors={errors}
+                setErrors={setErrors}
+              />
+            </Grid>
 
-        <Typography component="h3" variant="h3">
-          {canvasDescription}
-        </Typography>
+            <CanvasBoard
+              createMoodboardButton={createMoodboardButton}
+              create="create"
+              setUserCanvas={setUserCanvas}
+            />
+            <Grid container>
+              <Grid
+                item
+                container
+                alignItems="center"
+                style={{marginTop: '1em', marginLeft: '6em'}}
+              >
+                {submitMsg === '' ? null : (
+                  <Typography className={classes.failedSubmit}>
+                    {submitMsg}
+                  </Typography>
+                )}
+                <Button
+                  type="submit"
+                  fullWidth={false}
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={e => createMoodboardButton(e)}
+                >
+                  <Typography component="h6" variant="h6">
+                    Create Moodboard
+                  </Typography>
+                </Button>
+              </Grid>
+            </Grid>
+          </div>
+        </Grid>
       </Grid>
-      {hasMoodboard ? (
-        <div>
-          <CanvasBoard
-            saveButtonClick={saveButtonClick}
-            moodboardCanvas={oneMoodboard}
-          />
-        </div>
-      ) : (
-        <h4>No canvas</h4>
-      )}
     </Container>
   )
 }
 const mapState = state => {
   return {
     idOfUser: state.user.id,
-    moodboards: state.moodboards,
-    oneMoodboard: state.singleMoodboard,
-    idOfMoodboard: state.singleMoodboard.id,
     state: state
   }
 }
 const mapDispatch = dispatch => {
   return {
-    saveMoodboard: (userId, moodboardId, fabricCanvas) => {
-      dispatch(canvasSaver(userId, moodboardId, fabricCanvas))
-    },
-    getMoodboard: (userId, moodboardId) => {
-      dispatch(fetchAMoodboard(userId, moodboardId))
-    },
-    createMoodboard: (userId, canvas) => {
-      dispatch(createAMoodboard(userId, canvas))
+    createMoodboard: (userId, title, description, canvas) => {
+      dispatch(createAMoodboard(userId, title, description, canvas))
     }
   }
 }
 export default connect(mapState, mapDispatch)(CreatePage)
-
-/* import React, {useCallback, useState, useEffect} from 'react'
-import {connect} from 'react-redux'
-import CanvasBoard from './Canvas'
-import {makeStyles} from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
-import Typography from '@material-ui/core/Typography'
-import {Button, Grid} from '@material-ui/core'
-import { canvasSaver, createAMoodboard , fetchAMoodboard } from '../store'
-
-const useStyles = makeStyles((theme) => ({
-  titlesContainer: {
-    marginTop: 70,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  container: {
-    marginTop: 50,
-  },
-  paper: {
-    marginTop: theme.spacing(10),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  form: {
-    width: '80%',
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}))
-
-const CreatePage = ({createMoodboard, getMoodboard, saveMoodboard}) => {
-  const classes = useStyles()
-  const [board, setBoard] = useState('')
-  let canvas = {}
-  useEffect(() => {
-    async function buildMoodboard() {
-      console.log('INSIDE: ', userId)
-      
-      await createMoodboard(userId, canvas)
-
-      await getMoodboard(userId, moodboardId)
-      setBoard(oneMoodboard)
-      console.log('######oneMoodboard: ', oneMoodboard)
-    }
-    buildMoodboard()
-  }, [])
-  return (
-    <Container maxWidth="xs">
-      <Grid className={classes.titlesContainer}>
-        <Typography component="h1" variant="h1">
-          Create Your Moodboard
-        </Typography>
-      </Grid>
-    </Container>
-  )
-}
-
-const mapDispatch = (dispatch) => {
-    return {
-      saveMoodboard: (userId, moodboardId, fabricCanvas) => {
-        dispatch(canvasSaver(userId, moodboardId, fabricCanvas))
-      },
-      createMoodboard: (userId, canvas)=>{
-          dispatch(createAMoodboard(userId, canvas))
-      },
-      getMoodboard: (userId, moodboardId) => {
-        dispatch(fetchAMoodboard(userId, moodboardId))
-      },
-    }
-  }
-  export default connect(null, mapDispatch)(CreatePage)
-
- */

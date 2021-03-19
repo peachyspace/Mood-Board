@@ -11,8 +11,7 @@ import {
   CreatePage
 } from './components'
 import {me} from './store'
-//import LandingPage from './components/LandingPage'
-//import EditPage from './components/EditPage'
+
 /**
  * COMPONENT
  */

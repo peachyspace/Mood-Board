@@ -12,8 +12,12 @@ import {Link, useHistory} from 'react-router-dom'
  * COMPONENT
  */
 const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
   container: {
-    marginTop: 50
+    marginTop: 50,
+    flexWrap: 'nowrap'
   },
   paper: {
     marginTop: theme.spacing(10),
@@ -70,60 +74,68 @@ export const UserHome = ({
           Welcome, {name} {lastName}
         </Typography>
         <Typography component="h3" variant="h3">
-          info:{email} userId: {userId}
+          {email}
         </Typography>
       </div>
-      <Grid container>
-        <Grid container className={classes.container} justify="center">
-          {userHasMoodboards ? (
-            <Typography component="h3" variant="h3">
-              Your Moodboards
-            </Typography>
-          ) : (
-            <Typography component="h3" variant="h3">
-              User has no moodboards
-            </Typography>
-          )}
-        </Grid>
-      </Grid>
-      <Grid container direction="row" style={{marginTop: '5em'}}>
-        <Grid item container style={{width: '50%'}}>
-          <Grid item container direction="column" style={{width: 100}}>
-            {moodboards &&
-              moodboards.map(moodboard => (
-                <Grid key={moodboard.id}>
-                  <Grid
-                    item
-                    container
-                    alignItems="center"
-                    style={{marginTop: '4em', marginLeft: '6em'}}
-                  >
-                    <Grid item style={{marginLeft: '2em'}}>
-                      <Typography variant="h3">
-                        {moodboard.description}
-                      </Typography>
-                    </Grid>
-                    <Grid
-                      item
-                      component={Link}
-                      to={`/edit/${userId}/${moodboard.id}`}
-                      key={moodboard.id}
-                      style={{marginLeft: '2em'}}
-                    >
-                      <Button
-                        onClick={e => {
-                          handleSelecetedMoodboard(e, moodboard.id)
-                        }}
-                      >
-                        Edit
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              ))}
+      <div className={classes.root}>
+        <Grid container>
+          <Grid container className={classes.container} justify="center">
+            {userHasMoodboards ? (
+              <Typography component="h3" variant="h3">
+                Your Moodboards
+              </Typography>
+            ) : (
+              <Typography component="h3" variant="h3">
+                User has no moodboards
+              </Typography>
+            )}
           </Grid>
         </Grid>
-      </Grid>
+        <Grid container direction="row" style={{marginTop: '5em'}}>
+          <Grid item container style={{width: '100%'}}>
+            <Grid item container direction="column" style={{width: 100}}>
+              {moodboards &&
+                moodboards.map(moodboard => (
+                  <Grid key={moodboard.id}>
+                    <Grid
+                      item
+                      container
+                      className={classes.container}
+                      alignItems="center"
+                      style={{marginTop: '4em', marginLeft: '6em'}}
+                    >
+                      <Grid item style={{marginLeft: '2em'}}>
+                        <Typography variant="h3">{moodboard.title}</Typography>
+                      </Grid>
+                      <Grid item style={{marginLeft: '2em'}}>
+                        <Typography variant="h5">
+                          Description: {moodboard.description}
+                        </Typography>
+                      </Grid>
+                      <Grid
+                        item
+                        component={Link}
+                        to={`/edit/${userId}/${moodboard.id}`}
+                        key={moodboard.id}
+                        style={{marginLeft: '2em'}}
+                      >
+                        <Button
+                          onClick={e => {
+                            handleSelecetedMoodboard(e, moodboard.id)
+                          }}
+                        >
+                          <Typography component="h6" variant="h6">
+                            Edit
+                          </Typography>
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                ))}
+            </Grid>
+          </Grid>
+        </Grid>
+      </div>
     </Container>
   )
 }

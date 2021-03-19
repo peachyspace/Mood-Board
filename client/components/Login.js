@@ -53,7 +53,6 @@ const Login = ({loginUser, user, error}) => {
     <LoginForm
       email={email}
       password={password}
-      /* onEmailChange={(e) => setEmail(e.target.value)} */
       handleEmailChange={handleEmailChange}
       handlePasswordChange={e => setPassword(e.target.value)}
       onSubClick={onSubButtonClick}

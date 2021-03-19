@@ -41,11 +41,11 @@ router.put('/saveCanvas/:userId/:moodboardId', async (req, res, next) => {
       }
     })
     //console.log('moodboad: ', moodboard)
-    //console.log('req.body: ', req.body)
 
     moodboard.update(req.body)
     await moodboard.save()
     console.log('moodboard updated!!!!!!!!!!!!')
+    //console.log('req.body: ', req.body)
     res.sendStatus(200).end()
   } catch (error) {
     next(error)

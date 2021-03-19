@@ -3,11 +3,10 @@ import {connect} from 'react-redux'
 import {fabric} from 'fabric'
 import {makeStyles} from '@material-ui/core/styles'
 import {Button, Grid} from '@material-ui/core'
-import Icon from '@material-ui/core/Icon'
 import SaveIcon from '@material-ui/icons/Save'
-import Fab from '@material-ui/core/Fab'
+import Typography from '@material-ui/core/Typography'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
-
+import {ChromePicker} from 'react-color'
 const useStyles = makeStyles(theme => ({
   input: {
     display: 'none'
@@ -16,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1)
   },
   container: {
-    marginTop: 50
+    marginTop: 10
   },
   paper: {
     marginTop: theme.spacing(10),
@@ -33,40 +32,61 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const CanvasBoard = ({saveButtonClick, moodboardCanvas}) => {
+const CanvasBoard = ({
+  saveButtonClick,
+  moodboardCanvas,
+
+  create,
+  setUserCanvas
+}) => {
   const classes = useStyles()
   const [canvas, setCanvas] = useState('')
+  const [displayColorPicker, setDisplayColorPicker] = useState(false)
+  const [background, setBackground] = useState({
+    r: 250,
+    g: 0,
+    b: 0.2,
+    a: 1
+  })
+
+  //const [opacityBg, setOpacityBg] = useState("1");
+
   useEffect(() => {
     //create canvas
     let canvBoard = new fabric.Canvas('canvas', {
       height: 800,
       width: 800
     })
-    //if mmodboardCanvas has keys then execute the following
-    console.log('moodboardCanvas: ', moodboardCanvas)
-    let parsed = JSON.parse(moodboardCanvas.canvas)
-    //uploading users canvas from database
-    canvBoard.loadFromJSON(parsed, () => {
-      canvBoard.renderAll()
-    })
+
+    if (moodboardCanvas) {
+      //if mmodboardCanvas has keys then execute the following
+      let parsed = JSON.parse(moodboardCanvas.canvas)
+      //uploading users canvas        from database
+      canvBoard.loadFromJSON(parsed, () => {
+        canvBoard.renderAll()
+      })
+    }
     setCanvas(canvBoard)
+    if (setUserCanvas) {
+      setUserCanvas(canvBoard)
+    }
   }, [])
 
-  console.log('object of BOard: ', JSON.parse(moodboardCanvas.canvas))
+  /* console.log('object of BOard: ', JSON.parse(moodboardCanvas.canvas)) */
 
   const hiddenFileInput = React.useRef(null)
 
-  const addPicture = canv => {
+  /* const addPicture = (canv) => {
     fabric.Image.fromURL(
       'https://kelleynan.com/wp-content/uploads/2019/04/two-story-family-room-neutral-decor.jpg',
-      function(myImg) {
+      function (myImg) {
         //scales image
         myImg.scale(0.5).set('flipX', true)
         canv.add(myImg)
         console.log('images: ', myImg)
       }
     )
-  }
+  } */
 
   const addFile = canv => {
     let uploaded = 0
@@ -126,77 +146,126 @@ const CanvasBoard = ({saveButtonClick, moodboardCanvas}) => {
     //we are simulating a mouse click on the <a> element
     link.click()
   }
-  const changeBackgroundColor = e => {
+
+  const handleClick = e => {
+    //want it to do the opposite
     e.preventDefault()
-    canvas.backgroundColor = '#c8691c'
-    //'#d6e2e9'
-    canvas.renderAll()
+    setDisplayColorPicker(!displayColorPicker)
+  }
+  const handleClose = e => {
+    e.preventDefault()
+    setDisplayColorPicker(false)
+  }
+
+  const handleChangeComplete = data => {
+    //allows cursor to move
+    if (data.hsl !== background) {
+      //console.log('data: ', data)
+      let rgba = `rgba(${data.rgb.r}, ${data.rgb.g}, ${data.rgb.b}, ${
+        data.rgb.a
+      })`
+      canvas.backgroundColor = rgba
+      canvas.renderAll()
+      setBackground(data.rgb)
+    }
+  }
+  const popover = {
+    position: 'absolute',
+    zIndex: '2'
+  }
+  const cover = {
+    position: 'fixed',
+    top: '0px',
+    right: '0px',
+    bottom: '0px',
+    left: '0px'
   }
 
   return (
-    <div>
-      {/* <button type="button" onClick={() => addPicture(canvas)}>
-        Add Picture
-      </button> */}
+    <Grid container justify="center">
+      <div>
+        <br />
+        <br />
+        <canvas id="canvas" />
+        <br />
+        <Grid container>
+          <Grid container direction="row" style={{marginTop: '1em'}}>
+            <Grid
+              item
+              container
+              className={classes.container}
+              alignItems="center"
+              style={{marginTop: '1em', marginLeft: '6em'}}
+            >
+              <div>
+                <Grid item style={{marginLeft: '2em'}}>
+                  <Button onClick={e => handleClick(e)}>
+                    {' '}
+                    <Typography component="h6" variant="h6">
+                      Background Color
+                    </Typography>
+                  </Button>
+                  {displayColorPicker ? (
+                    <div style={popover}>
+                      <div style={cover} onClick={e => handleClose(e)} />
+                      <ChromePicker
+                        color={background}
+                        onChange={handleChangeComplete}
+                      />
+                    </div>
+                  ) : null}
+                </Grid>
+              </div>
+              <br />
+              <input
+                type="file"
+                id="file"
+                ref={hiddenFileInput}
+                style={{display: 'none'}}
+              />
+              <label htmlFor="contained-button-file">
+                <Button
+                  type="button"
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<AddPhotoAlternateIcon />}
+                  onClick={() => addFile(canvas)}
+                >
+                  {' '}
+                  Upload{' '}
+                </Button>
+              </label>
 
-      <br />
-      <br />
-
-      <input
-        type="file"
-        id="file"
-        ref={hiddenFileInput}
-        style={{display: 'none'}}
-      />
-      <label htmlFor="contained-button-file">
-        <Button
-          type="button"
-          className={classes.button}
-          variant="contained"
-          color="primary"
-          startIcon={<AddPhotoAlternateIcon />}
-          onClick={() => addFile(canvas)}
-        >
-          {' '}
-          Upload{' '}
-        </Button>
-      </label>
-      <br />
-      <br />
-      <canvas id="canvas" />
-      <br />
-      <Button
-        type="button"
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        onClick={e => saveButtonClick(e, canvas)}
-        startIcon={<SaveIcon />}
-      >
-        {' '}
-        Save Moodboard{' '}
-      </Button>
-      <br />
-      <Button
-        type="button"
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        onClick={e => downloadButtonClick(e)}
-      >
-        Download
-      </Button>
-      <br />
-      <Button
-        type="button"
-        className={classes.button}
-        variant="contained"
-        color="primary"
-        onClick={e => changeBackgroundColor(e)}
-      >
-        change color
-      </Button>
-    </div>
+              {!create ? (
+                <Button
+                  type="button"
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={e => saveButtonClick(e, canvas)}
+                  startIcon={<SaveIcon />}
+                >
+                  {' '}
+                  Save Canvas{' '}
+                </Button>
+              ) : null}
+              <br />
+              <Button
+                type="button"
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                onClick={e => downloadButtonClick(e)}
+              >
+                Download
+              </Button>
+            </Grid>
+          </Grid>
+        </Grid>
+        <br />
+      </div>
+    </Grid>
   )
 }
 const mapState = state => {

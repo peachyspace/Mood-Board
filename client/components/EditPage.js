@@ -1,6 +1,6 @@
 import React, {useCallback, useState, useEffect} from 'react'
-import Dropzone from './Dropzone'
-import ListOfAllUploadedImages from './ListOfAllUploadedImages'
+//import Dropzone from './Dropzone'
+//import ListOfAllUploadedImages from './ListOfAllUploadedImages'
 import cuid from 'cuid'
 import update from 'immutability-helper'
 import {connect} from 'react-redux'
@@ -9,7 +9,7 @@ import CanvasBoard from './Canvas'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
-import {Button, Grid} from '@material-ui/core'
+import {Grid} from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   titlesContainer: {
@@ -35,20 +35,10 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }))
-function EditPage({
-  saveMoodboard,
-
-  match,
-  moodboards,
-  getMoodboard,
-  oneMoodboard,
-  state
-}) {
+function EditPage({saveMoodboard, match, getMoodboard, oneMoodboard, state}) {
   const classes = useStyles()
-  console.log('MOODBOARDID: ', match.params.moodboardId)
   const moodboardId = match.params.moodboardId
   const userId = match.params.userId
-  console.log('userId: ', userId)
   const [userCanvas, setUserCanvas] = useState({})
   //intial value of the images state is an array
   const accepts = 'IMAGE'
@@ -57,28 +47,19 @@ function EditPage({
   const [index, setindex] = useState(0)
   const [board, setBoard] = useState('')
 
-  /*  useEffect(() => {
-    console.log(userId)
-    getMoodboard(userId, moodboardId)
-    //setBoard(oneMoodboard)
-  }, []) */
   useEffect(() => {
     async function fetchMoodboard() {
       console.log('INSIDE: ', userId)
       await getMoodboard(userId, moodboardId)
-
       setBoard(oneMoodboard)
-      console.log('######oneMoodboard: ', oneMoodboard)
     }
     fetchMoodboard()
   }, [])
 
-  console.log('board: ', board)
   const saveButtonClick = async (e, canvasObject) => {
     e.preventDefault()
     setUserCanvas(canvasObject)
     const canvasString = JSON.stringify(canvasObject)
-    console.log(canvasString)
     try {
       await saveMoodboard(userId, moodboardId, canvasString)
     } catch (error) {
@@ -115,20 +96,12 @@ function EditPage({
       })
     )
   }
+
+  const canvasTitle = oneMoodboard && oneMoodboard.title
   const canvasDescription = oneMoodboard && oneMoodboard.description
 
-  //moodboards[moodboardId] && moodboards[moodboardId].description
-  //let moodboardCanvas = oneMoodboard && oneMoodboard.canvas
-
-  //moodboards[moodboardId] && moodboards[moodboardId].canvas
-  //console.log('Create typeof:', typeof moodboardCanvas)
-  //console.log(canvasDescription)
-  console.log('oneMoodboard: ', oneMoodboard)
   let moodKeys = Object.keys(oneMoodboard)
   let hasMoodboard = oneMoodboard && moodKeys.length
-  console.log('hasmoodboard @@@@: ', hasMoodboard)
-  console.log('oneMoodboard: ', typeof oneMoodboard)
-  //console.log('board: ', board)
 
   return (
     <Container maxWidth="xs">
@@ -136,8 +109,10 @@ function EditPage({
         <Typography component="h1" variant="h1">
           Edit Your Moodboard
         </Typography>
-
         <Typography component="h3" variant="h3">
+          {canvasTitle}
+        </Typography>
+        <Typography component="h6" variant="h6">
           {canvasDescription}
         </Typography>
       </Grid>
@@ -152,10 +127,6 @@ function EditPage({
       ) : (
         <h4>No canvas</h4>
       )}
-
-      {/* <Dropzone onDrop={onDrop} accept="image/*" />
-
-      <ListOfAllUploadedImages images={images} moveImage={moveImage} /> */}
     </Container>
   )
 }

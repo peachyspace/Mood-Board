@@ -23,24 +23,7 @@ export const canvasSaver = (
     console.error(error)
   }
 }
-/* export const newCanvasSaver = (
-  userId,
-  moodboardId,
-  fabricCanvas,
-  title,
-  description,
-) => async dispatch => {
-  let res
-  try {
-    res = await Axios.put(
-      `/api/moodboards/saveCanvas/${userId}/${moodboardId}`,
-      {title:title, description: description, canvas: fabricCanvas}
-    )
-    dispatch(savingCanvas(fabricCanvas))
-  } catch (error) {
-    console.error(error)
-  }
-} */
+
 const initialState = {}
 
 export default function canvasReducer(state = initialState, action) {
