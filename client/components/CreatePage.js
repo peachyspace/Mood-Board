@@ -55,6 +55,10 @@ function CreatePage({idOfUser, createMoodboard, state}) {
   const [errors, setErrors] = useState(intialErrors)
   const [submitMsg, setSubmitMsg] = useState('')
   const [userCanvas, setUserCanvas] = useState({})
+  const [format, setFormat] = useState('Regular Canvas Size')
+  const [createHeight, setCreateHeight] = useState(800)
+  const [createWidth, setCreateWidth] = useState(800)
+
   const [board, setBoard] = useState('')
   const history = useHistory()
   useEffect(() => {
@@ -70,9 +74,19 @@ function CreatePage({idOfUser, createMoodboard, state}) {
     if (title.length !== 0 && description.length !== 0) {
       try {
         e.preventDefault()
-        const canvasString = JSON.stringify(userCanvas)
+        const canvasString = JSON.stringify(
+          userCanvas.toObject(['height', 'width'])
+        )
         console.log(title, description)
-        await createMoodboard(idOfUser, title, description, canvasString)
+        await createMoodboard(
+          idOfUser,
+          title,
+          description,
+          canvasString,
+          format,
+          createHeight,
+          createWidth
+        )
         history.push('/home')
         location.reload()
       } catch (error) {
@@ -127,6 +141,11 @@ function CreatePage({idOfUser, createMoodboard, state}) {
               createMoodboardButton={createMoodboardButton}
               create="create"
               setUserCanvas={setUserCanvas}
+              userCanvas={userCanvas}
+              setFormat={setFormat}
+              createFormat={format}
+              setCreateHeight={setCreateHeight}
+              setCreateWidth={setCreateWidth}
             />
             <Grid container>
               <Grid
@@ -168,8 +187,26 @@ const mapState = state => {
 }
 const mapDispatch = dispatch => {
   return {
-    createMoodboard: (userId, title, description, canvas) => {
-      dispatch(createAMoodboard(userId, title, description, canvas))
+    createMoodboard: (
+      userId,
+      title,
+      description,
+      canvas,
+      format,
+      height,
+      width
+    ) => {
+      dispatch(
+        createAMoodboard(
+          userId,
+          title,
+          description,
+          canvas,
+          format,
+          height,
+          width
+        )
+      )
     }
   }
 }

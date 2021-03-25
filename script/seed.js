@@ -34,6 +34,9 @@ async function seed() {
       title: 'Playful Pups',
       description: 'Puppies playing around',
       canvas: dogsCanvas,
+      format: 'Regular Canvas Size',
+      height: 800,
+      width: 800,
       numberOfHearts: 101
     }),
     Moodboard.create({
@@ -41,6 +44,9 @@ async function seed() {
       title: 'Fall Inspiration',
       description: ' Fall inspiration for outfits',
       canvas: fallCanvas,
+      format: 'Regular Canvas Size',
+      height: 800,
+      width: 800,
       numberOfHearts: 23
     }),
     Moodboard.create({
@@ -48,6 +54,9 @@ async function seed() {
       title: 'Career Dreams',
       description: 'Career dream board',
       canvas: careerCanvas,
+      format: 'Regular Canvas Size',
+      height: 800,
+      width: 800,
       numberOfHearts: 41
     })
   ])

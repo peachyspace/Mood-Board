@@ -10,6 +10,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import {Grid} from '@material-ui/core'
+//import { height } from '@material-ui/system'
 
 const useStyles = makeStyles(theme => ({
   titlesContainer: {
@@ -35,7 +36,16 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }))
-function EditPage({saveMoodboard, match, getMoodboard, oneMoodboard, state}) {
+function EditPage({
+  saveMoodboard,
+  match,
+  getMoodboard,
+  oneMoodboard,
+  state,
+  canvasFormat,
+  canvasHeight,
+  canvasWidth
+}) {
   const classes = useStyles()
   const moodboardId = match.params.moodboardId
   const userId = match.params.userId
@@ -46,6 +56,9 @@ function EditPage({saveMoodboard, match, getMoodboard, oneMoodboard, state}) {
 
   const [index, setindex] = useState(0)
   const [board, setBoard] = useState('')
+  const [format, setFormat] = useState('')
+  const [height, setHeight] = useState(canvasHeight)
+  const [width, setWidth] = useState(canvasWidth)
 
   useEffect(() => {
     async function fetchMoodboard() {
@@ -58,10 +71,35 @@ function EditPage({saveMoodboard, match, getMoodboard, oneMoodboard, state}) {
 
   const saveButtonClick = async (e, canvasObject) => {
     e.preventDefault()
+    console.log('canvasObject: ', canvasObject)
     setUserCanvas(canvasObject)
-    const canvasString = JSON.stringify(canvasObject)
+    const canvasString = JSON.stringify(
+      canvasObject.toObject(['height', 'width'])
+    )
+    //console.log('canvasString: ',canvasString)
+
     try {
-      await saveMoodboard(userId, moodboardId, canvasString)
+      if (!format) {
+        console.log('THE      canvasFormat: ', canvasFormat)
+
+        await saveMoodboard(
+          userId,
+          moodboardId,
+          canvasString,
+          canvasFormat,
+          height,
+          width
+        )
+      } else {
+        await saveMoodboard(
+          userId,
+          moodboardId,
+          canvasString,
+          format,
+          height,
+          width
+        )
+      }
     } catch (error) {
       console.error(error)
     }
@@ -122,6 +160,12 @@ function EditPage({saveMoodboard, match, getMoodboard, oneMoodboard, state}) {
             images={images[0]}
             saveButtonClick={saveButtonClick}
             moodboardCanvas={oneMoodboard}
+            setFormat={setFormat}
+            canvasFormat={canvasFormat}
+            canvasHeight={canvasHeight}
+            canvasWidth={canvasWidth}
+            setHeight={setHeight}
+            setWidth={setWidth}
           />
         </div>
       ) : (
@@ -135,13 +179,25 @@ const mapState = state => {
     userId: state.user.id,
     moodboards: state.moodboards,
     oneMoodboard: state.singleMoodboard,
+    canvasFormat: state.singleMoodboard.format,
+    canvasHeight: state.singleMoodboard.height,
+    canvasWidth: state.singleMoodboard.width,
     state: state
   }
 }
 const mapDispatch = dispatch => {
   return {
-    saveMoodboard: (userId, moodboardId, fabricCanvas) => {
-      dispatch(canvasSaver(userId, moodboardId, fabricCanvas))
+    saveMoodboard: (
+      userId,
+      moodboardId,
+      fabricCanvas,
+      format,
+      height,
+      width
+    ) => {
+      dispatch(
+        canvasSaver(userId, moodboardId, fabricCanvas, format, height, width)
+      )
     },
     getMoodboard: (userId, moodboardId) => {
       dispatch(fetchAMoodboard(userId, moodboardId))

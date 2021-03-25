@@ -98,4 +98,4 @@ class Landing extends React.Component {
   }
 }
 
-export default withStyles({styles, withTheme: true})(Landing)
+export default withStyles({withTheme: true})(Landing)

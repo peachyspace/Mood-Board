@@ -15,6 +15,15 @@ const Moodboard = db.define('moodboard', {
   canvas: {
     type: Sequelize.TEXT
   },
+  format: {
+    type: Sequelize.STRING
+  },
+  height: {
+    type: Sequelize.INTEGER
+  },
+  width: {
+    type: Sequelize.INTEGER
+  },
   numberOfHearts: {
     type: Sequelize.INTEGER
   }

@@ -7,6 +7,11 @@ import SaveIcon from '@material-ui/icons/Save'
 import Typography from '@material-ui/core/Typography'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import {ChromePicker} from 'react-color'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
 const useStyles = makeStyles(theme => ({
   input: {
     display: 'none'
@@ -27,6 +32,11 @@ const useStyles = makeStyles(theme => ({
     width: '80%',
     marginTop: theme.spacing(1)
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxWidth: 250
+  },
   submit: {
     margin: theme.spacing(3, 0, 2)
   }
@@ -35,9 +45,18 @@ const useStyles = makeStyles(theme => ({
 const CanvasBoard = ({
   saveButtonClick,
   moodboardCanvas,
-
   create,
-  setUserCanvas
+  setUserCanvas,
+  userCanvas,
+  setFormat,
+  canvasFormat,
+  createFormat,
+  canvasHeight,
+  canvasWidth,
+  setCreateHeight,
+  setCreateWidth,
+  setHeight,
+  setWidth
 }) => {
   const classes = useStyles()
   const [canvas, setCanvas] = useState('')
@@ -48,8 +67,58 @@ const CanvasBoard = ({
     b: 0.2,
     a: 1
   })
+  const canvasPosts = [
+    {
+      id: 0,
+      format: 'Regular Canvas Size',
+      size: {
+        height: 800,
+        width: 800
+      }
+    },
+    {
+      id: 1,
+      format: 'Pinterest Post Size',
+      size: {
+        width: 1000,
+        height: 1000
+      }
+    },
+    {
+      id: 2,
+      format: 'Instagram Potrait Size',
+      size: {
+        width: 1080,
+        height: 1350
+      }
+    },
+    {
+      id: 3,
+      format: 'Facebook Potrait Size',
+      size: {
+        width: 630,
+        height: 1200
+      }
+    }
+  ]
+  const getFormat = format => {
+    for (let i = 0; i <= canvasPosts.length - 1; i++) {
+      if (canvasPosts[i].format === format) {
+        return i
+      }
+    }
+    return ''
+  }
 
-  //const [opacityBg, setOpacityBg] = useState("1");
+  let intialFormat
+  if (canvasFormat) {
+    intialFormat = canvasFormat
+  } else {
+    intialFormat = createFormat
+  }
+  const [selectedSize, setSelectedSize] = useState(
+    canvasPosts[getFormat(intialFormat)]
+  )
 
   useEffect(() => {
     //create canvas
@@ -61,12 +130,18 @@ const CanvasBoard = ({
     if (moodboardCanvas) {
       //if mmodboardCanvas has keys then execute the following
       let parsed = JSON.parse(moodboardCanvas.canvas)
-      //uploading users canvas        from database
+      //uploading users canvas from database
       canvBoard.loadFromJSON(parsed, () => {
         canvBoard.renderAll()
       })
     }
     setCanvas(canvBoard)
+    console.log(canvBoard)
+    //changes size of canvas on the DOM from 800 x 800 to canvBoard.height x canvBoard.width
+    console.log('canvBoard.height: ', canvBoard.height)
+
+    canvBoard.setHeight(canvasHeight)
+    canvBoard.setWidth(canvasWidth)
     if (setUserCanvas) {
       setUserCanvas(canvBoard)
     }
@@ -87,7 +162,7 @@ const CanvasBoard = ({
       }
     )
   } */
-
+  console.log(canvas)
   const addFile = canv => {
     let uploaded = 0
     hiddenFileInput.current.click()
@@ -147,6 +222,14 @@ const CanvasBoard = ({
     link.click()
   }
 
+  const changeCanvasSizeButton = e => {
+    e.preventDefault()
+    canvas.setDimensions({
+      width: 1000,
+      height: 1000
+    })
+  }
+
   const handleClick = e => {
     //want it to do the opposite
     e.preventDefault()
@@ -181,6 +264,34 @@ const CanvasBoard = ({
     left: '0px'
   }
 
+  const getPostSizeId = id => {
+    for (let i = 0; i <= canvasPosts.length - 1; i++) {
+      if (canvasPosts[i].id === id) {
+        return id
+      }
+    }
+    return ''
+  }
+
+  const handleChange = event => {
+    setSelectedSize(event.target.value)
+    setFormat(event.target.value.format)
+    canvas.setDimensions(event.target.value.size)
+    if (create) {
+      setCreateHeight(event.target.value.size.height)
+      setCreateWidth(event.target.value.size.width)
+    } else {
+      setHeight(event.target.value.size.height)
+      setWidth(event.target.value.size.width)
+    }
+    //canvas.height = event.target.value.size.height
+    //canvas.width = event.target.value.size.width
+    canvas.calcOffset()
+    canvas.renderAll()
+    console.log(canvas)
+    console.log('userCanvas: ', userCanvas)
+  }
+
   return (
     <Grid container justify="center">
       <div>
@@ -195,7 +306,7 @@ const CanvasBoard = ({
               container
               className={classes.container}
               alignItems="center"
-              style={{marginTop: '1em', marginLeft: '6em'}}
+              style={{marginTop: '1em', marginLeft: '1em'}}
             >
               <div>
                 <Grid item style={{marginLeft: '2em'}}>
@@ -216,7 +327,41 @@ const CanvasBoard = ({
                   ) : null}
                 </Grid>
               </div>
+              {/*  <Grid item style={{marginLeft: '1em'}}>
+              <Button
+                type="button"
+                //className={classes.button}
+                //variant="contained"
+                //color="primary"
+                onClick={e => changeCanvasSizeButton(e)}
+              >
+                  <Typography component="h6" variant="h6">
+                    Pin size
+                    </Typography>
+              </Button>
+              </Grid> */}
               <br />
+              <Grid item style={{marginLeft: '1em'}}>
+                <FormControl className={classes.formControl}>
+                  {/*  <InputLabel id='demo-simple-select'>Size</InputLabel> */}
+                  <Select
+                    //lableId = 'demo-simple-select'
+                    //defaultValue = ""
+                    value={canvasPosts[getPostSizeId(selectedSize.id)]}
+                    onChange={handleChange}
+                  >
+                    {canvasPosts.map(canvasPost => (
+                      <MenuItem key={canvasPost.id} value={canvasPost}>
+                        <Typography component="h6" variant="h6">
+                          {canvasPost.format}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <br />
+
               <input
                 type="file"
                 id="file"
