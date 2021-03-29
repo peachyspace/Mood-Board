@@ -58,6 +58,12 @@ function CreatePage({idOfUser, createMoodboard, state}) {
   const [format, setFormat] = useState('Regular Canvas Size')
   const [createHeight, setCreateHeight] = useState(800)
   const [createWidth, setCreateWidth] = useState(800)
+  const [createBackgroundColor, setCreateBackgroundColor] = useState({
+    r: 250,
+    g: 0,
+    b: 0.2,
+    a: 1
+  })
 
   const [board, setBoard] = useState('')
   const history = useHistory()
@@ -78,6 +84,7 @@ function CreatePage({idOfUser, createMoodboard, state}) {
           userCanvas.toObject(['height', 'width'])
         )
         console.log(title, description)
+        const backgroundColor = JSON.stringify(createBackgroundColor)
         await createMoodboard(
           idOfUser,
           title,
@@ -85,7 +92,8 @@ function CreatePage({idOfUser, createMoodboard, state}) {
           canvasString,
           format,
           createHeight,
-          createWidth
+          createWidth,
+          backgroundColor
         )
         history.push('/home')
         location.reload()
@@ -97,7 +105,16 @@ function CreatePage({idOfUser, createMoodboard, state}) {
       setSubmitMsg('Submission Failed')
     }
   }
-  //console.log('state: ', state)
+
+  const getTitle = () => {
+    let createTilte
+    if (title === '') {
+      createTilte = 'untitled'
+    } else {
+      createTilte = title
+    }
+    return createTilte
+  }
 
   return (
     <Container maxWidth="xs" justify="center">
@@ -144,8 +161,13 @@ function CreatePage({idOfUser, createMoodboard, state}) {
               userCanvas={userCanvas}
               setFormat={setFormat}
               createFormat={format}
+              createHeight={createHeight}
+              createWidth={createWidth}
               setCreateHeight={setCreateHeight}
               setCreateWidth={setCreateWidth}
+              getTitle={getTitle}
+              setCreateBackgroundColor={setCreateBackgroundColor}
+              createBackgroundColor={createBackgroundColor}
             />
             <Grid container>
               <Grid
@@ -194,7 +216,8 @@ const mapDispatch = dispatch => {
       canvas,
       format,
       height,
-      width
+      width,
+      backgroundColor
     ) => {
       dispatch(
         createAMoodboard(
@@ -204,7 +227,8 @@ const mapDispatch = dispatch => {
           canvas,
           format,
           height,
-          width
+          width,
+          backgroundColor
         )
       )
     }

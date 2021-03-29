@@ -37,6 +37,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
+      backgroundColor: `{"r":214,"g":226,"b":233,"a":0.8}`,
       numberOfHearts: 101
     }),
     Moodboard.create({
@@ -47,6 +48,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
+      backgroundColor: `{"r":200,"g":105,"b":28,"a":0.8}`,
       numberOfHearts: 23
     }),
     Moodboard.create({
@@ -57,6 +59,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
+      backgroundColor: `{"r":219,"g":236,"b":190,"a":0.8}`,
       numberOfHearts: 41
     })
   ])

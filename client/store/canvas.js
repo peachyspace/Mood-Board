@@ -13,17 +13,27 @@ export const canvasSaver = (
   fabricCanvas,
   format,
   height,
-  width
+  width,
+  backgroundColor,
+  title,
+  description
 ) => async dispatch => {
   let res
   try {
+    console.log('canvas:', fabricCanvas)
+    console.log('Color: ', backgroundColor)
+    console.log('format: ', format)
+    console.log('height: ', height)
     res = await Axios.put(
       `/api/moodboards/saveCanvas/${userId}/${moodboardId}`,
       {
         canvas: fabricCanvas,
         format,
         height,
-        width
+        width,
+        backgroundColor,
+        title,
+        description
       }
     )
     dispatch(savingCanvas(fabricCanvas))

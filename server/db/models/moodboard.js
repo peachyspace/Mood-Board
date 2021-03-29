@@ -24,6 +24,9 @@ const Moodboard = db.define('moodboard', {
   width: {
     type: Sequelize.INTEGER
   },
+  backgroundColor: {
+    type: Sequelize.STRING
+  },
   numberOfHearts: {
     type: Sequelize.INTEGER
   }

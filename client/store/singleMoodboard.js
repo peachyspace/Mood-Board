@@ -31,7 +31,8 @@ export const createAMoodboard = (
   canvas,
   format,
   height,
-  width
+  width,
+  backgroundColor
 ) => async dispatch => {
   try {
     const {data} = await Axios.post(`/api/moodboards/create`, {
@@ -42,6 +43,7 @@ export const createAMoodboard = (
       format,
       height,
       width,
+      backgroundColor,
       numberOfHearts: 0
     })
     dispatch(getAMoodboard(data))

@@ -9,7 +9,8 @@ import CanvasBoard from './Canvas'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
-import {Grid} from '@material-ui/core'
+import {Button, Grid} from '@material-ui/core'
+import MoodboardForm from './MoodboardForm'
 //import { height } from '@material-ui/system'
 
 const useStyles = makeStyles(theme => ({
@@ -36,6 +37,14 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2)
   }
 }))
+
+const intialErrors = {
+  title: [],
+  description: []
+}
+const isRequried = val => {
+  return val.length > 0 ? '' : 'Type here to change value'
+}
 function EditPage({
   saveMoodboard,
   match,
@@ -44,27 +53,29 @@ function EditPage({
   state,
   canvasFormat,
   canvasHeight,
-  canvasWidth
+  canvasWidth,
+  canvasTitle,
+  canvasDescription,
+  canvasBC
 }) {
   const classes = useStyles()
   const moodboardId = match.params.moodboardId
   const userId = match.params.userId
-  const [userCanvas, setUserCanvas] = useState({})
-  //intial value of the images state is an array
-  const accepts = 'IMAGE'
+  //const accepts = 'IMAGE'
   const [images, setImages] = useState([])
-
-  const [index, setindex] = useState(0)
-  const [board, setBoard] = useState('')
   const [format, setFormat] = useState('')
-  const [height, setHeight] = useState(canvasHeight)
-  const [width, setWidth] = useState(canvasWidth)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [errors, setErrors] = useState(intialErrors)
+  const [displayForm, setDisplayForm] = useState(false)
+  const [headerTitle, setHeaderTitle] = useState('')
+  const [headerDescription, setHeaderDescription] = useState('')
+  const [showAll, setShowAll] = useState(false)
 
   useEffect(() => {
     async function fetchMoodboard() {
       console.log('INSIDE: ', userId)
       await getMoodboard(userId, moodboardId)
-      setBoard(oneMoodboard)
     }
     fetchMoodboard()
   }, [])
@@ -72,41 +83,38 @@ function EditPage({
   const saveButtonClick = async (e, canvasObject) => {
     e.preventDefault()
     console.log('canvasObject: ', canvasObject)
-    setUserCanvas(canvasObject)
     const canvasString = JSON.stringify(
       canvasObject.toObject(['height', 'width'])
     )
-    //console.log('canvasString: ',canvasString)
+    const backgroundColor = JSON.stringify(canvasObject.backgroundColor)
+    const heightOfCanvas = canvasObject.height
+    const widthOfCanvas = canvasObject.width
 
     try {
-      if (!format) {
-        console.log('THE      canvasFormat: ', canvasFormat)
+      await saveMoodboard(
+        userId,
+        moodboardId,
+        canvasString,
+        format ? format : canvasFormat,
+        heightOfCanvas,
+        widthOfCanvas,
+        backgroundColor,
+        title.length > 0 ? title : canvasTitle,
+        description.length > 0 ? description : canvasDescription
+      )
 
-        await saveMoodboard(
-          userId,
-          moodboardId,
-          canvasString,
-          canvasFormat,
-          height,
-          width
-        )
-      } else {
-        await saveMoodboard(
-          userId,
-          moodboardId,
-          canvasString,
-          format,
-          height,
-          width
-        )
-      }
+      setHeaderTitle(title)
+      setHeaderDescription(description)
+      setTitle('')
+      setDescription('')
+      await getMoodboard(userId, moodboardId)
     } catch (error) {
       console.error(error)
     }
   }
   console.log('state: ', state)
   // onDrop function
-  const onDrop = useCallback(acceptedFiles => {
+  /* const onDrop = useCallback(acceptedFiles => {
     console.log(acceptedFiles)
     // Loop through accepted files
     acceptedFiles.map(file => {
@@ -124,23 +132,79 @@ function EditPage({
       readerOfFiles.readAsDataURL(file)
       return file
     })
-  }, [])
+  }, []) */
   //might not need this
-  const moveImage = (dragIndex, hoverIndex) => {
+  /*  const moveImage = (dragIndex, hoverIndex) => {
     const draggedImage = images[dragIndex]
     setImages(
       update(images, {
         $splice: [[dragIndex, 1], [hoverIndex, 0, draggedImage]]
       })
     )
+  } */
+
+  const handleFormClick = e => {
+    e.preventDefault()
+    setDisplayForm(!displayForm)
   }
 
-  const canvasTitle = oneMoodboard && oneMoodboard.title
-  const canvasDescription = oneMoodboard && oneMoodboard.description
+  const handleFormClose = e => {
+    e.preventDefault()
+    setDisplayForm(false)
+  }
+  const showMore = () => {
+    setShowAll(true)
+  }
+  const showLess = () => {
+    setShowAll(false)
+  }
+
+  const titleOfCanvas = oneMoodboard && oneMoodboard.title
+  const descriptionOfCanvas = oneMoodboard && oneMoodboard.description
+  //const descrip = ''||
+
+  const display = () => {
+    let testText = 'moodboard description'
+    if (showAll) {
+      return (
+        <div>
+          {headerDescription.length === 0
+            ? descriptionOfCanvas
+            : headerDescription}{' '}
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          {headerDescription.length === 0
+            ? descriptionOfCanvas
+              ? descriptionOfCanvas.substring(0, 20)
+              : testText.substring(0, 20)
+            : headerDescription.substring(0, 20)}
+        </div>
+      )
+    }
+  }
+
+  /* const preview = headerDescription.length===0 ? descriptionOfCanvas.substring(0,20) : headerDescription.substring(0,20) */
+
+  const popover = {
+    position: 'absolute',
+    zIndex: '2'
+  }
+  const cover = {
+    position: 'fixed',
+    top: '0px',
+    right: '0px',
+    bottom: '0px',
+    left: '0px'
+  }
 
   let moodKeys = Object.keys(oneMoodboard)
   let hasMoodboard = oneMoodboard && moodKeys.length
+  console.log(canvasBC)
 
+  console.log(canvasHeight)
   return (
     <Container maxWidth="xs">
       <Grid className={classes.titlesContainer}>
@@ -148,11 +212,66 @@ function EditPage({
           Edit Your Moodboard
         </Typography>
         <Typography component="h3" variant="h3">
-          {canvasTitle}
+          {headerTitle.length === 0 ? titleOfCanvas : headerTitle}
         </Typography>
-        <Typography component="h6" variant="h6">
-          {canvasDescription}
-        </Typography>
+        {display()}
+        {showAll ? (
+          <div>
+            <Button onClick={showLess}>
+              <Typography component="h6" variany="h6">
+                show less
+              </Typography>
+            </Button>
+          </div>
+        ) : (
+          <div>
+            <Button onClick={showMore}>
+              <Typography component="h6" variant="h6">
+                show more
+              </Typography>
+            </Button>
+          </div>
+        )}
+        <Grid container justify="center">
+          <Grid container direction="row" style={{marginTop: '1em'}}>
+            <Grid
+              item
+              container
+              className={classes.container}
+              alignItems="center"
+              style={{marginTop: '1em', marginLeft: '1em'}}
+            >
+              <Grid item style={{marginLeft: '2em'}}>
+                <Button onClick={e => handleFormClick(e)}>
+                  {' '}
+                  <Typography component="h6" variant="h6">
+                    Update Title and Description
+                  </Typography>
+                </Button>
+                {displayForm ? (
+                  <div /* style={popover} */>
+                    <div style={cover} onClick={e => handleFormClose(e)} />
+                    <Grid item style={{marginLeft: '2em', marginBottom: '1em'}}>
+                      <MoodboardForm
+                        title={title}
+                        handleTitleChange={e => {
+                          setTitle(e.target.value)
+                        }}
+                        description={description}
+                        handleDescriptionChange={e => {
+                          setDescription(e.target.value)
+                        }}
+                        errors={errors}
+                        setErrors={setErrors}
+                        validations={[isRequried]}
+                      />
+                    </Grid>
+                  </div>
+                ) : null}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
       {hasMoodboard ? (
         <div>
@@ -164,8 +283,8 @@ function EditPage({
             canvasFormat={canvasFormat}
             canvasHeight={canvasHeight}
             canvasWidth={canvasWidth}
-            setHeight={setHeight}
-            setWidth={setWidth}
+            canvasTitle={canvasTitle}
+            canvasBC={canvasBC}
           />
         </div>
       ) : (
@@ -182,6 +301,9 @@ const mapState = state => {
     canvasFormat: state.singleMoodboard.format,
     canvasHeight: state.singleMoodboard.height,
     canvasWidth: state.singleMoodboard.width,
+    canvasTitle: state.singleMoodboard.title,
+    canvasDescription: state.singleMoodboard.description,
+    canvasBC: state.singleMoodboard.backgroundColor,
     state: state
   }
 }
@@ -193,10 +315,23 @@ const mapDispatch = dispatch => {
       fabricCanvas,
       format,
       height,
-      width
+      width,
+      backgroundColor,
+      title,
+      description
     ) => {
       dispatch(
-        canvasSaver(userId, moodboardId, fabricCanvas, format, height, width)
+        canvasSaver(
+          userId,
+          moodboardId,
+          fabricCanvas,
+          format,
+          height,
+          width,
+          backgroundColor,
+          title,
+          description
+        )
       )
     },
     getMoodboard: (userId, moodboardId) => {

@@ -47,26 +47,27 @@ const CanvasBoard = ({
   moodboardCanvas,
   create,
   setUserCanvas,
-  userCanvas,
   setFormat,
   canvasFormat,
   createFormat,
   canvasHeight,
   canvasWidth,
+  createHeight,
+  createWidth,
   setCreateHeight,
   setCreateWidth,
-  setHeight,
-  setWidth
+  canvasTitle,
+  getTitle,
+  setCreateBackgroundColor,
+  createBackgroundColor,
+  canvasBC
 }) => {
   const classes = useStyles()
   const [canvas, setCanvas] = useState('')
   const [displayColorPicker, setDisplayColorPicker] = useState(false)
-  const [background, setBackground] = useState({
-    r: 250,
-    g: 0,
-    b: 0.2,
-    a: 1
-  })
+  const [backgroundColor, setBackgroundColor] = useState(
+    JSON.parse(!create ? canvasBC : `{}`)
+  )
   const canvasPosts = [
     {
       id: 0,
@@ -139,15 +140,20 @@ const CanvasBoard = ({
     console.log(canvBoard)
     //changes size of canvas on the DOM from 800 x 800 to canvBoard.height x canvBoard.width
     console.log('canvBoard.height: ', canvBoard.height)
+    console.log('canvasHeight: ', canvasHeight)
+    if (create) {
+      canvBoard.setHeight(createHeight)
+      canvBoard.setWidth(createWidth)
+    } else {
+      console.log(canvasHeight)
+      canvBoard.setHeight(canvasHeight)
+      canvBoard.setWidth(canvasWidth)
+    }
 
-    canvBoard.setHeight(canvasHeight)
-    canvBoard.setWidth(canvasWidth)
     if (setUserCanvas) {
       setUserCanvas(canvBoard)
     }
   }, [])
-
-  /* console.log('object of BOard: ', JSON.parse(moodboardCanvas.canvas)) */
 
   const hiddenFileInput = React.useRef(null)
 
@@ -215,23 +221,19 @@ const CanvasBoard = ({
     /* creates a DOMstring that contains a URL representing the object (blob) passed as an agrument */
     const objurl = URL.createObjectURL(blob)
     //gives the anchor object(<a>) a fiename
-    link.download = 'holapic.png'
+    if (create) {
+      link.download = `${getTitle()}.png`
+    } else {
+      link.download = `${canvasTitle}.png`
+    }
+
     //the URL is being given to the anchor object(<a>)
     link.href = objurl
     //we are simulating a mouse click on the <a> element
     link.click()
   }
 
-  const changeCanvasSizeButton = e => {
-    e.preventDefault()
-    canvas.setDimensions({
-      width: 1000,
-      height: 1000
-    })
-  }
-
-  const handleClick = e => {
-    //want it to do the opposite
+  const handleColorClick = e => {
     e.preventDefault()
     setDisplayColorPicker(!displayColorPicker)
   }
@@ -240,16 +242,21 @@ const CanvasBoard = ({
     setDisplayColorPicker(false)
   }
 
-  const handleChangeComplete = data => {
-    //allows cursor to move
-    if (data.hsl !== background) {
-      //console.log('data: ', data)
+  const handleColorChange = data => {
+    //allows cursor in color picker to move
+    if (data.hsl !== backgroundColor) {
       let rgba = `rgba(${data.rgb.r}, ${data.rgb.g}, ${data.rgb.b}, ${
         data.rgb.a
       })`
       canvas.backgroundColor = rgba
       canvas.renderAll()
-      setBackground(data.rgb)
+      console.log('data.rgb: ', data.rgb)
+      if (create) {
+        setCreateBackgroundColor(data.rgb)
+      } else {
+        setBackgroundColor(data.rgb)
+      }
+      //setBackgroundColor(data.rgb)
     }
   }
   const popover = {
@@ -280,16 +287,10 @@ const CanvasBoard = ({
     if (create) {
       setCreateHeight(event.target.value.size.height)
       setCreateWidth(event.target.value.size.width)
-    } else {
-      setHeight(event.target.value.size.height)
-      setWidth(event.target.value.size.width)
     }
-    //canvas.height = event.target.value.size.height
-    //canvas.width = event.target.value.size.width
     canvas.calcOffset()
     canvas.renderAll()
     console.log(canvas)
-    console.log('userCanvas: ', userCanvas)
   }
 
   return (
@@ -310,7 +311,7 @@ const CanvasBoard = ({
             >
               <div>
                 <Grid item style={{marginLeft: '2em'}}>
-                  <Button onClick={e => handleClick(e)}>
+                  <Button onClick={e => handleColorClick(e)}>
                     {' '}
                     <Typography component="h6" variant="h6">
                       Background Color
@@ -320,26 +321,13 @@ const CanvasBoard = ({
                     <div style={popover}>
                       <div style={cover} onClick={e => handleClose(e)} />
                       <ChromePicker
-                        color={background}
-                        onChange={handleChangeComplete}
+                        color={create ? createBackgroundColor : backgroundColor}
+                        onChange={handleColorChange}
                       />
                     </div>
                   ) : null}
                 </Grid>
               </div>
-              {/*  <Grid item style={{marginLeft: '1em'}}>
-              <Button
-                type="button"
-                //className={classes.button}
-                //variant="contained"
-                //color="primary"
-                onClick={e => changeCanvasSizeButton(e)}
-              >
-                  <Typography component="h6" variant="h6">
-                    Pin size
-                    </Typography>
-              </Button>
-              </Grid> */}
               <br />
               <Grid item style={{marginLeft: '1em'}}>
                 <FormControl className={classes.formControl}>
