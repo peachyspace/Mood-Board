@@ -113,35 +113,6 @@ function EditPage({
     }
   }
   console.log('state: ', state)
-  // onDrop function
-  /* const onDrop = useCallback(acceptedFiles => {
-    console.log(acceptedFiles)
-    // Loop through accepted files
-    acceptedFiles.map(file => {
-      // Initialize FileReader browser API
-      const readerOfFiles = new FileReader()
-      // onload callback gets called after the readerOfFiles reads the file data
-      readerOfFiles.onload = function(e) {
-        // add the image into the state. Since FileReader reading process is asynchronous, its better to get the latest snapshot state (i.e., prevState) and update it.
-        setImages(prevState => [
-          ...prevState,
-          {id: cuid(), src: e.target.result}
-        ])
-      }
-      // Read the file as Data URL (since we accept only images)
-      readerOfFiles.readAsDataURL(file)
-      return file
-    })
-  }, []) */
-  //might not need this
-  /*  const moveImage = (dragIndex, hoverIndex) => {
-    const draggedImage = images[dragIndex]
-    setImages(
-      update(images, {
-        $splice: [[dragIndex, 1], [hoverIndex, 0, draggedImage]]
-      })
-    )
-  } */
 
   const handleFormClick = e => {
     e.preventDefault()
@@ -167,21 +138,21 @@ function EditPage({
     let testText = 'moodboard description'
     if (showAll) {
       return (
-        <div>
+        <Typography component="h5" variant="h5">
           {headerDescription.length === 0
             ? descriptionOfCanvas
             : headerDescription}{' '}
-        </div>
+        </Typography>
       )
     } else {
       return (
-        <div>
+        <Typography component="h5" variant="h5">
           {headerDescription.length === 0
             ? descriptionOfCanvas
-              ? descriptionOfCanvas.substring(0, 20)
+              ? `${descriptionOfCanvas.substring(0, 20)}....`
               : testText.substring(0, 20)
-            : headerDescription.substring(0, 20)}
-        </div>
+            : `${headerDescription.substring(0, 20)}....`}
+        </Typography>
       )
     }
   }

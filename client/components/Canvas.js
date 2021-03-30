@@ -4,6 +4,7 @@ import {fabric} from 'fabric'
 import {makeStyles} from '@material-ui/core/styles'
 import {Button, Grid} from '@material-ui/core'
 import SaveIcon from '@material-ui/icons/Save'
+import DeleteForeverSharpIcon from '@material-ui/icons/DeleteForeverSharp'
 import Typography from '@material-ui/core/Typography'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import {ChromePicker} from 'react-color'
@@ -293,6 +294,24 @@ const CanvasBoard = ({
     console.log(canvas)
   }
 
+  const handleDeleteSelected = () => {
+    let selectedObject = canvas.getActiveObject()
+    if (selectedObject && selectedObject.type === 'activeSelection') {
+      //active selection needs a reference to canvas
+      selectedObject.canvas = canvas
+      selectedObject.forEachObject(function(obj) {
+        canvas.remove(obj)
+      })
+    } else {
+      //Single object
+      console.log('single object')
+      let activeObject = canvas.getActiveObject()
+      if (activeObject !== null) {
+        canvas.remove(activeObject)
+      }
+    }
+  }
+
   return (
     <Grid container justify="center">
       <div>
@@ -309,25 +328,34 @@ const CanvasBoard = ({
               alignItems="center"
               style={{marginTop: '1em', marginLeft: '1em'}}
             >
-              <div>
-                <Grid item style={{marginLeft: '2em'}}>
-                  <Button onClick={e => handleColorClick(e)}>
-                    {' '}
-                    <Typography component="h6" variant="h6">
-                      Background Color
-                    </Typography>
-                  </Button>
-                  {displayColorPicker ? (
-                    <div style={popover}>
-                      <div style={cover} onClick={e => handleClose(e)} />
-                      <ChromePicker
-                        color={create ? createBackgroundColor : backgroundColor}
-                        onChange={handleColorChange}
-                      />
-                    </div>
-                  ) : null}
-                </Grid>
-              </div>
+              {/*  <div> */}
+              <Grid item>
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  color="primary"
+                  onClick={handleDeleteSelected}
+                  startIcon={<DeleteForeverSharpIcon />}
+                />
+              </Grid>
+              <Grid item /* style={{marginLeft: '1em'}} */>
+                <Button onClick={e => handleColorClick(e)}>
+                  {' '}
+                  <Typography component="h6" variant="h6">
+                    Background Color
+                  </Typography>
+                </Button>
+                {displayColorPicker ? (
+                  <div style={popover}>
+                    <div style={cover} onClick={e => handleClose(e)} />
+                    <ChromePicker
+                      color={create ? createBackgroundColor : backgroundColor}
+                      onChange={handleColorChange}
+                    />
+                  </div>
+                ) : null}
+              </Grid>
+              {/*  </div> */}
               <br />
               <Grid item style={{marginLeft: '1em'}}>
                 <FormControl className={classes.formControl}>
@@ -365,8 +393,9 @@ const CanvasBoard = ({
                   startIcon={<AddPhotoAlternateIcon />}
                   onClick={() => addFile(canvas)}
                 >
-                  {' '}
-                  Upload{' '}
+                  <Typography component="h6" variant="h6">
+                    Upload
+                  </Typography>
                 </Button>
               </label>
 
@@ -379,8 +408,9 @@ const CanvasBoard = ({
                   onClick={e => saveButtonClick(e, canvas)}
                   startIcon={<SaveIcon />}
                 >
-                  {' '}
-                  Save Canvas{' '}
+                  <Typography component="h6" variant="h6">
+                    Save Canvas
+                  </Typography>
                 </Button>
               ) : null}
               <br />
@@ -391,7 +421,9 @@ const CanvasBoard = ({
                 color="primary"
                 onClick={e => downloadButtonClick(e)}
               >
-                Download
+                <Typography component="h6" variant="h6">
+                  Download
+                </Typography>
               </Button>
             </Grid>
           </Grid>
