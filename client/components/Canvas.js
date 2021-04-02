@@ -126,7 +126,9 @@ const CanvasBoard = ({
     //create canvas
     let canvBoard = new fabric.Canvas('canvas', {
       height: 800,
-      width: 800
+      width: 800,
+      selection: true
+      //preserveObjectStacing: true
     })
 
     if (moodboardCanvas) {
@@ -140,8 +142,10 @@ const CanvasBoard = ({
     setCanvas(canvBoard)
     console.log(canvBoard)
     //changes size of canvas on the DOM from 800 x 800 to canvBoard.height x canvBoard.width
+    //canvBoard.preserveObjectStacking= false
     console.log('canvBoard.height: ', canvBoard.height)
     console.log('canvasHeight: ', canvasHeight)
+
     if (create) {
       canvBoard.setHeight(createHeight)
       canvBoard.setWidth(createWidth)
@@ -184,8 +188,10 @@ const CanvasBoard = ({
           while (uploaded === 0) {
             const oImg = img.scale(0.5).set('flipX', true)
             console.log('oImg', oImg)
+            //canv.clear()
             canv.add(oImg)
-            canvas.setActiveObject(oImg)
+            //canv.sendBackwards(oImg)
+            //canv.setActiveObject(oImg)
             console.log('CANVAS: ', canvas)
             uploaded++
           }
@@ -295,22 +301,43 @@ const CanvasBoard = ({
   }
 
   const handleDeleteSelected = () => {
-    let selectedObject = canvas.getActiveObject()
-    if (selectedObject && selectedObject.type === 'activeSelection') {
-      //active selection needs a reference to canvas
-      selectedObject.canvas = canvas
-      selectedObject.forEachObject(function(obj) {
-        canvas.remove(obj)
-      })
-    } else {
-      //Single object
-      console.log('single object')
-      let activeObject = canvas.getActiveObject()
-      if (activeObject !== null) {
-        canvas.remove(activeObject)
-      }
+    //deletes object that is selected in canvas
+    let activeObject = canvas.getActiveObject()
+    if (activeObject !== null) {
+      canvas.remove(activeObject)
     }
   }
+
+  //const fonts = ['Pacifico', 'VT1323', 'Quiksand', 'Inconsolata'];
+  const addTextbox = () => {
+    let textbox = new fabric.Textbox('', {
+      left: 50,
+      top: 50,
+      width: 150,
+      fontSize: 20
+    })
+    canvas.add(textbox).setActiveObject(textbox)
+  }
+
+  /*   canvas.on("object:selected", function(options) {
+    canvas.bringToFront(options.target);
+    canvas.renderAll();
+}); */
+  fabric.util.addListener(canvas.upperCanvasEl, 'click', function(e) {
+    let _canvas = canvas
+    //current mouse position
+    /* let _mouse = _canvas.getPointer(e); */
+    //active object (that has been selected on click)
+    let _active = _canvas.getActiveObject()
+
+    if (_active) {
+      canvas.bringToFront(_active)
+    }
+    /*   //possible dblclick targets (objects that share mousepointer)
+  let _targets = _canvas.getObjects().filter(function (_obj) {
+      return _obj.containsPoint(_mouse) && !_canvas.isTargetTransparent(_obj, _mouse.x, _mouse.y);
+  }) */
+  })
 
   return (
     <Grid container justify="center">
@@ -328,7 +355,6 @@ const CanvasBoard = ({
               alignItems="center"
               style={{marginTop: '1em', marginLeft: '1em'}}
             >
-              {/*  <div> */}
               <Grid item>
                 <Button
                   className={classes.button}
@@ -355,7 +381,19 @@ const CanvasBoard = ({
                   </div>
                 ) : null}
               </Grid>
-              {/*  </div> */}
+              <Grid item>
+                <Button
+                  className={classes.button}
+                  varaint="contained"
+                  color="primary"
+                  onClick={addTextbox}
+                >
+                  <Typography componenet="h6" variant="h6">
+                    Add Text
+                  </Typography>
+                </Button>
+              </Grid>
+
               <br />
               <Grid item style={{marginLeft: '1em'}}>
                 <FormControl className={classes.formControl}>
