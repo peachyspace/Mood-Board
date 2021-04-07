@@ -13,6 +13,9 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+import FontSection from './customizeCanvas/FontSection'
+//import FontFaceObserver from'fontfaceobserver'
+import WebFont from 'webfontloader'
 const useStyles = makeStyles(theme => ({
   input: {
     display: 'none'
@@ -61,7 +64,8 @@ const CanvasBoard = ({
   getTitle,
   setCreateBackgroundColor,
   createBackgroundColor,
-  canvasBC
+  canvasBC,
+  setEditCanvas
 }) => {
   const classes = useStyles()
   const [canvas, setCanvas] = useState('')
@@ -69,6 +73,7 @@ const CanvasBoard = ({
   const [backgroundColor, setBackgroundColor] = useState(
     JSON.parse(!create ? canvasBC : `{}`)
   )
+
   const canvasPosts = [
     {
       id: 0,
@@ -103,6 +108,7 @@ const CanvasBoard = ({
       }
     }
   ]
+
   const getFormat = format => {
     for (let i = 0; i <= canvasPosts.length - 1; i++) {
       if (canvasPosts[i].format === format) {
@@ -122,25 +128,74 @@ const CanvasBoard = ({
     canvasPosts[getFormat(intialFormat)]
   )
 
+  /* const exampleFontData = {
+    'Josefin Slab': { weight: 400 },
+    'Mali': { weight: 400 },
+    'Aclonica': { weight: 400 },
+    'Cutive Mono': { weight: 400 },
+    'La Belle Aurore': { weight: 400 },
+    'Gravitas One': { weight: 400 },
+    'Fascinate': { weight: 400 },
+    'Waiting for the Sunrise': { weight: 400 },
+    'Pacifico': { weight: 400 },
+    'Jacques Francois': { weight: 400 },
+    'Lovers Quarrel': { weight: 400 },
+    'Hachi Maru Pop': { weight: 400 },
+    'Emilys Candy': { weight: 400 },
+    'Special Elite': { weight: 400 },
+  };
+  let observers =[] */
+
   useEffect(() => {
-    //create canvas
     let canvBoard = new fabric.Canvas('canvas', {
       height: 800,
       width: 800,
       selection: true
       //preserveObjectStacing: true
     })
+    WebFont.load({
+      google: {
+        families: [
+          'Josefin Slab',
+          'Mali',
+          'Aclonica',
+          'Cutive Mono',
+          'La Belle Aurore',
+          'Gravitas One',
+          'Fascinate',
+          'Waiting for the Sunrise',
+          'Pacifico',
+          'Jacques Francois',
+          'Lovers Quarrel',
+          'Hachi Maru Pop',
+          'Emilys Candy',
+          'Special Elite'
+        ]
+      },
+      active: function() {
+        if (moodboardCanvas) {
+          //if mmodboardCanvas has keys then execute the following
+          let parsed = JSON.parse(moodboardCanvas.canvas)
+          //uploading users canvas from database
+          canvBoard.loadFromJSON(parsed, () => {
+            canvBoard.renderAll()
+          })
+        }
+      }
+    })
 
-    if (moodboardCanvas) {
+    /* if (moodboardCanvas) {
       //if mmodboardCanvas has keys then execute the following
       let parsed = JSON.parse(moodboardCanvas.canvas)
       //uploading users canvas from database
       canvBoard.loadFromJSON(parsed, () => {
         canvBoard.renderAll()
+       
       })
-    }
+    } */
     setCanvas(canvBoard)
-    console.log(canvBoard)
+    //setUserCanvas(canvBoard)
+    console.log(canvas)
     //changes size of canvas on the DOM from 800 x 800 to canvBoard.height x canvBoard.width
     //canvBoard.preserveObjectStacking= false
     console.log('canvBoard.height: ', canvBoard.height)
@@ -149,15 +204,17 @@ const CanvasBoard = ({
     if (create) {
       canvBoard.setHeight(createHeight)
       canvBoard.setWidth(createWidth)
+      setUserCanvas(canvBoard)
     } else {
       console.log(canvasHeight)
       canvBoard.setHeight(canvasHeight)
       canvBoard.setWidth(canvasWidth)
+      setEditCanvas(canvBoard)
     }
 
-    if (setUserCanvas) {
+    /* if (setUserCanvas) {
       setUserCanvas(canvBoard)
-    }
+    } */
   }, [])
 
   const hiddenFileInput = React.useRef(null)
@@ -174,6 +231,7 @@ const CanvasBoard = ({
     )
   } */
   console.log(canvas)
+
   const addFile = canv => {
     let uploaded = 0
     hiddenFileInput.current.click()
@@ -287,7 +345,7 @@ const CanvasBoard = ({
     return ''
   }
 
-  const handleChange = event => {
+  const handleSizeChange = event => {
     setSelectedSize(event.target.value)
     setFormat(event.target.value.format)
     canvas.setDimensions(event.target.value.size)
@@ -308,21 +366,17 @@ const CanvasBoard = ({
     }
   }
 
-  //const fonts = ['Pacifico', 'VT1323', 'Quiksand', 'Inconsolata'];
-  const addTextbox = () => {
+  /* const addTextbox = () => {
     let textbox = new fabric.Textbox('', {
       left: 50,
       top: 50,
       width: 150,
-      fontSize: 20
+      fontSize: 20,
+      fontFamily: 'Josefin Slab'
     })
     canvas.add(textbox).setActiveObject(textbox)
-  }
+  } */
 
-  /*   canvas.on("object:selected", function(options) {
-    canvas.bringToFront(options.target);
-    canvas.renderAll();
-}); */
   fabric.util.addListener(canvas.upperCanvasEl, 'click', function(e) {
     let _canvas = canvas
     //current mouse position
@@ -332,6 +386,10 @@ const CanvasBoard = ({
 
     if (_active) {
       canvas.bringToFront(_active)
+      console.log(_active)
+      if (_active.text) {
+        console.log(_active.text, _active.fontFamily)
+      }
     }
     /*   //possible dblclick targets (objects that share mousepointer)
   let _targets = _canvas.getObjects().filter(function (_obj) {
@@ -364,7 +422,7 @@ const CanvasBoard = ({
                   startIcon={<DeleteForeverSharpIcon />}
                 />
               </Grid>
-              <Grid item /* style={{marginLeft: '1em'}} */>
+              {/*  <Grid item >
                 <Button onClick={e => handleColorClick(e)}>
                   {' '}
                   <Typography component="h6" variant="h6">
@@ -382,27 +440,14 @@ const CanvasBoard = ({
                 ) : null}
               </Grid>
               <Grid item>
-                <Button
-                  className={classes.button}
-                  varaint="contained"
-                  color="primary"
-                  onClick={addTextbox}
-                >
-                  <Typography componenet="h6" variant="h6">
-                    Add Text
-                  </Typography>
-                </Button>
+                  <FontSection canvas ={canvas}/>
               </Grid>
-
               <br />
               <Grid item style={{marginLeft: '1em'}}>
                 <FormControl className={classes.formControl}>
-                  {/*  <InputLabel id='demo-simple-select'>Size</InputLabel> */}
                   <Select
-                    //lableId = 'demo-simple-select'
-                    //defaultValue = ""
                     value={canvasPosts[getPostSizeId(selectedSize.id)]}
-                    onChange={handleChange}
+                    onChange={handleSizeChange}
                   >
                     {canvasPosts.map(canvasPost => (
                       <MenuItem key={canvasPost.id} value={canvasPost}>
@@ -413,9 +458,8 @@ const CanvasBoard = ({
                     ))}
                   </Select>
                 </FormControl>
-              </Grid>
+              </Grid> */}
               <br />
-
               <input
                 type="file"
                 id="file"

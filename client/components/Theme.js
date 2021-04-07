@@ -3,8 +3,9 @@ import {createMuiTheme} from '@material-ui/core/styles'
 const colorOne = '#C3A789'
 const colorTwo = '#d4c0ab'
 const colorThree = '#EFE9E4'
-const colorFour = '#D1C9B3'
-const colorWhite = '#fff'
+const colorFour = '#f2e5d7'
+const colorFive = '#F6F2EC'
+const colorWhite = '#F1EBE0'
 
 export default createMuiTheme({
   palette: {
@@ -13,6 +14,7 @@ export default createMuiTheme({
       colorTwo: colorTwo,
       colorThree: colorThree,
       colorFour: colorFour,
+      colorFive: colorFive,
       colorWhite: colorWhite
     },
     primary: {

@@ -1,20 +1,11 @@
-import React, {useCallback, useState, useEffect} from 'react'
-//import Dropzone from './Dropzone'
-//import ListOfAllUploadedImages from './ListOfAllUploadedImages'
-//import cuid from 'cuid'
-//import update from 'immutability-helper'
+import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {canvasSaver, fetchAMoodboard} from '../store'
-import CanvasBoard from './Canvas'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import {Button, Grid} from '@material-ui/core'
 import MoodboardForm from './MoodboardForm'
-/* import FontSection from './customizeCanvas/FontSection'
-import BackgroundSection from './customizeCanvas/BackgroundSection'
-import SizeSection from './customizeCanvas/SizeSection' */
-import EditCanvasTab from './EditCustomTab'
 
 const useStyles = makeStyles(theme => ({
   titlesContainer: {
@@ -48,25 +39,18 @@ const intialErrors = {
 const isRequried = val => {
   return val.length > 0 ? '' : 'Type here to change value'
 }
-function EditPage({
+function UpdateTitleAndDescription({
   saveMoodboard,
   match,
   getMoodboard,
   oneMoodboard,
   state,
   canvasFormat,
-  canvasHeight,
-  canvasWidth,
-  canvasTitle,
-  canvasDescription,
-  canvasBC
+  canvasDescription
 }) {
   const classes = useStyles()
   const moodboardId = match.params.moodboardId
   const userId = match.params.userId
-  //const accepts = 'IMAGE'
-  //const [images, setImages] = useState([])
-  const [format, setFormat] = useState('')
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [errors, setErrors] = useState(intialErrors)
@@ -74,7 +58,6 @@ function EditPage({
   const [headerTitle, setHeaderTitle] = useState('')
   const [headerDescription, setHeaderDescription] = useState('')
   const [showAll, setShowAll] = useState(false)
-  const [editCanvas, setEditCanvas] = useState({})
 
   useEffect(() => {
     async function fetchMoodboard() {
@@ -84,38 +67,6 @@ function EditPage({
     fetchMoodboard()
   }, [])
 
-  const saveButtonClick = async (e, canvasObject) => {
-    e.preventDefault()
-    console.log('canvasObject: ', canvasObject)
-    const canvasString = JSON.stringify(
-      canvasObject.toObject(['height', 'width'])
-    )
-    const backgroundColor = JSON.stringify(canvasObject.backgroundColor)
-    const heightOfCanvas = canvasObject.height
-    const widthOfCanvas = canvasObject.width
-
-    try {
-      await saveMoodboard(
-        userId,
-        moodboardId,
-        canvasString,
-        format ? format : canvasFormat,
-        heightOfCanvas,
-        widthOfCanvas,
-        backgroundColor,
-        title.length > 0 ? title : canvasTitle,
-        description.length > 0 ? description : canvasDescription
-      )
-
-      setHeaderTitle(title)
-      setHeaderDescription(description)
-      setTitle('')
-      setDescription('')
-      await getMoodboard(userId, moodboardId)
-    } catch (error) {
-      console.error(error)
-    }
-  }
   console.log('state: ', state)
 
   const handleFormClick = e => {
@@ -172,9 +123,6 @@ function EditPage({
 
   let moodKeys = Object.keys(oneMoodboard)
   let hasMoodboard = oneMoodboard && moodKeys.length
-
-  let editCanvasKeys = Object.keys(editCanvas)
-  let hasEditCanvas = editCanvas && editCanvasKeys.length
 
   return (
     <Container maxWidth="xs">
@@ -244,49 +192,6 @@ function EditPage({
           </Grid>
         </Grid>
       </Grid>
-      {hasMoodboard ? (
-        <div>
-          <div>
-            <EditCanvasTab
-              canvas={editCanvas}
-              canvasBC={canvasBC}
-              setFormat={setFormat}
-              canvasFormat={canvasFormat}
-            />
-          </div>
-          <CanvasBoard
-            /* images={images[0]} */
-            saveButtonClick={saveButtonClick}
-            moodboardCanvas={oneMoodboard}
-            setFormat={setFormat}
-            canvasFormat={canvasFormat}
-            canvasHeight={canvasHeight}
-            canvasWidth={canvasWidth}
-            canvasTitle={canvasTitle}
-            canvasBC={canvasBC}
-            setEditCanvas={setEditCanvas}
-          />
-        </div>
-      ) : (
-        <h4>No canvas</h4>
-      )}
-      {/*       <div>     
-         {hasEditCanvas ? (
-            <div>
-              <FontSection canvas={editCanvas}/>
-              <BackgroundSection 
-              canvas= {editCanvas}
-              canvasBC= {canvasBC}
-              />
-              <SizeSection
-              canvas= {editCanvas}
-              setFormat={setFormat}
-              canvasFormat={canvasFormat}
-
-              />
-            </div>
-          ):null}
-        </div> */}
     </Container>
   )
 }
@@ -336,4 +241,4 @@ const mapDispatch = dispatch => {
     }
   }
 }
-export default connect(mapState, mapDispatch)(EditPage)
+export default connect(mapState, mapDispatch)(UpdateTitleAndDescription)
