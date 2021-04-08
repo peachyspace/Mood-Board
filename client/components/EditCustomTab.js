@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     color: 'red'
   },
   root: {
-    flexGrow: 1,
+    /*   flexGrow: 1, */
     backgroundColor: theme.palette.common.colorFive
   }
 }))

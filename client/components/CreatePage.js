@@ -26,10 +26,11 @@ const useStyles = makeStyles(theme => ({
     justify: 'center'
   },
   container: {
-    marginTop: 50
+    marginTop: 70,
+    alignItems: 'center'
   },
   paper: {
-    marginTop: theme.spacing(10),
+    /* marginTop: theme.spacing(10), */
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
@@ -61,9 +62,9 @@ const isRequried = val => {
   return val.length > 0 ? '' : 'cannot be blank'
 }
 
-function CreatePage({idOfUser, createMoodboard, state}) {
+function CreatePage({idOfUser, createMoodboard}) {
   const classes = useStyles()
-  const theme = useTheme()
+  //const theme = useTheme()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [errors, setErrors] = useState(intialErrors)
@@ -143,183 +144,102 @@ function CreatePage({idOfUser, createMoodboard, state}) {
   //let hasCanvas = userCanvas && canvasKeys.length
   return (
     <Container maxWidth="xs" justify="center">
-      <Grid container>
-        <Grid item container className={classes.container} justify="center">
+      {/* <Grid container>
+        <Grid item container className={classes.container} justify="center"> */}
+      <Grid
+        item
+        container
+        className={classes.container}
+        justify="center"
+        style={{marginTop: '6em'}}
+      >
+        <Typography component="h1" variant="h1">
+          Unleash your Creativity
+        </Typography>
+      </Grid>
+      <div>
+        <Grid
+          item
+          container
+          className={classes.container}
+          justify="center"
+          style={{marginTop: '1em', marginLeft: '6em'}}
+        >
+          <MoodboardForm
+            title={title}
+            handleTitleChange={e => {
+              setTitle(e.target.value)
+            }}
+            description={description}
+            handleDescriptionChange={e => {
+              setDescription(e.target.value)
+            }}
+            validations={[isRequried]}
+            errors={errors}
+            setErrors={setErrors}
+          />
+        </Grid>
+        {/*  <Container> */}
+        <div>
+          <CreateCustomTab
+            userCanvas={userCanvas}
+            setCreateBackgroundColor={setCreateBackgroundColor}
+            createBackgroundColor={createBackgroundColor}
+            setFormat={setFormat}
+            format={format}
+            setCreateHeight={setCreateHeight}
+            setCreateWidth={setCreateWidth}
+          />
+        </div>
+
+        <Grid>
+          <CanvasBoard
+            createMoodboardButton={createMoodboardButton}
+            create="create"
+            setUserCanvas={setUserCanvas}
+            userCanvas={userCanvas}
+            setFormat={setFormat}
+            createFormat={format}
+            createHeight={createHeight}
+            createWidth={createWidth}
+            setCreateHeight={setCreateHeight}
+            setCreateWidth={setCreateWidth}
+            getTitle={getTitle}
+            setCreateBackgroundColor={setCreateBackgroundColor}
+            createBackgroundColor={createBackgroundColor}
+          />
+        </Grid>
+
+        <Grid container>
           <Grid
             item
             container
-            className={classes.container}
-            justify="center"
+            alignItems="center"
             style={{marginTop: '1em', marginLeft: '6em'}}
           >
-            <Typography component="h1" variant="h1">
-              Unleash your Creativity
-            </Typography>
+            {submitMsg === '' ? null : (
+              <Typography className={classes.failedSubmit}>
+                {submitMsg}
+              </Typography>
+            )}
+            <Button
+              type="submit"
+              fullWidth={false}
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={e => createMoodboardButton(e)}
+            >
+              <Typography component="h6" variant="h6">
+                Create Moodboard
+              </Typography>
+            </Button>
           </Grid>
-          <div>
-            <Grid
-              item
-              container
-              className={classes.container}
-              justify="center"
-              style={{marginTop: '1em', marginLeft: '6em'}}
-            >
-              <MoodboardForm
-                title={title}
-                handleTitleChange={e => {
-                  setTitle(e.target.value)
-                }}
-                description={description}
-                handleDescriptionChange={e => {
-                  setDescription(e.target.value)
-                }}
-                validations={[isRequried]}
-                errors={errors}
-                setErrors={setErrors}
-              />
-            </Grid>
-            <Container>
-              <div>
-                <CreateCustomTab
-                  userCanvas={userCanvas}
-                  setCreateBackgroundColor={setCreateBackgroundColor}
-                  createBackgroundColor={createBackgroundColor}
-                  setFormat={setFormat}
-                  format={format}
-                  setCreateHeight={setCreateHeight}
-                  setCreateWidth={setCreateWidth}
-                />
-              </div>
-              {/*            <div  className={classes.root} >
-            <AppBar position='static' color='secondary'>
-            <Tabs
-            indicatorColor = 'primary'
-            value = {tabValue}
-            onChange ={handleTabChange}
-            aria-label = 'styledTabs example'
-            >
-              <Tab label= 'Background'/>
-              <Tab label= 'Font' />
-              <Tab label= 'Size' />
-            </Tabs>
-            </AppBar>
-
-            <div
-            role="tabpanel"
-            hidden={0 !== displayValue}
-            id={`simple-tabpanel-${displayValue}`}
-            aria-labelledby={`simple-tab-${displayValue}`}
-            value={tabValue} 
-            index={0} 
-            >
-              {tabValue === displayValue && (
-              <Box p={3}>
-                <Typography>Item one</Typography>
-                {hasCanvas > 0 ? (
-                  
-                  <BackgroundSection 
-                  canvas= {userCanvas}
-                  create = 'create'
-                  setCreateBackgroundColor={setCreateBackgroundColor}
-                  createBackgroundColor={createBackgroundColor}
-                  />
-                ):null}
-               
-              </Box>
-               )}
-           </div>
-           <div
-           role='tabpanel'
-           hidden={1 !== displayValue}
-           id={`simple-tabpanel-${displayValue}`}
-           aria-labelledby={`simple-tab-${displayValue}`}
-           value={tabValue} 
-            index={1} 
-           >
-             {tabValue === displayValue && (
-               <Box p={3}>
-                <Typography>Item two</Typography>
-                {hasCanvas > 0 ? (
-                  
-                  <FontSection canvas={userCanvas}/>
-                ):null}
-               </Box>
-             )}
-           </div>
-           <div
-           role='tabpanel'
-           hidden={2 !== displayValue}
-           id={`simple-tabpanel-${displayValue}`}
-           aria-labelledby={`simple-tab-${displayValue}`}
-           value={tabValue} 
-           index={2} 
-           >
-             {tabValue === displayValue && (
-               <Box p={3}>
-                <Typography>Item three</Typography>
-                {hasCanvas > 0 ? (
-                  <SizeSection
-                  canvas= {userCanvas}
-                  create = 'create'
-                  setFormat={setFormat}
-                  createFormat={format}
-                  setCreateHeight={setCreateHeight}
-                  setCreateWidth={setCreateWidth}
-                  />
-                ):null}
-               </Box>
-             )}
-           </div>
-           </div>
-     */}
-              <Grid>
-                <CanvasBoard
-                  createMoodboardButton={createMoodboardButton}
-                  create="create"
-                  setUserCanvas={setUserCanvas}
-                  userCanvas={userCanvas}
-                  setFormat={setFormat}
-                  createFormat={format}
-                  createHeight={createHeight}
-                  createWidth={createWidth}
-                  setCreateHeight={setCreateHeight}
-                  setCreateWidth={setCreateWidth}
-                  getTitle={getTitle}
-                  setCreateBackgroundColor={setCreateBackgroundColor}
-                  createBackgroundColor={createBackgroundColor}
-                />
-              </Grid>
-
-              <Grid container>
-                <Grid
-                  item
-                  container
-                  alignItems="center"
-                  style={{marginTop: '1em', marginLeft: '6em'}}
-                >
-                  {submitMsg === '' ? null : (
-                    <Typography className={classes.failedSubmit}>
-                      {submitMsg}
-                    </Typography>
-                  )}
-                  <Button
-                    type="submit"
-                    fullWidth={false}
-                    variant="contained"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={e => createMoodboardButton(e)}
-                  >
-                    <Typography component="h6" variant="h6">
-                      Create Moodboard
-                    </Typography>
-                  </Button>
-                </Grid>
-              </Grid>
-            </Container>
-          </div>
         </Grid>
-      </Grid>
+        {/*   </Container> */}
+      </div>
+      {/*    </Grid>
+      </Grid> */}
     </Container>
   )
 }

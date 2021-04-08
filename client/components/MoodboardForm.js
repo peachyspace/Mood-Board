@@ -11,15 +11,15 @@ const useStyles = makeStyles(theme => ({
     marginTop: 20
   },
   paper: {
-    marginTop: theme.spacing(10),
+    /* marginTop: theme.spacing(10), */
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center'
   },
   form: {
-    width: '80%',
+    width: '80%'
 
-    marginTop: theme.spacing(1)
+    /* marginTop: theme.spacing(1) */
   },
   submit: {
     margin: theme.spacing(3, 0, 2)

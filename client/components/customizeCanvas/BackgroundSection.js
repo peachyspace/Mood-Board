@@ -9,15 +9,10 @@ import Select from '@material-ui/core/Select'
 import {ChromePicker} from 'react-color'
 
 const useStyles = makeStyles(theme => ({
-  titlesContainer: {
-    marginTop: 70,
+  container: {
     display: 'flex',
     flexDirection: 'column',
-    //alignItems: 'center',
-    justify: 'center'
-  },
-  container: {
-    marginTop: 50
+    alignItems: 'center'
   },
   paper: {
     marginTop: theme.spacing(10),
@@ -96,26 +91,28 @@ const BackgroundSection = ({
   }
 
   return (
-    <Grid>
-      <Button
-        className={classes.button}
-        varaint="contained"
-        onClick={e => handleColorClick(e)}
-      >
-        {' '}
-        <Typography component="h6" variant="h6">
-          Background Color
-        </Typography>
-      </Button>
-      {displayColorPicker ? (
-        <div style={popover}>
-          <div style={cover} onClick={e => handleClose(e)} />
-          <ChromePicker
-            color={create ? createBackgroundColor : backgroundColor}
-            onChange={handleColorChange}
-          />
-        </div>
-      ) : null}
+    <Grid container /* justify = 'center' */>
+      <Grid item>
+        <Button
+          className={classes.button}
+          varaint="contained"
+          onClick={e => handleColorClick(e)}
+        >
+          {' '}
+          <Typography component="h6" variant="h6">
+            Background Color
+          </Typography>
+        </Button>
+        {displayColorPicker ? (
+          <div style={popover}>
+            <div style={cover} onClick={e => handleClose(e)} />
+            <ChromePicker
+              color={create ? createBackgroundColor : backgroundColor}
+              onChange={handleColorChange}
+            />
+          </div>
+        ) : null}
+      </Grid>
     </Grid>
   )
 }
