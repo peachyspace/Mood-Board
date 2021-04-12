@@ -128,24 +128,6 @@ const CanvasBoard = ({
     canvasPosts[getFormat(intialFormat)]
   )
 
-  /* const exampleFontData = {
-    'Josefin Slab': { weight: 400 },
-    'Mali': { weight: 400 },
-    'Aclonica': { weight: 400 },
-    'Cutive Mono': { weight: 400 },
-    'La Belle Aurore': { weight: 400 },
-    'Gravitas One': { weight: 400 },
-    'Fascinate': { weight: 400 },
-    'Waiting for the Sunrise': { weight: 400 },
-    'Pacifico': { weight: 400 },
-    'Jacques Francois': { weight: 400 },
-    'Lovers Quarrel': { weight: 400 },
-    'Hachi Maru Pop': { weight: 400 },
-    'Emilys Candy': { weight: 400 },
-    'Special Elite': { weight: 400 },
-  };
-  let observers =[] */
-
   useEffect(() => {
     let canvBoard = new fabric.Canvas('canvas', {
       height: 800,
@@ -298,7 +280,7 @@ const CanvasBoard = ({
     link.click()
   }
 
-  const handleColorClick = e => {
+  /*  const handleColorClick = e => {
     e.preventDefault()
     setDisplayColorPicker(!displayColorPicker)
   }
@@ -356,7 +338,7 @@ const CanvasBoard = ({
     canvas.calcOffset()
     canvas.renderAll()
     console.log(canvas)
-  }
+  } */
 
   const handleDeleteSelected = () => {
     //deletes object that is selected in canvas
@@ -365,17 +347,6 @@ const CanvasBoard = ({
       canvas.remove(activeObject)
     }
   }
-
-  /* const addTextbox = () => {
-    let textbox = new fabric.Textbox('', {
-      left: 50,
-      top: 50,
-      width: 150,
-      fontSize: 20,
-      fontFamily: 'Josefin Slab'
-    })
-    canvas.add(textbox).setActiveObject(textbox)
-  } */
 
   fabric.util.addListener(canvas.upperCanvasEl, 'click', function(e) {
     let _canvas = canvas

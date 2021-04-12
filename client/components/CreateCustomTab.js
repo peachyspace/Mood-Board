@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography'
 import FontSection from './customizeCanvas/FontSection'
 import BackgroundSection from './customizeCanvas/BackgroundSection'
 import SizeSection from './customizeCanvas/SizeSection'
+import UnsplashSection from './customizeCanvas/UnsplashSection'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
@@ -86,6 +87,7 @@ const CreateCustomTab = ({
               <Tab label="Background" />
               <Tab label="Font" />
               <Tab label="Size" />
+              <Tab label="Unspalsh" />
             </Tabs>
           </AppBar>
 
@@ -99,7 +101,6 @@ const CreateCustomTab = ({
           >
             {tabValue === displayValue && (
               <Box p={3}>
-                <Typography>Item one</Typography>
                 {hasCanvas > 0 ? (
                   <BackgroundSection
                     canvas={userCanvas}
@@ -122,7 +123,6 @@ const CreateCustomTab = ({
           >
             {tabValue === displayValue && (
               <Box p={3}>
-                <Typography>Item two</Typography>
                 {hasCanvas > 0 ? <FontSection canvas={userCanvas} /> : null}
               </Box>
             )}
@@ -148,6 +148,20 @@ const CreateCustomTab = ({
                     setCreateWidth={setCreateWidth}
                   />
                 ) : null}
+              </Box>
+            )}
+          </div>
+          <div
+            role="tabpanel"
+            hidden={3 !== displayValue}
+            id={`simple-tabpanel-${displayValue}`}
+            aria-labelledby={`simple-tab-${displayValue}`}
+            value={tabValue}
+            index={3}
+          >
+            {tabValue === displayValue && (
+              <Box p={3}>
+                {hasCanvas > 0 ? <UnsplashSection canvas={userCanvas} /> : null}
               </Box>
             )}
           </div>

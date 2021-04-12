@@ -1,10 +1,12 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import {Button, Grid} from '@material-ui/core'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
+import {ChromePicker} from 'react-color'
+import WebFont from 'webfontloader'
 
 const useStyles = makeStyles(theme => ({
   titlesContainer: {
@@ -64,9 +66,19 @@ const FontSection = ({canvas}) => {
   ]
 
   const [fontSelected, setFontSelected] = useState('Josefin Slab')
+  const [displayColorPicker, setDisplayColorPicker] = useState(false)
+  const [fontColor, setFontColor] = useState({})
   //const [fontCanvas, setFontCanvas] = useState(canvas)
-  //console.log(fontCanvas)
-  console.log(canvas)
+
+  const handleColorClick = e => {
+    e.preventDefault()
+    setDisplayColorPicker(!displayColorPicker)
+  }
+  const handleClose = e => {
+    e.preventDefault()
+    setDisplayColorPicker(false)
+  }
+
   const addTextbox = () => {
     let textbox = new fabric.Textbox('', {
       left: 50,
@@ -85,6 +97,38 @@ const FontSection = ({canvas}) => {
       setFontSelected(e.target.value)
       canvas.renderAll()
     }
+  }
+
+  const handleColorChange = data => {
+    //allows cursor in color picker to move
+    if (data.hsl !== fontColor) {
+      let rgba = `rgba(${data.rgb.r}, ${data.rgb.g}, ${data.rgb.b}, ${
+        data.rgb.a
+      })`
+      //canvas.getActiveObject().setFill(this.value);
+      let activeObject = canvas.getActiveObject()
+      if (activeObject && activeObject.text) {
+        //canvas.renderAll()
+        activeObject.set('fill', rgba)
+        //activeObject.set('dirty', true)
+        canvas.requestRenderAll()
+        setFontColor(data.rgb)
+      }
+
+      // console.log('data.rgb: ', data.rgb)
+    }
+  }
+
+  const popover = {
+    position: 'absolute',
+    zIndex: '2'
+  }
+  const cover = {
+    position: 'fixed',
+    top: '0px',
+    right: '0px',
+    bottom: '0px',
+    left: '0px'
   }
 
   return (
@@ -108,6 +152,24 @@ const FontSection = ({canvas}) => {
             </MenuItem>
           ))}
         </Select>
+      </Grid>
+      <Grid item>
+        <Button
+          className={classes.button}
+          varaint="contained"
+          onClick={e => handleColorClick(e)}
+        >
+          {' '}
+          <Typography component="h6" variant="h6">
+            Font Color
+          </Typography>
+        </Button>
+        {displayColorPicker ? (
+          <div style={popover}>
+            <div style={cover} onClick={e => handleClose(e)} />
+            <ChromePicker color={fontColor} onChange={handleColorChange} />
+          </div>
+        ) : null}
       </Grid>
     </Grid>
   )
