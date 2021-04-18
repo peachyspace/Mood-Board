@@ -1,7 +1,7 @@
 {
   "name": "Mood-Board",
   "version": "2.0.0",
-  "description": "Some boilerplate code to get you started - get shakin'!",
+  "description": "A space where you can express your creativity through images and text",
   "engines": {
     "node": "~12.11.1"
   },
