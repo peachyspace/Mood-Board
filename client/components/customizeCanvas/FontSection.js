@@ -1,43 +1,12 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import {Button, Grid} from '@material-ui/core'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import {ChromePicker} from 'react-color'
-import WebFont from 'webfontloader'
 
 const useStyles = makeStyles(theme => ({
-  titlesContainer: {
-    marginTop: 70,
-    display: 'flex',
-    flexDirection: 'column',
-    //alignItems: 'center',
-    justify: 'center'
-  },
-  container: {
-    marginTop: 50
-  },
-  paper: {
-    marginTop: theme.spacing(10),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  form: {
-    width: '80%',
-    marginTop: theme.spacing(1)
-  },
-  formContainer: {
-    marginTop: 20
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2)
-  },
-  failedSubmit: {
-    color: 'red'
-  },
   button: {
     marginRight: 15,
     color: 'black',
@@ -68,7 +37,6 @@ const FontSection = ({canvas}) => {
   const [fontSelected, setFontSelected] = useState('Josefin Slab')
   const [displayColorPicker, setDisplayColorPicker] = useState(false)
   const [fontColor, setFontColor] = useState({})
-  //const [fontCanvas, setFontCanvas] = useState(canvas)
 
   const handleColorClick = e => {
     e.preventDefault()
@@ -105,17 +73,12 @@ const FontSection = ({canvas}) => {
       let rgba = `rgba(${data.rgb.r}, ${data.rgb.g}, ${data.rgb.b}, ${
         data.rgb.a
       })`
-      //canvas.getActiveObject().setFill(this.value);
       let activeObject = canvas.getActiveObject()
       if (activeObject && activeObject.text) {
-        //canvas.renderAll()
         activeObject.set('fill', rgba)
-        //activeObject.set('dirty', true)
         canvas.requestRenderAll()
         setFontColor(data.rgb)
       }
-
-      // console.log('data.rgb: ', data.rgb)
     }
   }
 
@@ -132,7 +95,7 @@ const FontSection = ({canvas}) => {
   }
 
   return (
-    <Grid container /* justify = 'center' */>
+    <Grid container>
       <Grid item>
         <Button
           className={classes.button}
@@ -145,7 +108,11 @@ const FontSection = ({canvas}) => {
         </Button>
       </Grid>
       <Grid item>
-        <Select value={fontSelected} onChange={changeFont}>
+        <Select
+          value={fontSelected}
+          onChange={changeFont}
+          style={{marginRight: '1em'}}
+        >
           {fonts.map(font => (
             <MenuItem key={font} value={font}>
               <div style={{fontFamily: font}}>{font}</div>

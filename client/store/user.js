@@ -24,8 +24,6 @@ const removeUser = () => ({type: REMOVE_USER})
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
-    console.log('res.data:', res.data)
-    console.log('R: default; ', defaultUser)
     dispatch(getUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
@@ -35,18 +33,13 @@ export const me = () => async dispatch => {
 export const login = (email, password) => async dispatch => {
   let res
   try {
-    console.log('REDUX !!!!!!!!!!!!!!: ', email, password)
     res = await axios.post(`/auth/login`, {email, password})
-    //dispatch(getUser(res.data))
   } catch (authError) {
-    console.log('autherror:  ', authError)
     return dispatch(getUser({error: authError}))
   }
 
   try {
-    // console.log('about to use history!!!!!!!!!')
     dispatch(getUser(res.data))
-    // history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -60,9 +53,7 @@ export const signup = (
   password
 ) => async dispatch => {
   let res
-  console.log('in redux')
   try {
-    console.log('in redux')
     res = await axios.post('/auth/signup', {
       firstName,
       lastName,
@@ -71,7 +62,6 @@ export const signup = (
       password
     })
   } catch (authError) {
-    console.log('redux: ', authError)
     return dispatch(getUser({error: authError}))
   }
   try {
@@ -84,7 +74,6 @@ export const signup = (
 
 export const logout = () => async dispatch => {
   try {
-    console.log('R: LOGINNG OUUUUTTTT!!!!')
     await axios.post('/auth/logout')
     dispatch(removeUser())
     history.push('/login')

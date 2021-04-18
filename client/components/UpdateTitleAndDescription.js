@@ -74,15 +74,15 @@ function UpdateTitleAndDescription({
     <Container maxWidth="xs">
       <Grid className={classes.titlesContainer}>
         <Grid container justify="center">
-          <Grid container direction="row" style={{marginTop: '1em'}}>
+          <Grid container direction="row">
             <Grid
               item
               container
               className={classes.container}
               alignItems="center"
-              style={{marginTop: '1em', marginLeft: '1em'}}
+              style={{marginTop: '1em', marginBottom: '1em'}}
             >
-              <Grid item style={{marginLeft: '2em'}}>
+              <Grid item>
                 <Button
                   className={classes.button}
                   onClick={e => handleFormClick(e)}
@@ -93,7 +93,7 @@ function UpdateTitleAndDescription({
                   </Typography>
                 </Button>
                 {displayForm ? (
-                  <div /* style={popover} */>
+                  <div>
                     <div style={cover} onClick={e => handleFormClose(e)} />
                     <Grid item style={{marginLeft: '2em', marginBottom: '1em'}}>
                       <MoodboardForm

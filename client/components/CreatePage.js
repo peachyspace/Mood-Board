@@ -2,19 +2,12 @@ import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
 import {createAMoodboard} from '../store'
 import CanvasBoard from './Canvas'
-import {makeStyles, useTheme} from '@material-ui/core/styles'
+import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
-import {Button, Grid} from '@material-ui/core'
+import {Grid} from '@material-ui/core'
 import MoodboardForm from './MoodboardForm'
 import {useHistory} from 'react-router-dom'
-/* import FontSection from './customizeCanvas/FontSection'
-import BackgroundSection from './customizeCanvas/BackgroundSection'
-import SizeSection from './customizeCanvas/SizeSection'
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Box from '@material-ui/core/Box'; */
 import CreateCustomTab from './CreateCustomTab'
 
 const useStyles = makeStyles(theme => ({
@@ -22,36 +15,15 @@ const useStyles = makeStyles(theme => ({
     marginTop: 70,
     display: 'flex',
     flexDirection: 'column',
-    //alignItems: 'center',
     justify: 'center'
   },
   container: {
     marginTop: 70,
     alignItems: 'center'
   },
-  paper: {
-    /* marginTop: theme.spacing(10), */
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  form: {
-    width: '80%',
-    marginTop: theme.spacing(1)
-  },
-  formContainer: {
-    marginTop: 20
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2)
-  },
+
   failedSubmit: {
     color: 'red'
-  },
-
-  root: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.common.colorFive
   }
 }))
 const intialErrors = {
@@ -64,7 +36,6 @@ const isRequried = val => {
 
 function CreatePage({idOfUser, createMoodboard}) {
   const classes = useStyles()
-  //const theme = useTheme()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [errors, setErrors] = useState(intialErrors)
@@ -79,30 +50,16 @@ function CreatePage({idOfUser, createMoodboard}) {
     b: 0.2,
     a: 1
   })
-  /*   const [tabValue, setTabValue]= useState(0)
-  const [displayValue, setDisplayValue]= useState(0) */
 
-  //const [board, setBoard] = useState('')
   const history = useHistory()
-  useEffect(() => {
-    async function fetchMoodboard() {
-      /* await createMoodboard(idOfUser, '{}')
-      setBoard(oneMoodboard) */
-      console.log('NOTHING: ')
-    }
-    fetchMoodboard()
-  }, [])
 
-  console.log(userCanvas)
-
-  const createMoodboardButton = async e => {
+  const createButtonClick = async e => {
     if (title.length !== 0 && description.length !== 0) {
       try {
         e.preventDefault()
         const canvasString = JSON.stringify(
           userCanvas.toObject(['height', 'width'])
         )
-        console.log(title, description)
         const backgroundColor = JSON.stringify(createBackgroundColor)
         await createMoodboard(
           idOfUser,
@@ -135,17 +92,8 @@ function CreatePage({idOfUser, createMoodboard}) {
     return createTilte
   }
 
-  /*  const handleTabChange = (event, value)=>{
-      setTabValue(value)
-      setDisplayValue(value)
-  } */
-
-  //let canvasKeys = Object.keys(userCanvas)
-  //let hasCanvas = userCanvas && canvasKeys.length
   return (
     <Container maxWidth="xs" justify="center">
-      {/* <Grid container>
-        <Grid item container className={classes.container} justify="center"> */}
       <Grid
         item
         container
@@ -179,7 +127,6 @@ function CreatePage({idOfUser, createMoodboard}) {
             setErrors={setErrors}
           />
         </Grid>
-        {/*  <Container> */}
         <div>
           <CreateCustomTab
             userCanvas={userCanvas}
@@ -194,52 +141,25 @@ function CreatePage({idOfUser, createMoodboard}) {
 
         <Grid>
           <CanvasBoard
-            createMoodboardButton={createMoodboardButton}
+            createButtonClick={createButtonClick}
             create="create"
             setUserCanvas={setUserCanvas}
-            userCanvas={userCanvas}
-            setFormat={setFormat}
-            createFormat={format}
             createHeight={createHeight}
             createWidth={createWidth}
-            setCreateHeight={setCreateHeight}
-            setCreateWidth={setCreateWidth}
             getTitle={getTitle}
-            setCreateBackgroundColor={setCreateBackgroundColor}
-            createBackgroundColor={createBackgroundColor}
           />
         </Grid>
 
-        <Grid container>
-          <Grid
-            item
-            container
-            alignItems="center"
-            style={{marginTop: '1em', marginLeft: '6em'}}
-          >
+        <Grid container justify="center">
+          <Grid item container justify="center">
             {submitMsg === '' ? null : (
               <Typography className={classes.failedSubmit}>
                 {submitMsg}
               </Typography>
             )}
-            <Button
-              type="submit"
-              fullWidth={false}
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={e => createMoodboardButton(e)}
-            >
-              <Typography component="h6" variant="h6">
-                Create Moodboard
-              </Typography>
-            </Button>
           </Grid>
         </Grid>
-        {/*   </Container> */}
       </div>
-      {/*    </Grid>
-      </Grid> */}
     </Container>
   )
 }

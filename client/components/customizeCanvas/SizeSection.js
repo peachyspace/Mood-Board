@@ -1,43 +1,9 @@
 import React, {useState} from 'react'
-import {connect} from 'react-redux'
-import {makeStyles} from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
-import {Button, Grid} from '@material-ui/core'
+import {Grid} from '@material-ui/core'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import FormControl from '@material-ui/core/FormControl'
-const useStyles = makeStyles(theme => ({
-  titlesContainer: {
-    marginTop: 70,
-    display: 'flex',
-    flexDirection: 'column',
-    //alignItems: 'center',
-    justify: 'center'
-  },
-  container: {
-    marginTop: 50
-  },
-  paper: {
-    marginTop: theme.spacing(10),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  form: {
-    width: '80%',
-    marginTop: theme.spacing(1)
-  },
-  formContainer: {
-    marginTop: 20
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2)
-  },
-  failedSubmit: {
-    color: 'red'
-  }
-}))
 
 const SizeSection = ({
   canvas,
@@ -48,7 +14,6 @@ const SizeSection = ({
   setCreateWidth,
   canvasFormat
 }) => {
-  const classes = useStyles()
   const canvasPosts = [
     {
       id: 0,
@@ -125,17 +90,14 @@ const SizeSection = ({
 
   return (
     <Grid>
-      <FormControl className={classes.formControl}>
-        {/*  <InputLabel id='demo-simple-select'>Size</InputLabel> */}
+      <FormControl>
         <Select
-          //lableId = 'demo-simple-select'
-          //defaultValue = ""
           value={canvasPosts[getPostSizeId(selectedSize.id)]}
           onChange={handleSizeChange}
         >
           {canvasPosts.map(canvasPost => (
             <MenuItem key={canvasPost.id} value={canvasPost}>
-              <Typography component="h6" variant="h6">
+              <Typography component="h5" variant="h5">
                 {canvasPost.format}
               </Typography>
             </MenuItem>

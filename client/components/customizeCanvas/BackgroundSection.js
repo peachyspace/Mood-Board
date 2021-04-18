@@ -1,11 +1,7 @@
 import React, {useState} from 'react'
-import {connect} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
-import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import {Button, Grid} from '@material-ui/core'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
 import {ChromePicker} from 'react-color'
 
 const useStyles = makeStyles(theme => ({
@@ -75,7 +71,6 @@ const BackgroundSection = ({
       } else {
         setBackgroundColor(data.rgb)
       }
-      //setBackgroundColor(data.rgb)
     }
   }
   const popover = {
@@ -91,7 +86,7 @@ const BackgroundSection = ({
   }
 
   return (
-    <Grid container /* justify = 'center' */>
+    <Grid container>
       <Grid item>
         <Button
           className={classes.button}

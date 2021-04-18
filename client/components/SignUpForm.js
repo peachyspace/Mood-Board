@@ -7,9 +7,6 @@ import TextField from '@material-ui/core/TextField'
 import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    marginTop: 20
-  },
   paper: {
     marginTop: theme.spacing(10),
     display: 'flex',
@@ -58,11 +55,8 @@ const SignUpForm = ({
         .map(errorsFor => errorsFor(value))
         .filter(errorMsg => errorMsg.length > 0)
     }))
-
-    console.log('errors : ', errors)
   }
-  console.log('form: ', errors.firstName)
-  //const firstNameErrors = errors.firstName.length || ''
+
   return (
     <Container maxWidth="xs">
       <div className={classes.paper}>

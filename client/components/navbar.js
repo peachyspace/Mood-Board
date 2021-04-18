@@ -3,45 +3,50 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link, useHistory} from 'react-router-dom'
 import {logout} from '../store'
-import Typography from '@material-ui/core/Typography'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 
 import Button from '@material-ui/core/Button'
-
-const styles = theme => ({
+import logo from '../../public/images/logo.png'
+import {makeStyles} from '@material-ui/core/styles'
+const useStyles = makeStyles(theme => ({
   navbar: {
-    backgroundColor: theme.palette.common.colorWhite,
     maxWidth: '100%',
-    minWidth: 1450,
-    marginRight: 'auto',
-    marginLeft: 'auto'
+    minWidth: 500
   },
   tabsCont: {
-    marginLeft: '9em'
+    marginLeft: '1em'
   },
   tab: {
-    ...theme.typography.tab
+    textDecoration: 'none',
+    fontFamily: 'Josefin Slab',
+    fontWeight: 400,
+    fontSize: '1em',
+    letterSpacing: 2,
+    color: 'black',
+    textAlign: 'center'
   },
   tabs2: {
     ...theme.typography.tab
   },
 
   signOutButton: {
-    textTransform: 'none',
-    fontFamily: 'Lato',
-    backgroundColor: theme.palette.common.colorTwo,
+    textDecoration: 'none',
+    fontFamily: 'Josefin Slab',
+    fontWeight: 400,
+    fontSize: '1em',
+    letterSpacing: 2,
+    color: 'black',
     height: '2em',
-    alignSelf: 'center',
-    marginRight: '1em'
+    alignSelf: 'center'
   }
-})
+}))
 
-const Navbar = ({handleLogOut, isLoggedIn}) => {
+const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
+  const classes = useStyles()
   const [value, setValue] = useState(0)
-  console.log('isLoggedIn: ', isLoggedIn)
   const history = useHistory()
   useEffect(() => {
     if (
@@ -74,6 +79,11 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
       isLoggedIn === true
     ) {
       setValue(2)
+    } else if (
+      window.location.pathname === `/edit/${userId}/${moodboardId}` &&
+      isLoggedIn === true
+    ) {
+      setValue(2)
     }
   })
   const handleSignOutButton = async e => {
@@ -94,29 +104,30 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
     <React.Fragment>
       <AppBar>
         {isLoggedIn ? (
-          <Toolbar className={styles.navbar}>
+          <Toolbar className={classes.navbar}>
             {/*  Navbar will render these links after a user logs in */}
+            <img src={logo} alt="logo" style={{width: '3em', height: '3em'}} />
             <Tabs
-              className={styles.tabsCont}
+              className={classes.tabsCont}
               value={value}
               onChange={handleChange}
               indicatorColor="primary"
               textColor="secondary"
             >
               <Tab
-                className={styles.tab}
+                className={classes.tab}
                 component={Link}
                 to="/"
                 label="Main"
               />
               <Tab
-                className={styles.tab}
+                className={classes.tab}
                 component={Link}
                 to="/create"
                 label="Create"
               />
               <Tab
-                className={styles.tab}
+                className={classes.tab}
                 component={Link}
                 to="/home"
                 label="Home"
@@ -126,7 +137,7 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
               component="a"
               onClick={e => handleSignOutButton(e)}
               style={{marginLeft: 'auto'}}
-              classes={{root: styles.signOutButton}}
+              className={classes.signOutButton}
             >
               Sign Out
             </Button>
@@ -134,7 +145,7 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
         ) : (
           <Toolbar>
             <Tabs
-              className={styles.tabsCont}
+              className={classes.tabsCont}
               value={value}
               onChange={handleChange}
               indicatorColor="primary"
@@ -142,7 +153,7 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
             >
               {/* Renders before users logs in */}
               <Tab
-                className={styles.tab}
+                className={classes.tab}
                 component={Link}
                 to="/"
                 label="Main"
@@ -152,14 +163,14 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
                 component={Link}
                 to="/login"
                 label="Login"
-                className={styles.tabs2}
+                className={classes.tabs2}
                 style={{marginLeft: '55em'}}
               />
               <Tab
                 component={Link}
                 to="/signup"
                 label="Sign Up"
-                className={styles.tabs2}
+                className={classes.tabs2}
                 style={{marginLeft: '55em'}}
               />
             </Tabs>
@@ -170,12 +181,11 @@ const Navbar = ({handleLogOut, isLoggedIn}) => {
   )
 }
 
-/**
- * CONTAINER
- */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    userId: state.user.id,
+    moodboardId: state.singleMoodboard.id
   }
 }
 

@@ -9,9 +9,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
-  },
-  container: {
-    marginTop: 50
   }
 }))
 
@@ -56,9 +53,6 @@ function DisplayMoodboardInfo({
 
   return (
     <Grid className={classes.titlesContainer}>
-      <Typography component="h1" variant="h1">
-        Edit Your Moodboard
-      </Typography>
       <Typography component="h3" variant="h3">
         {headerTitle.length === 0 ? titleOfCanvas : headerTitle}
       </Typography>

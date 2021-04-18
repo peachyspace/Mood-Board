@@ -5,8 +5,6 @@ import GridListTile from '@material-ui/core/GridListTile'
 import GridListTileBar from '@material-ui/core/GridListTileBar'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/Info'
-import AddIcon from '@material-ui/icons/Add'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import {connect} from 'react-redux'
 import {fetchUnsplashPhoto} from '../../store'
@@ -37,11 +35,15 @@ const ResultsFromUnsplash = ({canvas, results, addToDownloadCount}) => {
     } catch (error) {
       console.log(error)
     }
-    fabric.Image.fromURL(url, function(oImg) {
-      //scale image down, and flip it, before adding it onto canvas
-      oImg.scale(0.5).setupState('flipxX', true)
-      canvas.add(oImg)
-    })
+    fabric.Image.fromURL(
+      url,
+      function(oImg) {
+        //scale image down, and flip it, before adding it onto canvas
+        oImg.scale(0.5).setupState('flipxX', true)
+        canvas.add(oImg)
+      },
+      {crossOrigin: 'Anonymous'}
+    )
   }
   return (
     <div className={classes.root}>

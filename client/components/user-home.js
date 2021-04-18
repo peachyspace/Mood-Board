@@ -37,20 +37,14 @@ export const UserHome = ({
   email,
   name,
   lastName,
-  username,
   userId,
   moodboards,
   getMoodboards,
-  getSelecetedMoodboard,
-  state
+  getSelecetedMoodboard
 }) => {
-  //const {email, name} = props
-  console.log(lastName)
   const classes = useStyles()
   const history = useHistory()
-  console.log('username: ', username)
   useEffect(() => {
-    console.log(userId)
     getMoodboards(userId)
   }, [])
 
@@ -64,8 +58,7 @@ export const UserHome = ({
       console.log(error)
     }
   }
-  console.log('state: ', state)
-  console.log('moodboard: ', moodboards)
+
   const userHasMoodboards = moodboards && moodboards.length
   return (
     <Container maxWidth="xs">
@@ -148,10 +141,8 @@ const mapState = state => {
     email: state.user.email,
     name: state.user.firstName,
     lastName: state.user.name,
-    username: state.user.username,
     userId: state.user.id,
-    moodboards: state.moodboards,
-    state: state
+    moodboards: state.moodboards
   }
 }
 const mapDispatch = dispatch => {

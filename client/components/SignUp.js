@@ -5,9 +5,6 @@ import {useHistory} from 'react-router-dom'
 import SignUpForm from './SignUpForm'
 
 const isRequried = val => {
-  console.log('EMPTY !!!!!!!!!!!!')
-  console.log('val: ', val.length)
-  console.log('trinary: ', val.length > 0 ? '' : 'cannot be blank')
   return val.length > 0 ? '' : 'cannot be blank'
 }
 const isEmail = val => {
@@ -36,15 +33,7 @@ const SignUp = ({signUpUser}) => {
   const [errors, setErrors] = useState(intialErrors)
   const [submitMsg, setSubmitMsg] = useState('')
   const history = useHistory()
-  console.log('email errors: ', errors.email.length === 0)
-  console.log(
-    firstName.length !== 0 &&
-      lastName.length !== 0 &&
-      username.length !== 0 &&
-      email.length !== 0 &&
-      password.length !== 0 &&
-      errors.email.length === 0
-  )
+
   const onSignUpButtonClick = async e => {
     if (
       firstName.length !== 0 &&
@@ -56,9 +45,7 @@ const SignUp = ({signUpUser}) => {
     ) {
       try {
         e.preventDefault()
-        console.log('clicked!!!!!!!!!!!!!')
         await signUpUser(firstName, lastName, username, email, password)
-
         history.push('/home')
         location.reload()
       } catch (error) {
@@ -95,7 +82,6 @@ const SignUp = ({signUpUser}) => {
       errors={errors}
       setErrors={setErrors}
       onSignUpButtonClick={onSignUpButtonClick}
-      //isRequried={val => isRequried(val)}
       validations={[isRequried]}
       emailValidation={[isRequried, isEmail]}
       submitMsg={submitMsg}

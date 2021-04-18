@@ -39,7 +39,6 @@ router.get('/:searchTerm', async (req, res, next) => {
   }
 })
 
-//EXdXLrZXS9Q
 //GET /api/unsplash/download/:photoId
 router.get('/download/:photoId', async (req, res, next) => {
   try {

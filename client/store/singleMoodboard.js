@@ -69,7 +69,6 @@ export const saveMoodboard = (
   description
 ) => async dispatch => {
   try {
-    console.log('Inn   REDUX:  ', title, description)
     const {data} = await Axios.put(
       `/api/moodboards/saveCanvas/${userId}/${moodboardId}`,
       {
