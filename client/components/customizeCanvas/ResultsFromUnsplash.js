@@ -55,14 +55,10 @@ const ResultsFromUnsplash = ({canvas, results, addToDownloadCount}) => {
         </GridListTile>
         {results.map(result => (
           <GridListTile key={result.id}>
-            <img
-              src={result.urls.small}
-              alt={result.alt_description}
-              /* onClick={() => selectImage(result.urls.small)} */
-            />
+            <img src={result.urls.small} alt={result.alt_description} />
             <GridListTileBar
               title={result.alt_description}
-              subtitle={<span>by: {result.user.name}</span>}
+              subtitle={<span>by: {result.user.name} on Unsplash</span>}
               actionIcon={
                 <IconButton
                   aria-label={`info about ${result.alt_description}`}
