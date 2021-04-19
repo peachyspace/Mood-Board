@@ -1,9 +1,7 @@
-# Boilermaker
+# Moodboard
 
-_Good things come in pairs_
-
-Looking to mix up a backend with `express`/`sequelize` and a frontend with
-`react`/`redux`? That's `boilermaker`!
+Backend with `express`/`sequelize`
+Frontend with `react`/`redux`
 
 Follow along with the boilerplate workshop to make your own! This canonical
 version can serve as a reference, or a starting point. For an in depth
