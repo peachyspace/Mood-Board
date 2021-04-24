@@ -58,7 +58,17 @@ const ResultsFromUnsplash = ({canvas, results, addToDownloadCount}) => {
             <img src={result.urls.small} alt={result.alt_description} />
             <GridListTileBar
               title={result.alt_description}
-              subtitle={<span>by: {result.user.name} on Unsplash</span>}
+              subtitle={
+                <a
+                  href={`https://unsplash.com/@${
+                    result.user.username
+                  }?utm_source=Moodboard&utm_medium=referral`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {result.user.name} on Unsplash
+                </a>
+              }
               actionIcon={
                 <IconButton
                   aria-label={`info about ${result.alt_description}`}
