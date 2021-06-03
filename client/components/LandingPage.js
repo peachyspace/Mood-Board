@@ -20,12 +20,13 @@ import logoNote from '../../public/images/logoNote.png'
 import notebook from '../../public/images/notebook.png'
 import paintNote from '../../public/images/paintNote.png'
 import Footer from './Footer'
+import {maxWidth} from '@material-ui/system'
 
 const useStyles = makeStyles(theme => ({
   container: {
-    minWidth: 500,
-    backgroundImage: `url(${whiteBrick})`,
-    height: '80em',
+    /* minWidth: 500, */
+    //backgroundImage: `url(${whiteBrick})`,
+    height: '100em',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-reapeat'
@@ -33,12 +34,12 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     overflow: 'hidden'
   },
   gridList: {
-    width: 1100,
-    height: 360
+    width: 1400, //1100//900
+    height: 560 //460//460
   },
   subTitle: {
     textDecoration: 'none',
@@ -47,6 +48,10 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1.35em',
     letterSpacing: 2,
     color: 'black'
+  },
+  note: {
+    width: '100%',
+    maxWidth: '100%'
   }
 }))
 const Landing = () => {
@@ -59,32 +64,62 @@ const Landing = () => {
     {title: 'Road Trip', img: roadTrip},
     {title: 'Roads', img: twoRoads},
     {title: 'Summer', img: summer},
-    {title: 'Possible', img: possible},
-    {title: 'Playful Pups', img: playfulPups}
+    {title: 'Possible', img: possible}
+    //{title: 'Playful Pups', img: playfulPups}
   ]
 
   return (
     <Grid
       container
-      alignContent="center"
+      /*    alignContent="center" */
       direction="column"
-      className={classes.container}
+      /* className={classes.container} */
     >
+      {
+        <Grid
+          item
+          container
+          direction="row"
+          justify="center"
+          style={{marginTop: '4em', marginBottom: '-12em'}}
+        >
+          <img src={logo} alt="logo" style={{width: '9em', height: '9em'}} />
+          <Typography component="h1" variant="h1" style={{marginTop: '1em'}}>
+            Moodboard
+          </Typography>
+        </Grid>
+      }
+      {/*  <Grid
+      container> */}
       <Grid
         item
         container
         justify="center"
-        alignContent="center"
+        /*    justifyContent = 'center' */
+        /*  alignContent="center" */
         style={{
-          marginTop: '15em',
+          marginTop: '2em',
           backgroundImage: `url(${beigePaper})`,
-          height: '65em',
+          height: '105em',
           backgroundPosition: 'center',
+          /*  justifyContent: 'center', */
           backgroundSize: 'cover',
           backgroundRepeat: 'no-reapeat'
         }}
       >
-        <Grid
+        {/*       <Typography
+            component="h4"
+            variant="h4"
+
+            style={{
+              marginTop: '1em',
+              marginBottom: '1em',
+     
+            }}
+          >
+            Our Users Creations:
+          </Typography> */}
+        {/*         <Grid
           item
           container
           direction="row"
@@ -95,13 +130,13 @@ const Landing = () => {
           <Typography component="h1" variant="h1" style={{marginTop: '1em'}}>
             Moodboard
           </Typography>
-        </Grid>
+        </Grid> */}
         <Grid item container justify="center" alignContent="center">
           <Typography
             component="h4"
             variant="h4"
             style={{
-              marginTop: '-2em',
+              marginTop: '3em',
               marginBottom: '1em'
             }}
           >
@@ -113,15 +148,24 @@ const Landing = () => {
             alignContent="center"
             justify="center"
             style={{
-              marginTop: '1em'
+              marginTop: '1em',
+              justifyContent: 'center'
             }}
           >
             <div className={classes.root}>
-              <GridList cellHeight={180} className={classes.gridList} cols={3}>
+              <GridList
+                cellHeight={180}
+                id="no-scroll1"
+                className={classes.gridList}
+                cols={3}
+                style={{
+                  justifyContent: 'center'
+                }}
+              >
                 {tileData.map(tile => (
                   <GridListTile
                     key={tile.title}
-                    style={{width: 360, height: 360}}
+                    style={{width: '40%', height: '100%'}}
                   >
                     <img src={tile.img} />
                   </GridListTile>
@@ -133,23 +177,27 @@ const Landing = () => {
             container
             justify="center"
             style={{
-              marginTop: '2em'
+              marginTop: '10em',
+              /*  maxWidth: '100%', */
+              /*  width: '100%', */
+              width: '30%', //60 //30
+              /* height: '30%', */ flexWrap: 'nowrap'
             }}
           >
             <img
               src={logoNote}
               alt="logoNote"
-              style={{width: '20em', height: '25em'}}
+              /* style={{maxWidth: '100%'}} */
             />
             <img
               src={notebook}
               alt="openBook"
-              style={{width: '40em', height: '25em'}}
+              /*  style={{width: '40em', height: '25em'}} */
             />
             <img
               src={paintNote}
               alt="paintNote"
-              style={{width: '20em', height: '25em'}}
+              /*  style={{width: '20em', height: '25em'}} */
             />
           </Grid>
         </Grid>
@@ -161,10 +209,11 @@ const Landing = () => {
             textAlign: 'center',
             marginTop: '6em'
           }}
-        >
-          <Footer />
-        </Grid>
+        />
       </Grid>
+
+      {/*   </Grid> */}
+      <Footer />
     </Grid>
   )
 }

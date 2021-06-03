@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import {canvasSaver, fetchAMoodboard} from '../store'
+import {canvasSaver, fetchAMoodboard, me} from '../store'
 import CanvasBoard from './Canvas'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
@@ -30,7 +30,8 @@ function EditPage({
   canvasWidth,
   canvasTitle,
   canvasDescription,
-  canvasBC
+  canvasBC,
+  getMe
 }) {
   const classes = useStyles()
   const moodboardId = match.params.moodboardId
@@ -45,6 +46,7 @@ function EditPage({
   useEffect(() => {
     async function fetchMoodboard() {
       await getMoodboard(userId, moodboardId)
+      await getMe()
     }
     fetchMoodboard()
   }, [])
@@ -182,7 +184,8 @@ const mapDispatch = dispatch => {
     },
     getMoodboard: (userId, moodboardId) => {
       dispatch(fetchAMoodboard(userId, moodboardId))
-    }
+    },
+    getMe: () => dispatch(me())
   }
 }
 export default connect(mapState, mapDispatch)(EditPage)

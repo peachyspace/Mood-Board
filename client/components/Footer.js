@@ -5,6 +5,9 @@ import {makeStyles} from '@material-ui/core/styles'
 import linkedinLogo from '../../public/images/linkedinLogo.png'
 
 const useStyles = makeStyles(theme => ({
+  footBox: {
+    backgroundColor: '#C3A789'
+  },
   link: {
     textDecoration: 'none',
     fontFamily: 'Josefin Slab',
@@ -20,7 +23,7 @@ const Footer = () => {
   let classes = useStyles()
 
   return (
-    <Grid container justify="center">
+    <Grid container justify="center" className={classes.footBox}>
       <Grid item container justify="center" direction="row">
         <Grid item component="a" className={classes.link}>
           <Typography>Let's connect on</Typography>

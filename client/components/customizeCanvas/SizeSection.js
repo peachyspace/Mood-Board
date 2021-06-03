@@ -46,6 +46,190 @@ const SizeSection = ({
         width: 630,
         height: 1200
       }
+    },
+    {
+      id: 4,
+      format: 'iPhone 6/6s/7/8 ',
+      size: {
+        width: 375,
+        height: 667
+      }
+    },
+    {
+      id: 5,
+      format: 'iPhone 6/6s/7/8 Plus',
+      size: {
+        width: 414,
+        height: 736
+      }
+    },
+    {
+      id: 6,
+      format: 'iPhone SE',
+      size: {
+        width: 320,
+        height: 568
+      }
+    },
+    {
+      id: 7,
+      format: 'iPhone X',
+      size: {
+        width: 375,
+        height: 812
+      }
+    },
+    {
+      id: 8,
+      format: 'iPhone XS',
+      size: {
+        width: 375,
+        height: 812
+      }
+    },
+    {
+      id: 9,
+      format: 'iPhone XS Max',
+      size: {
+        width: 414,
+        height: 896
+      }
+    },
+    {
+      id: 10,
+      format: 'iPhone XR',
+      size: {
+        width: 414,
+        height: 896
+      }
+    },
+    {
+      id: 11,
+      format: 'iPhone 11',
+      size: {
+        width: 375,
+        height: 812
+      }
+    },
+    {
+      id: 12,
+      format: 'iPhone 11 Pro Max',
+      size: {
+        width: 414,
+        height: 896
+      }
+    },
+    {
+      id: 13,
+      format: 'iPhone 12',
+      size: {
+        width: 390,
+        height: 844
+      }
+    },
+    {
+      id: 14,
+      format: 'iPhone 12 Pro',
+      size: {
+        width: 390,
+        height: 844
+      }
+    },
+    {
+      id: 15,
+      format: 'iPhone 12 Pro Max',
+      size: {
+        width: 428,
+        height: 926
+      }
+    },
+    {
+      id: 16,
+      format: 'Samsung Galaxy S7',
+      size: {
+        width: 360,
+        height: 640
+      }
+    },
+    {
+      id: 17,
+      format: 'Samsung Galaxy S8/8+/9/9+',
+      size: {
+        width: 360,
+        height: 740
+      }
+    },
+    {
+      id: 18,
+      format: 'Samsung Galaxy S10',
+      size: {
+        width: 360,
+        height: 760
+      }
+    },
+    {
+      id: 19,
+      format: 'Samsung Galaxy S10+',
+      size: {
+        width: 412,
+        height: 869
+      }
+    },
+    {
+      id: 20,
+      format: 'Samsung Galaxy S20',
+      size: {
+        width: 360,
+        height: 800
+      }
+    },
+    {
+      id: 21,
+      format: 'Samsung Galaxy S20+',
+      size: {
+        width: 384,
+        height: 854
+      }
+    },
+    {
+      id: 22,
+      format: 'Samsung Galaxy S20 Ultra',
+      size: {
+        width: 412,
+        height: 915
+      }
+    },
+    {
+      id: 23,
+      format: 'Samsung Galaxy S21 Ultra',
+      size: {
+        width: 384,
+        height: 854
+      }
+    },
+    {
+      id: 24,
+      format: 'Google Pixel 4',
+      size: {
+        width: 393,
+        height: 830
+      }
+    },
+    {
+      id: 25,
+      format: 'Google Pixel 4 XL',
+      size: {
+        width: 412,
+        height: 869
+      }
+    },
+    {
+      id: 26,
+      format: 'Google Pixel 4a/5',
+      size: {
+        width: 393,
+        height: 851
+      }
     }
   ]
   const getFormat = format => {

@@ -1,4 +1,5 @@
 import Axios from 'axios'
+import history from '../history'
 /**
  * ACTION TYPES
  */
@@ -47,6 +48,8 @@ export const createAMoodboard = (
       numberOfHearts: 0
     })
     dispatch(getAMoodboard(data))
+    history.push('/home')
+    location.reload()
   } catch (error) {
     console.log(error)
   }
@@ -56,6 +59,8 @@ export const fetchAMoodboard = (userId, moodboardId) => async dispatch => {
   try {
     const {data} = await Axios.get(`/api/moodboards/${userId}/${moodboardId}`)
     dispatch(getAMoodboard(data))
+    /*  history.push(`/edit/${userId}/${moodboardId}`)
+    location.reload() */
   } catch (error) {
     console.log(error)
   }

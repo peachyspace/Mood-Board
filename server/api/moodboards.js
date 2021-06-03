@@ -61,3 +61,18 @@ router.post('/create', async (req, res, next) => {
     next(error)
   }
 })
+
+//DELETE  /api/moodboards/delete/:userId/:moodboardId
+router.delete('/delete/:userId/:moodboardId', async (req, res, next) => {
+  try {
+    await Moodboard.destroy({
+      where: {
+        id: req.params.moodboardId,
+        userId: req.params.userId
+      }
+    })
+    res.sendStatus(204).end()
+  } catch (error) {
+    next(error)
+  }
+})

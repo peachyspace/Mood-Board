@@ -71,8 +71,8 @@ function CreatePage({idOfUser, createMoodboard}) {
           createWidth,
           backgroundColor
         )
-        history.push('/home')
-        location.reload()
+        // history.push('/home')
+        // location.reload()
       } catch (error) {
         console.error(error)
       }
@@ -102,7 +102,7 @@ function CreatePage({idOfUser, createMoodboard}) {
         style={{marginTop: '6em'}}
       >
         <Typography component="h1" variant="h1">
-          Unleash your Creativity
+          Unleash Your Creativity
         </Typography>
       </Grid>
       <div>

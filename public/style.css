@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: sans-serif;
 }
@@ -67,6 +72,17 @@ form div {
 .sign {
   margin-top: 10em;
 }
+
+img {
+  max-width: 100%;
+}
+#no-scroll1::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+/*  #no-scroll1{
+ border:1px solid;
+ } */
 /* @font-face {
   font-family: 'Mali';
   font-style: normal;

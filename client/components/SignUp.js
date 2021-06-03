@@ -46,8 +46,8 @@ const SignUp = ({signUpUser}) => {
       try {
         e.preventDefault()
         await signUpUser(firstName, lastName, username, email, password)
-        history.push('/home')
-        location.reload()
+        // history.push('/home')
+        //location.reload()
       } catch (error) {
         console.log(error)
       }

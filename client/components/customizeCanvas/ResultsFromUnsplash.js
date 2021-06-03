@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import {connect} from 'react-redux'
 import {fetchUnsplashPhoto} from '../../store'
+import unsplashIcon from '../../../public/images/unsplashIcon.png'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,8 +50,27 @@ const ResultsFromUnsplash = ({canvas, results, addToDownloadCount}) => {
     <div className={classes.root}>
       <GridList cellHeight={180} className={classes.gridList} cols={5}>
         <GridListTile key="Subheader" cols={5} style={{height: 'auto'}}>
-          <ListSubheader component="div">
-            Search Results From Unsplash
+          <ListSubheader
+            component="div"
+            style={{
+              backgroundColor: '#C3A789',
+              textAlign: 'center',
+              fontWeight: 700,
+              fontSize: '17px'
+            }}
+          >
+            <a
+              href="https://unsplash.com/?utm_source=Moodboard&utm_medium=referral"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Search Results From Unsplash{' '}
+              <img
+                src={unsplashIcon}
+                alt="unsplashIcon"
+                style={{width: 28, height: 28, marginTop: '8px'}}
+              />{' '}
+            </a>
           </ListSubheader>
         </GridListTile>
         {results.map(result => (

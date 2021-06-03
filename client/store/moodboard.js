@@ -3,6 +3,7 @@ import Axios from 'axios'
  * ACTION TYPES
  */
 const GET_A_USERS_MOODBOARDS = 'GET_A_USERS_MOODBOARDS'
+const DELETE_A_USERS_MOODBOARD = 'DELETE_A_USERS_MOODBOARD'
 /**
  * INITIAL STATE
  */
@@ -13,6 +14,11 @@ const initialState = []
 const getUserMoodboards = moodboards => ({
   type: GET_A_USERS_MOODBOARDS,
   moodboards
+})
+
+const deleteUserMoodboard = moodboardId => ({
+  type: DELETE_A_USERS_MOODBOARD,
+  moodboardId
 })
 
 /**
@@ -27,10 +33,22 @@ export const fetchUserMoodboards = userId => async dispatch => {
   }
 }
 
+export const deleteMoodboard = (userId, moodboardId) => async dispatch => {
+  try {
+    await Axios.delete(`/api/moodboards/delete/${userId}/${moodboardId}`)
+
+    dispatch(deleteUserMoodboard(moodboardId))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const moodboardReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_A_USERS_MOODBOARDS:
       return action.moodboards
+    case DELETE_A_USERS_MOODBOARD:
+      return state.filter(moodboard => moodboard.id !== action.moodboardId)
     default:
       return state
   }

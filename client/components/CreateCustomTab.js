@@ -99,7 +99,9 @@ const CreateCustomTab = ({
           >
             {tabValue === displayValue && (
               <Box p={3}>
-                <Typography>Item three</Typography>
+                <Typography>
+                  Create a moodboard for your social media or phone.
+                </Typography>
                 {hasCanvas > 0 ? (
                   <SizeSection
                     canvas={userCanvas}

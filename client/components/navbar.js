@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link, useHistory} from 'react-router-dom'
-import {logout} from '../store'
+import {logout, me} from '../store'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Tabs from '@material-ui/core/Tabs'
@@ -38,7 +38,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 400,
     fontSize: '1em',
     letterSpacing: 2,
-    color: 'black',
+    color: 'white',
     height: '2em',
     alignSelf: 'center'
   }
@@ -49,6 +49,14 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
   const [value, setValue] = useState(0)
   const history = useHistory()
   useEffect(() => {
+    async function getMe() {
+      try {
+        await me()
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getMe()
     if (
       window.location.pathname === '/' &&
       value !== 0 &&
@@ -86,6 +94,7 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
       setValue(2)
     }
   })
+
   const handleSignOutButton = async e => {
     e.preventDefault()
     try {
@@ -99,6 +108,10 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+  console.log('isLoggedIn: ', isLoggedIn)
+  console.log('userId: ', userId)
+  console.log('value: ', value)
+  console.log('window.location.pathname: ', window.location.pathname)
 
   return (
     <React.Fragment>
@@ -111,7 +124,7 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
               className={classes.tabsCont}
               value={value}
               onChange={handleChange}
-              indicatorColor="primary"
+              indicatorColor="secondary"
               textColor="secondary"
             >
               <Tab
@@ -135,7 +148,8 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
             </Tabs>
             <Button
               component="a"
-              onClick={e => handleSignOutButton(e)}
+              onClick={handleSignOutButton}
+              /* onClick={e => handleSignOutButton(e)} */
               style={{marginLeft: 'auto'}}
               className={classes.signOutButton}
             >
@@ -193,7 +207,8 @@ const mapDispatch = dispatch => {
   return {
     handleLogOut() {
       dispatch(logout())
-    }
+    },
+    me: () => dispatch(me())
   }
 }
 
