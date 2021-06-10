@@ -4,11 +4,8 @@ module.exports = router
 
 router.post('/login', async (req, res, next) => {
   try {
-    //console.log('user:', req.body.email)
     const user = await User.findOne({where: {email: req.body.email}})
-    console.log(
-      'USER INFO REMOVED FOR TESTING................................. '
-    )
+
     if (!user) {
       console.log('No such user found:', req.body.email)
       res.status(401).send('Wrong username and/or password')
@@ -17,7 +14,6 @@ router.post('/login', async (req, res, next) => {
       res.status(401).send('Wrong username and/or password')
     } else {
       req.login(user, err => (err ? next(err) : res.json(user)))
-      console.log('logging in ....')
     }
   } catch (err) {
     next(err)
@@ -26,7 +22,6 @@ router.post('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
-    console.log('abbout to create user')
     const user = await User.create(req.body)
     req.login(user, err => (err ? next(err) : res.json(user)))
   } catch (err) {
@@ -39,14 +34,32 @@ router.post('/signup', async (req, res, next) => {
 })
 
 router.post('/logout', (req, res) => {
-  console.log('LOGGED OUT!!!!!!!!!')
   req.logout()
   req.session.destroy()
   res.redirect('/')
 })
 
-router.get('/me', (req, res) => {
+/* router.get('/me', (req, res) => {
+  console.log('req.user: ',req.user)
   res.json(req.user)
+}) */
+const userNotFound = next => {
+  const err = new Error('Not found')
+  err.status = 404
+  next(err)
+}
+
+router.get('/me', async (req, res, next) => {
+  try {
+    if (!req.user) {
+      userNotFound(next)
+    } else {
+      const user = await User.findByPk(req.user.dataValues.id)
+      user ? res.json(user) : userNotFound(next)
+    }
+  } catch (err) {
+    next(err)
+  }
 })
 
 router.use('/google', require('./google'))

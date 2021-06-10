@@ -8,7 +8,7 @@ import Axios from 'axios'
 /* 
 * ACTION TYPES
 */
-const GET_SEARCH_RESULT = 'GET_SEARCH_RESULT'
+const GET_UNSPLASH_SEARCH_RESULT = 'GET_UNSPLASH_SEARCH_RESULT'
 /* 
 * INITIAL STATE
 */
@@ -18,9 +18,9 @@ const initialState = []
 * ACTION CREATORS
 */
 
-const getSearchResult = searchResult => ({
-  type: GET_SEARCH_RESULT,
-  searchResult
+const getUnsplashSearchResult = searchUnsplashResult => ({
+  type: GET_UNSPLASH_SEARCH_RESULT,
+  searchUnsplashResult
 })
 
 /* 
@@ -29,7 +29,7 @@ const getSearchResult = searchResult => ({
 export const fetchSearchResult = searchTerm => async dispatch => {
   try {
     const {data} = await Axios.get(`/api/unsplash/${searchTerm}`)
-    dispatch(getSearchResult(data))
+    dispatch(getUnsplashSearchResult(data))
   } catch (error) {
     console.log(error)
   }
@@ -39,8 +39,8 @@ export const fetchSearchResult = searchTerm => async dispatch => {
 */
 const searchResultReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_SEARCH_RESULT:
-      return action.searchResult
+    case GET_UNSPLASH_SEARCH_RESULT:
+      return action.searchUnsplashResult
     default:
       return state
   }

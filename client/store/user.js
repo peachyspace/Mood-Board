@@ -24,7 +24,9 @@ const removeUser = () => ({type: REMOVE_USER})
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
+    /*    dispatch(getUser(res.data )) */
     dispatch(getUser(res.data || defaultUser))
+    console.log('Redux me sucess & userid:', res.data.id)
   } catch (err) {
     console.error(err)
   }
@@ -83,7 +85,8 @@ export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
-    //history.push('/login')
+    history.push('/login')
+    location.reload()
   } catch (err) {
     console.error(err)
   }

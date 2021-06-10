@@ -8,14 +8,15 @@ import moodboards from './moodboard'
 import singleMoodboard from './singleMoodboard'
 import searchUnsplash from './searchUnsplash'
 import unsplashPhoto from './unsplashPhoto'
-
+import pixabaySearch from './pixabaySearch'
 const reducer = combineReducers({
   user,
   canvas,
   moodboards,
   singleMoodboard,
   searchUnsplash,
-  unsplashPhoto
+  unsplashPhoto,
+  pixabaySearch
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
@@ -29,3 +30,4 @@ export * from './moodboard'
 export * from './singleMoodboard'
 export * from './searchUnsplash'
 export * from './unsplashPhoto'
+export * from './pixabaySearch'

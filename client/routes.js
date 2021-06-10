@@ -16,13 +16,13 @@ import {me} from './store'
  * COMPONENT
  */
 class Routes extends Component {
-  componentDidMount() {
-    this.props.loadInitialData()
+  async componentDidMount() {
+    await this.props.loadInitialData()
+    console.log('ROUTES isLoggedIn: ', this.props.isLoggedIn)
   }
 
   render() {
     const {isLoggedIn} = this.props
-
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}

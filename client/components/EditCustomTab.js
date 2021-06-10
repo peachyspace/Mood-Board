@@ -5,10 +5,12 @@ import FontSection from './customizeCanvas/FontSection'
 import BackgroundSection from './customizeCanvas/BackgroundSection'
 import SizeSection from './customizeCanvas/SizeSection'
 import UnsplashSection from './customizeCanvas/UnsplashSection'
+import PixabaySection from './customizeCanvas/PixabaySection'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Box from '@material-ui/core/Box'
+import Typography from '@material-ui/core/Typography'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,7 +44,8 @@ const EditCustomTab = ({canvas, canvasBC, setFormat, canvasFormat}) => {
               <Tab label="Background" />
               <Tab label="Font" />
               <Tab label="Size" />
-              <Tab label="Unsplash" />
+              {/* <Tab label="Unsplash" /> */}
+              <Tab label="Pixabay" />
             </Tabs>
           </AppBar>
 
@@ -96,7 +99,7 @@ const EditCustomTab = ({canvas, canvasBC, setFormat, canvasFormat}) => {
               </Box>
             )}
           </div>
-          <div
+          {/* <div
             role="tabpanel"
             hidden={3 !== displayValue}
             id={`simple-tabpanel-${displayValue}`}
@@ -107,6 +110,23 @@ const EditCustomTab = ({canvas, canvasBC, setFormat, canvasFormat}) => {
             {tabValue === displayValue && (
               <Box p={3}>
                 {hasCanvas > 0 ? <UnsplashSection canvas={canvas} /> : null}
+              </Box>
+            )}
+          </div> */}
+          <div
+            role="tabpanel"
+            hidden={3 !== displayValue}
+            id={`simple-tabpanel-${displayValue}`}
+            aria-labelledby={`simple-tab-${displayValue}`}
+            value={tabValue}
+            index={3}
+          >
+            {tabValue === displayValue && (
+              <Box p={3}>
+                <Typography style={{textAlign: 'center'}}>
+                  Choose an image from Pixabay to download
+                </Typography>
+                {hasCanvas > 0 ? <PixabaySection /> : null}
               </Box>
             )}
           </div>

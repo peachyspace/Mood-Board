@@ -44,63 +44,66 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
+const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId, getMe}) => {
   const classes = useStyles()
   const [value, setValue] = useState(0)
   const history = useHistory()
-  useEffect(() => {
-    async function getMe() {
+  useEffect(
+    () => {
+      /*     async function getMe() {
       try {
         await me()
       } catch (error) {
         console.log(error)
       }
     }
-    getMe()
-    if (
-      window.location.pathname === '/' &&
-      value !== 0 &&
-      isLoggedIn === false
-    ) {
-      setValue(0)
-    } else if (
-      window.location.pathname === '/login' &&
-      value !== 1 &&
-      isLoggedIn === false
-    ) {
-      setValue(1)
-    } else if (
-      window.location.pathname === '/' &&
-      value !== 0 &&
-      isLoggedIn === true
-    ) {
-      setValue(0)
-    } else if (
-      window.location.pathname === '/create' &&
-      value !== 1 &&
-      isLoggedIn === true
-    ) {
-      setValue(1)
-    } else if (
-      window.location.pathname === '/home' &&
-      value !== 2 &&
-      isLoggedIn === true
-    ) {
-      setValue(2)
-    } else if (
-      window.location.pathname === `/edit/${userId}/${moodboardId}` &&
-      isLoggedIn === true
-    ) {
-      setValue(2)
-    }
-  })
+    getMe() */
+      // getMe()
+      if (
+        window.location.pathname === '/' &&
+        value !== 0 &&
+        isLoggedIn === false
+      ) {
+        setValue(0)
+      } else if (
+        window.location.pathname === '/login' &&
+        value !== 1 &&
+        isLoggedIn === false
+      ) {
+        setValue(1)
+      } else if (
+        window.location.pathname === '/' &&
+        value !== 0 &&
+        isLoggedIn === true
+      ) {
+        setValue(0)
+      } else if (
+        window.location.pathname === '/create' &&
+        value !== 1 &&
+        isLoggedIn === true
+      ) {
+        setValue(1)
+      } else if (
+        window.location.pathname === '/home' &&
+        value !== 2 &&
+        isLoggedIn === true
+      ) {
+        setValue(2)
+      } else if (
+        window.location.pathname === `/edit/${userId}/${moodboardId}` &&
+        isLoggedIn === true
+      ) {
+        setValue(2)
+      }
+    } /* ,[isLoggedIn] */
+  )
 
   const handleSignOutButton = async e => {
     e.preventDefault()
     try {
       await handleLogOut()
-      history.push('/login')
-      location.reload()
+      /*   history.push('/login')
+      location.reload() */
     } catch (error) {
       console.log(error)
     }
@@ -108,7 +111,8 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-  console.log('isLoggedIn: ', isLoggedIn)
+
+  console.log('NAVBAR: isLoggedIn: ', isLoggedIn)
   console.log('userId: ', userId)
   console.log('value: ', value)
   console.log('window.location.pathname: ', window.location.pathname)
@@ -197,7 +201,8 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
 
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id,
+    /*    isLoggedIn: state.user, */
+    isLoggedIn: !!state.user.id, //original
     userId: state.user.id,
     moodboardId: state.singleMoodboard.id
   }
@@ -208,7 +213,7 @@ const mapDispatch = dispatch => {
     handleLogOut() {
       dispatch(logout())
     },
-    me: () => dispatch(me())
+    getMe: () => dispatch(me())
   }
 }
 

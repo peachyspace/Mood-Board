@@ -4,11 +4,17 @@ import {connect} from 'react-redux'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import {makeStyles} from '@material-ui/core/styles'
-import {fetchAMoodboard, fetchUserMoodboards, deleteMoodboard} from '../store'
+import store, {
+  fetchAMoodboard,
+  fetchUserMoodboards,
+  deleteMoodboard,
+  me
+} from '../store'
 import {Button, Grid} from '@material-ui/core'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import {Link, useHistory} from 'react-router-dom'
+import brownPaperTextured from '../../public/images/brownPaperTextured.jpg'
 
 /**
  * COMPONENT
@@ -62,12 +68,14 @@ export const UserHome = ({
   moodboards,
   getMoodboards,
   getSelecetedMoodboard,
-  removeMoodboard
+  removeMoodboard,
+  getMe
 }) => {
   const classes = useStyles()
   const history = useHistory()
   useEffect(() => {
     getMoodboards(userId)
+    getMe()
   }, [])
 
   const handleSelecetedMoodboard = async (e, moodboardId) => {
@@ -75,7 +83,7 @@ export const UserHome = ({
       e.preventDefault()
       await getSelecetedMoodboard(userId, moodboardId)
       history.push(`/edit/${userId}/${moodboardId}`)
-      //location.reload()
+      location.reload()
     } catch (error) {
       console.log(error)
     }
@@ -89,6 +97,7 @@ export const UserHome = ({
       console.log(error)
     }
   }
+  console.log('USER-HOME userId:', userId)
   const userHasMoodboards = moodboards && moodboards.length
   return (
     <Container maxWidth="xs">
@@ -132,16 +141,43 @@ export const UserHome = ({
         container
         direction="column"
         alignItems="center"
-        style={{marginTop: '5em'}}
+        /*  style={{
+          marginTop: '5em',
+          backgroundImage: `url(${brownPaperTextured})`,
+          height: '50em',
+          backgroundPosition: 'center',
+           justifyContent: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-reapeat'
+        }} */
       >
-        <Grid item container direction="column" style={{width: '50%'}}>
+        <Grid
+          item
+          container
+          direction="column"
+          style={{
+            width: '50%',
+            marginTop: '2em'
+            /*  height: '40em', */
+            /////////////additions below
+            /*           marginTop: '2em',
+          backgroundImage: `url(${brownPaperTextured})`,
+          height: '60em',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-reapeat' */
+          }}
+        >
           {/*  <Grid item container direction="column" style={{width: 100}}> */}
           {moodboards &&
             moodboards.map(moodboard => (
               <Card
                 className={classes.cardRoot}
                 key={moodboard.id}
-                style={{marginBottom: '3em'}}
+                style={{
+                  marginBottom: '3em',
+                  backgroundImage: `url(${brownPaperTextured})`
+                }}
               >
                 <div className={classes.details}>
                   <CardContent
@@ -218,6 +254,9 @@ const mapDispatch = dispatch => {
     },
     removeMoodboard: (userId, moodboardId) => {
       dispatch(deleteMoodboard(userId, moodboardId))
+    },
+    getMe: () => {
+      dispatch(me())
     }
   }
 }

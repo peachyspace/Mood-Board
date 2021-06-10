@@ -65,10 +65,10 @@ const SizeSection = ({
     },
     {
       id: 6,
-      format: 'iPhone SE',
+      format: 'iPhone SE (2020)',
       size: {
-        width: 320,
-        height: 568
+        width: 375,
+        height: 667
       }
     },
     {
@@ -107,12 +107,20 @@ const SizeSection = ({
       id: 11,
       format: 'iPhone 11',
       size: {
+        width: 414,
+        height: 896
+      }
+    },
+    {
+      id: 12,
+      format: 'iPhone 11 Pro',
+      size: {
         width: 375,
         height: 812
       }
     },
     {
-      id: 12,
+      id: 13,
       format: 'iPhone 11 Pro Max',
       size: {
         width: 414,
@@ -120,7 +128,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 13,
+      id: 14,
       format: 'iPhone 12',
       size: {
         width: 390,
@@ -128,7 +136,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 14,
+      id: 15,
       format: 'iPhone 12 Pro',
       size: {
         width: 390,
@@ -136,7 +144,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 15,
+      id: 16,
       format: 'iPhone 12 Pro Max',
       size: {
         width: 428,
@@ -144,7 +152,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 16,
+      id: 17,
       format: 'Samsung Galaxy S7',
       size: {
         width: 360,
@@ -152,7 +160,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 17,
+      id: 18,
       format: 'Samsung Galaxy S8/8+/9/9+',
       size: {
         width: 360,
@@ -160,7 +168,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 18,
+      id: 19,
       format: 'Samsung Galaxy S10',
       size: {
         width: 360,
@@ -168,7 +176,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 19,
+      id: 20,
       format: 'Samsung Galaxy S10+',
       size: {
         width: 412,
@@ -176,7 +184,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 20,
+      id: 21,
       format: 'Samsung Galaxy S20',
       size: {
         width: 360,
@@ -184,7 +192,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 21,
+      id: 22,
       format: 'Samsung Galaxy S20+',
       size: {
         width: 384,
@@ -192,7 +200,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 22,
+      id: 23,
       format: 'Samsung Galaxy S20 Ultra',
       size: {
         width: 412,
@@ -200,7 +208,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 23,
+      id: 24,
       format: 'Samsung Galaxy S21 Ultra',
       size: {
         width: 384,
@@ -208,7 +216,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 24,
+      id: 25,
       format: 'Google Pixel 4',
       size: {
         width: 393,
@@ -216,7 +224,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 25,
+      id: 26,
       format: 'Google Pixel 4 XL',
       size: {
         width: 412,
@@ -224,7 +232,7 @@ const SizeSection = ({
       }
     },
     {
-      id: 26,
+      id: 27,
       format: 'Google Pixel 4a/5',
       size: {
         width: 393,
@@ -273,21 +281,23 @@ const SizeSection = ({
   }
 
   return (
-    <Grid>
-      <FormControl>
-        <Select
-          value={canvasPosts[getPostSizeId(selectedSize.id)]}
-          onChange={handleSizeChange}
-        >
-          {canvasPosts.map(canvasPost => (
-            <MenuItem key={canvasPost.id} value={canvasPost}>
-              <Typography component="h5" variant="h5">
-                {canvasPost.format}
-              </Typography>
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+    <Grid container justify="center">
+      <Grid item>
+        <FormControl>
+          <Select
+            value={canvasPosts[getPostSizeId(selectedSize.id)]}
+            onChange={handleSizeChange}
+          >
+            {canvasPosts.map(canvasPost => (
+              <MenuItem key={canvasPost.id} value={canvasPost}>
+                <Typography component="h5" variant="h5">
+                  {canvasPost.format}
+                </Typography>
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
     </Grid>
   )
 }

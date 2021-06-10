@@ -6,7 +6,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import {ChromePicker} from 'react-color'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   button: {
     marginRight: 15,
     color: 'black',
@@ -95,7 +95,7 @@ const FontSection = ({canvas}) => {
   }
 
   return (
-    <Grid container>
+    <Grid container justify="center">
       <Grid item>
         <Button
           className={classes.button}

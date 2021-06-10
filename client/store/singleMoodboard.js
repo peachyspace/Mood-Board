@@ -60,7 +60,7 @@ export const fetchAMoodboard = (userId, moodboardId) => async dispatch => {
     const {data} = await Axios.get(`/api/moodboards/${userId}/${moodboardId}`)
     dispatch(getAMoodboard(data))
     /*  history.push(`/edit/${userId}/${moodboardId}`)
-    location.reload() */
+      location.reload()  */
   } catch (error) {
     console.log(error)
   }

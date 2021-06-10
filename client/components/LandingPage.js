@@ -18,6 +18,7 @@ import playfulPups from '../../public/images/playfulPups.png'
 import summer from '../../public/images/summer.png'
 import logoNote from '../../public/images/logoNote.png'
 import notebook from '../../public/images/notebook.png'
+import pixabayPinkNote from '../../public/images/pixabayPinkNote.png'
 import paintNote from '../../public/images/paintNote.png'
 import Footer from './Footer'
 import {maxWidth} from '@material-ui/system'
@@ -190,9 +191,9 @@ const Landing = () => {
               /* style={{maxWidth: '100%'}} */
             />
             <img
-              src={notebook}
-              alt="openBook"
-              /*  style={{width: '40em', height: '25em'}} */
+              src={pixabayPinkNote}
+              alt="pinkNote"
+              style={{marginLeft: '1em', marginRight: '1em'}}
             />
             <img
               src={paintNote}

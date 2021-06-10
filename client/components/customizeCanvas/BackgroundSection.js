@@ -65,7 +65,6 @@ const BackgroundSection = ({
       })`
       canvas.backgroundColor = rgba
       canvas.renderAll()
-      console.log('data.rgb: ', data.rgb)
       if (create) {
         setCreateBackgroundColor(data.rgb)
       } else {
@@ -86,7 +85,7 @@ const BackgroundSection = ({
   }
 
   return (
-    <Grid container>
+    <Grid container justify="center">
       <Grid item>
         <Button
           className={classes.button}
