@@ -39,11 +39,11 @@ router.post('/logout', (req, res) => {
   res.redirect('/')
 })
 
-/* router.get('/me', (req, res) => {
-  console.log('req.user: ',req.user)
+router.get('/me', (req, res) => {
+  console.log('req.user: ', req.user)
   res.json(req.user)
-}) */
-const userNotFound = next => {
+})
+/* const userNotFound = next => {
   const err = new Error('Not found')
   err.status = 404
   next(err)
@@ -60,6 +60,6 @@ router.get('/me', async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-})
+}) */
 
 router.use('/google', require('./google'))

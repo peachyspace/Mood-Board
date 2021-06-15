@@ -18,7 +18,6 @@ import {me} from './store'
 class Routes extends Component {
   async componentDidMount() {
     await this.props.loadInitialData()
-    console.log('ROUTES isLoggedIn: ', this.props.isLoggedIn)
   }
 
   render() {
