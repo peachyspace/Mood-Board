@@ -6,13 +6,10 @@ const {Moodboard} = require('../server/db/models')
 
 const {
   fallCanvas,
-  dogsCanvas,
   roadTrip,
   sweet,
-  happy,
   nature,
   neverLose,
-  france,
   respect,
   journey,
   power,
@@ -385,16 +382,6 @@ async function seed() {
       backgroundColor: `{"r":197,"g":156,"b":122,"a":1}`
     }),
     Moodboard.create({
-      userId: 5,
-      title: 'Playful Pups',
-      description: 'Puppies playing around',
-      canvas: dogsCanvas,
-      format: 'Regular Canvas Size',
-      height: 800,
-      width: 800,
-      backgroundColor: `{"r":219,"g":236,"b":190,"a":1}`
-    }),
-    Moodboard.create({
       userId: 6,
       title: 'Style',
       description: 'Express yourself.',
@@ -445,16 +432,6 @@ async function seed() {
       backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`
     }),
     Moodboard.create({
-      userId: 12,
-      title: 'Happy',
-      description: 'Mindset',
-      canvas: happy,
-      format: 'Regular Canvas Size',
-      height: 800,
-      width: 800,
-      backgroundColor: `{"r":13,"g":162,"b":217,"a":0.41}`
-    }),
-    Moodboard.create({
       userId: 13,
       title: 'Two roads diverged',
       description: 'Challenge yourself',
@@ -473,16 +450,6 @@ async function seed() {
       height: 800,
       width: 800,
       backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`
-    }),
-    Moodboard.create({
-      userId: 15,
-      title: 'France',
-      description: 'A beautiful destination ',
-      canvas: france,
-      format: 'Regular Canvas Size',
-      height: 800,
-      width: 800,
-      backgroundColor: `{"r":134,"g":148,"b":149,"a":0.48}`
     }),
     Moodboard.create({
       userId: 16,
