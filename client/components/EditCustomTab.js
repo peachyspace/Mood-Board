@@ -1,10 +1,9 @@
 import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import FontSection from './customizeCanvas/FontSection'
+import TextSection from './customizeCanvas/TextSection'
 import BackgroundSection from './customizeCanvas/BackgroundSection'
 import SizeSection from './customizeCanvas/SizeSection'
-import UnsplashSection from './customizeCanvas/UnsplashSection'
 import PixabaySection from './customizeCanvas/PixabaySection'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -42,9 +41,8 @@ const EditCustomTab = ({canvas, canvasBC, setFormat, canvasFormat}) => {
               aria-label="styledTabs example"
             >
               <Tab label="Background" />
-              <Tab label="Font" />
+              <Tab label="Text" />
               <Tab label="Size" />
-              {/* <Tab label="Unsplash" /> */}
               <Tab label="Pixabay" />
             </Tabs>
           </AppBar>
@@ -75,7 +73,7 @@ const EditCustomTab = ({canvas, canvasBC, setFormat, canvasFormat}) => {
           >
             {tabValue === displayValue && (
               <Box p={3}>
-                {hasCanvas > 0 ? <FontSection canvas={canvas} /> : null}
+                {hasCanvas > 0 ? <TextSection canvas={canvas} /> : null}
               </Box>
             )}
           </div>
@@ -99,20 +97,6 @@ const EditCustomTab = ({canvas, canvasBC, setFormat, canvasFormat}) => {
               </Box>
             )}
           </div>
-          {/* <div
-            role="tabpanel"
-            hidden={3 !== displayValue}
-            id={`simple-tabpanel-${displayValue}`}
-            aria-labelledby={`simple-tab-${displayValue}`}
-            value={tabValue}
-            index={3}
-          >
-            {tabValue === displayValue && (
-              <Box p={3}>
-                {hasCanvas > 0 ? <UnsplashSection canvas={canvas} /> : null}
-              </Box>
-            )}
-          </div> */}
           <div
             role="tabpanel"
             hidden={3 !== displayValue}

@@ -26,9 +26,6 @@ const Moodboard = db.define('moodboard', {
   },
   backgroundColor: {
     type: Sequelize.STRING
-  },
-  numberOfHearts: {
-    type: Sequelize.INTEGER
   }
 })
 module.exports = Moodboard

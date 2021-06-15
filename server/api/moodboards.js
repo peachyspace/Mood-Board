@@ -15,7 +15,7 @@ router.get('/:userId', async (req, res, next) => {
     next(error)
   }
 })
-//GET api/moodboards/:userId/:moodboardId
+//GET /api/moodboards/:userId/:moodboardId
 router.get('/:userId/:moodboardId', async (req, res, next) => {
   try {
     const singleMoodboard = await Moodboard.findOne({
@@ -26,33 +26,29 @@ router.get('/:userId/:moodboardId', async (req, res, next) => {
     })
     res.json(singleMoodboard)
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 })
 
 //PUT  /api/moodboards/saveCanvas/:userId/:moodboardId
 router.put('/saveCanvas/:userId/:moodboardId', async (req, res, next) => {
   try {
-    console.log('Before save canvas!!!!!!!!')
     const moodboard = await Moodboard.findOne({
       where: {
         userId: req.params.userId,
         id: req.params.moodboardId
       }
     })
-    //console.log('moodboad: ', moodboard)
 
     moodboard.update(req.body)
-    await moodboard.save()
-    console.log('moodboard updated!!!!!!!!!!!!')
-    //console.log('req.body: ', req.body)
-    res.sendStatus(200).end()
+    let updatedMoodboard = await moodboard.save()
+    res.json(updatedMoodboard)
   } catch (error) {
     next(error)
   }
 })
-//POST /api/moodboards/create/:userID
 
+//POST /api/moodboards/create
 router.post('/create', async (req, res, next) => {
   try {
     const newMoodboard = await Moodboard.create(req.body)

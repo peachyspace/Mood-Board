@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import {makeStyles} from '@material-ui/core/styles'
 import linkedinLogo from '../../public/images/linkedinLogo.png'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   footBox: {
     backgroundColor: '#C3A789'
   },
@@ -26,7 +26,7 @@ const Footer = () => {
     <Grid container justify="center" className={classes.footBox}>
       <Grid item container justify="center" direction="row">
         <Grid item component="a" className={classes.link}>
-          <Typography>Let's connect on</Typography>
+          <Typography>Let's Connect On</Typography>
         </Grid>
         <Grid
           item

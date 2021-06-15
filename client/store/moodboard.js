@@ -1,4 +1,4 @@
-import Axios from 'axios'
+import axios from 'axios'
 /**
  * ACTION TYPES
  */
@@ -26,7 +26,7 @@ const deleteUserMoodboard = moodboardId => ({
  */
 export const fetchUserMoodboards = userId => async dispatch => {
   try {
-    const {data} = await Axios.get(`/api/moodboards/${userId}`)
+    const {data} = await axios.get(`/api/moodboards/${userId}`)
     dispatch(getUserMoodboards(data))
   } catch (error) {
     console.log(error)
@@ -35,7 +35,7 @@ export const fetchUserMoodboards = userId => async dispatch => {
 
 export const deleteMoodboard = (userId, moodboardId) => async dispatch => {
   try {
-    await Axios.delete(`/api/moodboards/delete/${userId}/${moodboardId}`)
+    await axios.delete(`/api/moodboards/delete/${userId}/${moodboardId}`)
 
     dispatch(deleteUserMoodboard(moodboardId))
   } catch (error) {

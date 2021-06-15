@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {connect} from 'react-redux'
-import {canvasSaver, fetchAMoodboard, me} from '../store'
+import {saveMoodboard, fetchAMoodboard, me} from '../store'
 import CanvasBoard from './Canvas'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
@@ -9,7 +9,7 @@ import EditCanvasTab from './EditCustomTab'
 import UpdateTitleAndDescription from './UpdateTitleAndDescription'
 import DisplayMoodboardInfo from './DisplayMoodboardInfo'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   titlesContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function EditPage({
-  saveMoodboard,
+  saveAMoodboard,
   match,
   getMoodboard,
   oneMoodboard,
@@ -57,11 +57,12 @@ function EditPage({
     const canvasString = JSON.stringify(
       canvasObject.toObject(['height', 'width'])
     )
+    console.log(canvasString)
     const backgroundColor = JSON.stringify(canvasObject.backgroundColor)
     const heightOfCanvas = canvasObject.height
     const widthOfCanvas = canvasObject.width
     try {
-      await saveMoodboard(
+      await saveAMoodboard(
         userId,
         moodboardId,
         canvasString,
@@ -77,7 +78,6 @@ function EditPage({
       setHeaderDescription(description)
       setTitle('')
       setDescription('')
-      await getMoodboard(userId, moodboardId)
     } catch (error) {
       console.error(error)
     }
@@ -157,7 +157,7 @@ const mapState = state => {
 }
 const mapDispatch = dispatch => {
   return {
-    saveMoodboard: (
+    saveAMoodboard: (
       userId,
       moodboardId,
       fabricCanvas,
@@ -169,7 +169,7 @@ const mapDispatch = dispatch => {
       description
     ) => {
       dispatch(
-        canvasSaver(
+        saveMoodboard(
           userId,
           moodboardId,
           fabricCanvas,

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {createAMoodboard} from '../store'
 import CanvasBoard from './Canvas'
@@ -7,10 +7,9 @@ import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import {Grid} from '@material-ui/core'
 import MoodboardForm from './MoodboardForm'
-import {useHistory} from 'react-router-dom'
 import CreateCustomTab from './CreateCustomTab'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   titlesContainer: {
     marginTop: 70,
     display: 'flex',
@@ -51,8 +50,6 @@ function CreatePage({idOfUser, createMoodboard}) {
     a: 1
   })
 
-  const history = useHistory()
-
   const createButtonClick = async e => {
     if (title.length !== 0 && description.length !== 0) {
       try {
@@ -71,8 +68,6 @@ function CreatePage({idOfUser, createMoodboard}) {
           createWidth,
           backgroundColor
         )
-        // history.push('/home')
-        // location.reload()
       } catch (error) {
         console.error(error)
       }

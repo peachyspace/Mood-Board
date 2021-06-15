@@ -1,10 +1,9 @@
-import Axios from 'axios'
+import axios from 'axios'
 import history from '../history'
 /**
  * ACTION TYPES
  */
 const GET_A_MOODBOARD = 'GET_A_MOODBOARD'
-const SAVE_A_MOODBOARD = 'SAVE_A_MOODBOARD'
 /**
  * INITIAL STATE
  */
@@ -14,11 +13,6 @@ const initialState = {}
  */
 const getAMoodboard = moodboard => ({
   type: GET_A_MOODBOARD,
-  moodboard
-})
-
-const savingMoodboard = moodboard => ({
-  type: 'SAVE_A_MOODBOARD',
   moodboard
 })
 
@@ -36,7 +30,7 @@ export const createAMoodboard = (
   backgroundColor
 ) => async dispatch => {
   try {
-    const {data} = await Axios.post(`/api/moodboards/create`, {
+    const {data} = await axios.post(`/api/moodboards/create`, {
       userId,
       title,
       description,
@@ -57,10 +51,8 @@ export const createAMoodboard = (
 
 export const fetchAMoodboard = (userId, moodboardId) => async dispatch => {
   try {
-    const {data} = await Axios.get(`/api/moodboards/${userId}/${moodboardId}`)
+    const {data} = await axios.get(`/api/moodboards/${userId}/${moodboardId}`)
     dispatch(getAMoodboard(data))
-    /*  history.push(`/edit/${userId}/${moodboardId}`)
-      location.reload()  */
   } catch (error) {
     console.log(error)
   }
@@ -70,16 +62,24 @@ export const saveMoodboard = (
   userId,
   moodboardId,
   fabricCanvas,
+  format,
+  height,
+  width,
+  backgroundColor,
   title,
   description
 ) => async dispatch => {
   try {
-    const {data} = await Axios.put(
+    const {data} = await axios.put(
       `/api/moodboards/saveCanvas/${userId}/${moodboardId}`,
       {
+        canvas: fabricCanvas,
+        format,
+        height,
+        width,
+        backgroundColor,
         title,
-        description,
-        canvas: fabricCanvas
+        description
       }
     )
     dispatch(getAMoodboard(data))

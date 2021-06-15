@@ -13,7 +13,6 @@ router.get('/:searchTerm', async (req, res, next) => {
         }&image_type=photo&per_page=80&safesearch=true`
       )
       .then(response => {
-        /* console.log(response.data.hits) */
         res.json(response.data.hits)
       })
   } catch (error) {

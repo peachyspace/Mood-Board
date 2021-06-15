@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {signup} from '../store'
-import {useHistory} from 'react-router-dom'
 import SignUpForm from './SignUpForm'
 
 const isRequried = val => {
@@ -9,7 +8,7 @@ const isRequried = val => {
 }
 const isEmail = val => {
   const atIndex = val.indexOf('@')
-  //if current integer is a dot then retun the current index otherwise we will retun the accumulator
+  //if current char is a dot then retun the current index otherwise we will return the accumulator
   //acc value of starting accumulator
   const greatestDotIndex = val
     .split('')
@@ -32,7 +31,6 @@ const SignUp = ({signUpUser}) => {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState(intialErrors)
   const [submitMsg, setSubmitMsg] = useState('')
-  const history = useHistory()
 
   const onSignUpButtonClick = async e => {
     if (
@@ -46,8 +44,6 @@ const SignUp = ({signUpUser}) => {
       try {
         e.preventDefault()
         await signUpUser(firstName, lastName, username, email, password)
-        // history.push('/home')
-        //location.reload()
       } catch (error) {
         console.log(error)
       }

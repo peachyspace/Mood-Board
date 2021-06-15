@@ -7,9 +7,7 @@ const {Moodboard} = require('../server/db/models')
 const {
   fallCanvas,
   dogsCanvas,
-  careerCanvas,
   roadTrip,
-  school,
   sweet,
   happy,
   nature,
@@ -33,137 +31,305 @@ async function seed() {
 
   const users = await Promise.all([
     User.create({
-      email: 'priscila@email.com',
-      password: '123',
+      email: 'priscila@yahoo.com',
+      password: 'golden20',
       firstName: 'Priscila',
       lastName: 'Pintado',
-      username: 'Peachy'
+      username: 'kitkat1'
     }),
     User.create({
-      email: 'cody@email.com',
-      password: '123',
+      email: 'cody@aol.com',
+      password: 'bigeyes',
       firstName: 'Cody',
       lastName: 'Pug',
       username: 'pugester1'
     }),
     User.create({
-      email: 'Audrey@email.com',
-      password: '123',
+      email: 'audrey@gmail.com',
+      password: 'classicGirl',
       firstName: 'Audrey',
-      lastName: 'Smith',
+      lastName: 'Hepburn',
       username: 'audreyNYC'
     }),
     User.create({
-      email: 'lilly@email.com',
-      password: '123',
+      email: 'lilly@aol.com',
+      password: 'lovewins',
       firstName: 'Lilly',
       lastName: 'Tucker',
       username: 'lilly85'
     }),
     User.create({
-      email: 'stella@email.com',
-      password: '123',
+      email: 'stella@yahoo.com',
+      password: 'dogworld',
       firstName: 'Stella',
       lastName: 'Cruz',
       username: 'cruz4life'
     }),
     User.create({
-      email: 'lucy@email.com',
-      password: '123',
+      email: 'lucy@aol.com',
+      password: 'guccigreen',
       firstName: 'Lucy',
       lastName: 'Chang',
-      username: 'fashion_lover'
+      username: 'nyc_fashion'
     }),
     User.create({
-      email: 'stacey@email.com',
-      password: '123',
+      email: 'stacey@yahoo.com',
+      password: 'selflove1',
       firstName: 'Stacey',
       lastName: 'Diaz',
       username: 'dior_girl'
     }),
     User.create({
-      email: 'leia@email.com',
-      password: '123',
+      email: 'leia@gmail.com',
+      password: 'curly85',
       firstName: 'Leia',
-      lastName: 'Olivia',
+      lastName: 'Albarracin',
       username: 'ollie68'
     }),
     User.create({
-      email: 'ian@email.com',
-      password: '123',
+      email: 'ian@gmail.com',
+      password: 'wiseboy',
       firstName: 'Ian',
-      lastName: 'Lucas',
+      lastName: 'Criollo',
       username: 'luc10'
     }),
     User.create({
-      email: 'florence@email.com',
-      password: '123',
+      email: 'florence@gmail.com',
+      password: 'bohouk43',
       firstName: 'Florence',
-      lastName: 'Middleton',
+      lastName: 'Welch',
       username: 'dog_days_are_over'
     }),
     User.create({
-      email: 'elena@email.com',
-      password: '123',
+      email: 'elena@gmail.com',
+      password: 'lafood95',
       firstName: 'Elena',
       lastName: 'Sanchez',
       username: 'starGirl'
     }),
     User.create({
-      email: 'elizabeth@email.com',
-      password: '123',
+      email: 'elizabeth@yahoo.com',
+      password: 'bigfam18',
       firstName: 'Elizabeth',
       lastName: 'Bennet',
       username: 'pride&prejudice'
     }),
     User.create({
-      email: 'jane@email.com',
-      password: '123',
+      email: 'jane_austin@yahoo.com',
+      password: 'london88',
       firstName: 'Jane',
       lastName: 'Austin',
       username: 'love_story'
     }),
     User.create({
-      email: 'fitzwilliam@email.com',
-      password: '123',
+      email: 'fitzwilliam@yahoo.com',
+      password: 'Pemberley18',
       firstName: 'Fitzwilliam',
       lastName: 'Darcy',
       username: 'mr_darcy'
     }),
     User.create({
-      email: 'rachel@email.com',
-      password: '123',
+      email: 'rachel@gmail.com',
+      password: 'fashion4ever',
       firstName: 'Rachel',
       lastName: 'Green',
       username: 'blue_eyed_girl'
     }),
     User.create({
-      email: 'monica@email.com',
-      password: '123',
+      email: 'monica@gmail.com',
+      password: 'citychef',
       firstName: 'Monica',
       lastName: 'Geller',
       username: 'nyc_cook'
     }),
     User.create({
-      email: 'ross@email.com',
-      password: '123',
+      email: 'ross@gmail.com',
+      password: 'docgeller94',
       firstName: 'Ross',
       lastName: 'Geller',
       username: 'nyu_proffessor'
     }),
     User.create({
-      email: 'chandler@email.com',
-      password: '123',
+      email: 'chandler@gmail.com',
+      password: 'geller04',
       firstName: 'Chandler',
       lastName: 'Bing',
       username: 'king_of_sarcasm'
     }),
     User.create({
-      email: 'tim@email.com',
-      password: '123',
+      email: 'youn_m@yahoo.com',
+      password: 'purplesky',
+      firstName: 'Mia',
+      lastName: 'Youn',
+      username: 'hiking_life'
+    }),
+    User.create({
+      email: 'oddturner@yahoo.com',
+      password: 'nick88',
       firstName: 'Timmy',
       lastName: 'Turner',
       username: 'thechoosenOne'
+    }),
+    User.create({
+      email: 'joey@gmail.com',
+      password: 'nyclover',
+      firstName: 'Joey',
+      lastName: 'Tribbiani',
+      username: 'knicksfan'
+    }),
+    User.create({
+      email: 'taylor22@gmail.com',
+      password: 'cat13',
+      firstName: 'Taylor',
+      lastName: 'Smith',
+      username: 'forever&always'
+    }),
+    User.create({
+      email: 'jess_day@yahoo.com',
+      password: 'newgirl',
+      firstName: 'Jess',
+      lastName: 'Day',
+      username: 'bookworm85'
+    }),
+    User.create({
+      email: 'ted_phan@yahoo.com',
+      password: 'goMets',
+      firstName: 'Teddy',
+      lastName: 'Phan',
+      username: 'foodie23'
+    }),
+    User.create({
+      email: 'kjenner@aol.com',
+      password: 'money',
+      firstName: 'Kris',
+      lastName: 'Jenner',
+      username: 'luxGirl'
+    }),
+    User.create({
+      email: 'rdiaz@gmail.com',
+      password: 'law99',
+      firstName: 'Rosa',
+      lastName: 'Diaz',
+      username: 'toughCookie'
+    }),
+    User.create({
+      email: 'franny01@yahoo.com',
+      password: 'flushing88',
+      firstName: 'Fran',
+      lastName: 'Fine',
+      username: 'Queens'
+    }),
+    User.create({
+      email: 'sour@yahoo.com',
+      password: 'drivelic',
+      firstName: 'Olivia',
+      lastName: 'Rodrigo',
+      username: 'sour21'
+    }),
+    User.create({
+      email: 'b_jung@yahoo.com',
+      password: 'lilly06',
+      firstName: 'Bella',
+      lastName: 'Jung',
+      username: 'rosebud83'
+    }),
+    User.create({
+      email: 'porter@yahoo.com',
+      password: 'cosmicLife',
+      firstName: 'Tess',
+      lastName: 'Porter',
+      username: 'rockChic'
+    }),
+    User.create({
+      email: 'knope20@yahoo.com',
+      password: 'ann_bff',
+      firstName: 'Leslie',
+      lastName: 'Knope',
+      username: 'bureaucrat_lover'
+    }),
+    User.create({
+      email: 'perkins@yahoo.com',
+      password: 'pawneeNurse',
+      firstName: 'Ann',
+      lastName: 'Perkins',
+      username: 'l&a4eva'
+    }),
+    User.create({
+      email: 'burtMac@yahoo.com',
+      password: 'andyD',
+      firstName: 'Burt',
+      lastName: 'Macklin',
+      username: 'burtM_FBI'
+    }),
+    User.create({
+      email: 'haverford@yahoo.com',
+      password: 'treat_your_self',
+      firstName: 'Tom',
+      lastName: 'Haverford',
+      username: 'Rent_A_Swag'
+    }),
+    User.create({
+      email: 'wyatt@yahoo.com',
+      password: 'iceTown',
+      firstName: 'Ben',
+      lastName: 'Wyatt',
+      username: 'kid_Mayor'
+    }),
+    User.create({
+      email: 'ludgate@yahoo.com',
+      password: 'mouseRat',
+      firstName: 'April',
+      lastName: 'Ludgate',
+      username: 'darkheart'
+    }),
+    User.create({
+      email: 'dwyer@yahoo.com',
+      password: 'aprilBertha',
+      firstName: 'Andy',
+      lastName: 'Dwyer',
+      username: '3000_candles_in_the_wind'
+    }),
+    User.create({
+      email: 'gergich@yahoo.com',
+      password: 'Garry',
+      firstName: 'Gary',
+      lastName: 'Gergich',
+      username: 'also_known_as_jerry'
+    }),
+    User.create({
+      email: 'traeger@yahoo.com',
+      password: 'literally',
+      firstName: 'Chris',
+      lastName: 'Traeger',
+      username: 'bionic_man'
+    }),
+    User.create({
+      email: 'meagle@yahoo.com',
+      password: 'mybenz',
+      firstName: 'Donna',
+      lastName: 'Meagle',
+      username: 'luxury4eva'
+    }),
+    User.create({
+      email: 'tammy_swanson@yahoo.com',
+      password: 'libraryfan',
+      firstName: 'Ron',
+      lastName: 'Swanson',
+      username: 'Ron_Swanson'
+    }),
+    User.create({
+      email: 'maroney@yahoo.com',
+      password: 'fameLover',
+      firstName: 'Jenna',
+      lastName: 'Maroney',
+      username: 'Jenna_Maroney_fan'
+    }),
+    User.create({
+      email: 'lemon_nyc@yahoo.com',
+      password: 'meanGirls',
+      firstName: 'Liz',
+      lastName: 'Lemon',
+      username: '30_Rock'
     })
   ])
 
@@ -176,8 +342,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":233,"g":173,"b":155,"a":0.98}`,
-      numberOfHearts: 80
+      backgroundColor: `{"r":233,"g":173,"b":155,"a":0.98}`
     }),
     Moodboard.create({
       userId: 1,
@@ -187,8 +352,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`,
-      numberOfHearts: 55
+      backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`
     }),
     Moodboard.create({
       userId: 2,
@@ -198,8 +362,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`,
-      numberOfHearts: 35
+      backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`
     }),
     Moodboard.create({
       userId: 3,
@@ -209,8 +372,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":147,"g":162,"b":225,"a":1}`,
-      numberOfHearts: 90
+      backgroundColor: `{"r":147,"g":162,"b":225,"a":1}`
     }),
     Moodboard.create({
       userId: 4,
@@ -220,8 +382,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":197,"g":156,"b":122,"a":1}`,
-      numberOfHearts: 35
+      backgroundColor: `{"r":197,"g":156,"b":122,"a":1}`
     }),
     Moodboard.create({
       userId: 5,
@@ -231,8 +392,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":219,"g":236,"b":190,"a":1}`,
-      numberOfHearts: 55
+      backgroundColor: `{"r":219,"g":236,"b":190,"a":1}`
     }),
     Moodboard.create({
       userId: 6,
@@ -242,8 +402,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":207,"g":191,"b":181,"a":1} `,
-      numberOfHearts: 61
+      backgroundColor: `{"r":207,"g":191,"b":181,"a":1} `
     }),
     Moodboard.create({
       userId: 7,
@@ -253,8 +412,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":201,"g":105,"b":2,"a":1}`,
-      numberOfHearts: 55
+      backgroundColor: `{"r":201,"g":105,"b":2,"a":1}`
     }),
     Moodboard.create({
       userId: 8,
@@ -264,8 +422,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":227,"g":135,"b":98,"a":1}`,
-      numberOfHearts: 23
+      backgroundColor: `{"r":227,"g":135,"b":98,"a":1}`
     }),
     Moodboard.create({
       userId: 9,
@@ -275,8 +432,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":246,"g":245,"b":242,"a":1}`,
-      numberOfHearts: 72
+      backgroundColor: `{"r":246,"g":245,"b":242,"a":1}`
     }),
     Moodboard.create({
       userId: 10,
@@ -286,30 +442,17 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`,
-      numberOfHearts: 200
-    }),
-    Moodboard.create({
-      userId: 11,
-      title: 'Career Dreams',
-      description: 'Career dream board',
-      canvas: careerCanvas,
-      format: 'Regular Canvas Size',
-      height: 800,
-      width: 800,
-      backgroundColor: `{"r":219,"g":236,"b":190,"a":0.8}`,
-      numberOfHearts: 41
+      backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`
     }),
     Moodboard.create({
       userId: 12,
       title: 'Happy',
-      description: 'Always looking forward',
+      description: 'Mindset',
       canvas: happy,
-      format: 'Pinterest Post Size',
-      height: 1000,
-      width: 1000,
-      backgroundColor: `{"r":131,"g":220,"b":222,"a":0.41}`,
-      numberOfHearts: 107
+      format: 'Regular Canvas Size',
+      height: 800,
+      width: 800,
+      backgroundColor: `{"r":13,"g":162,"b":217,"a":0.41}`
     }),
     Moodboard.create({
       userId: 13,
@@ -319,8 +462,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`,
-      numberOfHearts: 120
+      backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`
     }),
     Moodboard.create({
       userId: 14,
@@ -330,8 +472,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`,
-      numberOfHearts: 94
+      backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`
     }),
     Moodboard.create({
       userId: 15,
@@ -341,8 +482,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":134,"g":148,"b":149,"a":0.48}`,
-      numberOfHearts: 77
+      backgroundColor: `{"r":134,"g":148,"b":149,"a":0.48}`
     }),
     Moodboard.create({
       userId: 16,
@@ -352,19 +492,7 @@ async function seed() {
       format: 'Instagram Potrait Size',
       height: 1350,
       width: 1080,
-      backgroundColor: 'rgba(235, 211, 250, 0.76)',
-      numberOfHearts: 200
-    }),
-    Moodboard.create({
-      userId: 17,
-      title: 'School',
-      description: 'A place of growth',
-      canvas: school,
-      format: 'Regular Canvas Size',
-      height: 800,
-      width: 800,
-      backgroundColor: '{"r":250,"g":0,"b":0.2,"a":1}',
-      numberOfHearts: 50
+      backgroundColor: '{"r":235,"g":211,"b":250,"a":0.76}'
     }),
     Moodboard.create({
       userId: 18,
@@ -374,19 +502,18 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":180,"g":108,"b":16,"a":0.76}`,
-      numberOfHearts: 88
+      backgroundColor: `{"r":95,"g":67,"b":110,"a":1}`
     }),
     Moodboard.create({
       userId: 19,
       title: 'I never lose',
       description: 'It is all about your mindset',
       canvas: neverLose,
+
       format: 'Pinterest Post Size',
       height: 1000,
       width: 1000,
-      backgroundColor: `{"r":219,"g":232,"b":134,"a":1}`,
-      numberOfHearts: 75
+      backgroundColor: `{"r":219,"g":232,"b":134,"a":1}`
     })
   ])
 

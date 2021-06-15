@@ -36,9 +36,6 @@ const User = db.define('user', {
     unique: true,
     validate: {notEmpty: true}
   },
-  imgUrl: {
-    type: Sequelize.STRING
-  },
   salt: {
     type: Sequelize.STRING,
     // Making `.salt` act like a function hides it when serializing to JSON.

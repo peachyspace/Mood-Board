@@ -2,10 +2,9 @@ import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
-import FontSection from './customizeCanvas/FontSection'
+import TextSection from './customizeCanvas/TextSection'
 import BackgroundSection from './customizeCanvas/BackgroundSection'
 import SizeSection from './customizeCanvas/SizeSection'
-import UnsplashSection from './customizeCanvas/UnsplashSection'
 import PixabaySection from './customizeCanvas/PixabaySection'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -49,9 +48,8 @@ const CreateCustomTab = ({
               aria-label="styledTabs example"
             >
               <Tab label="Background" />
-              <Tab label="Font" />
+              <Tab label="Text" />
               <Tab label="Size" />
-              {/*    <Tab label="Unspalsh" /> */}
               <Tab label="Pixabay" />
             </Tabs>
           </AppBar>
@@ -87,7 +85,7 @@ const CreateCustomTab = ({
           >
             {tabValue === displayValue && (
               <Box p={3}>
-                {hasCanvas > 0 ? <FontSection canvas={userCanvas} /> : null}
+                {hasCanvas > 0 ? <TextSection canvas={userCanvas} /> : null}
               </Box>
             )}
           </div>
@@ -117,20 +115,7 @@ const CreateCustomTab = ({
               </Box>
             )}
           </div>
-          {/*  <div
-            role="tabpanel"
-            hidden={3 !== displayValue}
-            id={`simple-tabpanel-${displayValue}`}
-            aria-labelledby={`simple-tab-${displayValue}`}
-            value={tabValue}
-            index={3}
-          >
-            {tabValue === displayValue && (
-              <Box p={3}>
-                {hasCanvas > 0 ? <UnsplashSection canvas={userCanvas} /> : null}
-              </Box>
-            )}
-          </div> */}
+
           <div
             role="tabpanel"
             hidden={3 !== displayValue}
