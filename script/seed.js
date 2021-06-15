@@ -7,7 +7,6 @@ const {Moodboard} = require('../server/db/models')
 const {
   fallCanvas,
   roadTrip,
-
   neverLose,
   respect,
   journey,
