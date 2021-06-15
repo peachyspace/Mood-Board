@@ -7,8 +7,7 @@ const {Moodboard} = require('../server/db/models')
 const {
   fallCanvas,
   roadTrip,
-  sweet,
-  nature,
+
   neverLose,
   respect,
   journey,
@@ -452,31 +451,10 @@ async function seed() {
       backgroundColor: `{"r":250,"g":0,"b":0,"a":1}`
     }),
     Moodboard.create({
-      userId: 16,
-      title: 'Cake',
-      description: 'A moment of sweetness!!!!!!!!!',
-      canvas: sweet,
-      format: 'Instagram Potrait Size',
-      height: 1350,
-      width: 1080,
-      backgroundColor: '{"r":235,"g":211,"b":250,"a":0.76}'
-    }),
-    Moodboard.create({
-      userId: 18,
-      title: 'Nature',
-      description: 'A restful place to relax and recharge',
-      canvas: nature,
-      format: 'Regular Canvas Size',
-      height: 800,
-      width: 800,
-      backgroundColor: `{"r":95,"g":67,"b":110,"a":1}`
-    }),
-    Moodboard.create({
       userId: 19,
       title: 'I never lose',
       description: 'It is all about your mindset',
       canvas: neverLose,
-
       format: 'Pinterest Post Size',
       height: 1000,
       width: 1000,
