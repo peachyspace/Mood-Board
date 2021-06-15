@@ -398,7 +398,7 @@ async function seed() {
       format: 'Regular Canvas Size',
       height: 800,
       width: 800,
-      backgroundColor: `{"r":201,"g":105,"b":2,"a":1}`
+      backgroundColor: `{"r":178,"g":92,"b":29,"a":1}`
     }),
     Moodboard.create({
       userId: 8,
