@@ -55,7 +55,6 @@ const TextSection = ({canvas}) => {
       fontSize: 20,
       fontFamily: 'Josefin Slab'
     })
-    console.log(canvas)
     canvas.add(textbox).setActiveObject(textbox)
   }
   const changeFont = e => {

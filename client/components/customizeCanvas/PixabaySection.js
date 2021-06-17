@@ -50,7 +50,6 @@ const PixabaySection = ({searchPixabay, results}) => {
 
   const onSearchClick = async e => {
     e.preventDefault()
-    console.log(searchTerm)
     try {
       await searchPixabay(searchTerm)
       if (results.length === 0) {

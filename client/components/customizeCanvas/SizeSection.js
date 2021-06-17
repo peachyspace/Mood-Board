@@ -277,7 +277,6 @@ const SizeSection = ({
     }
     canvas.calcOffset()
     canvas.renderAll()
-    console.log(canvas)
   }
 
   return (
