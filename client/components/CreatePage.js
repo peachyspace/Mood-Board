@@ -40,15 +40,16 @@ function CreatePage({idOfUser, createMoodboard}) {
   const [errors, setErrors] = useState(intialErrors)
   const [submitMsg, setSubmitMsg] = useState('')
   const [userCanvas, setUserCanvas] = useState({})
-  const [format, setFormat] = useState('Regular Canvas Size')
-  const [createHeight, setCreateHeight] = useState(800)
-  const [createWidth, setCreateWidth] = useState(800)
+  const [format, setFormat] = useState('Spotify Playlist Cover')
+  const [createHeight, setCreateHeight] = useState(300)
+  const [createWidth, setCreateWidth] = useState(300)
   const [createBackgroundColor, setCreateBackgroundColor] = useState({
     r: 250,
     g: 0,
     b: 0.2,
     a: 1
   })
+  const [zoomValue, setZoomValue] = useState(100)
 
   const createButtonClick = async e => {
     if (title.length !== 0 && description.length !== 0) {
@@ -89,24 +90,13 @@ function CreatePage({idOfUser, createMoodboard}) {
 
   return (
     <Container maxWidth="xs" justify="center">
-      <Grid
-        item
-        container
-        className={classes.container}
-        justify="center"
-        style={{marginTop: '6em'}}
-      >
-        <Typography component="h1" variant="h1">
-          Unleash Your Creativity
-        </Typography>
-      </Grid>
       <div>
         <Grid
           item
           container
           className={classes.container}
           justify="center"
-          style={{marginTop: '1em', marginLeft: '6em'}}
+          style={{marginTop: '3em' /* , marginLeft: '6em' */}}
         >
           <MoodboardForm
             title={title}
@@ -128,9 +118,11 @@ function CreatePage({idOfUser, createMoodboard}) {
             setCreateBackgroundColor={setCreateBackgroundColor}
             createBackgroundColor={createBackgroundColor}
             setFormat={setFormat}
-            format={format}
+            createFormat={format}
             setCreateHeight={setCreateHeight}
             setCreateWidth={setCreateWidth}
+            zoomValue={zoomValue}
+            setZoomValue={setZoomValue}
           />
         </div>
 
@@ -142,6 +134,9 @@ function CreatePage({idOfUser, createMoodboard}) {
             createHeight={createHeight}
             createWidth={createWidth}
             getTitle={getTitle}
+            createFormat={format}
+            zoomValue={zoomValue}
+            setZoomValue={setZoomValue}
           />
         </Grid>
 

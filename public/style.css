@@ -66,6 +66,11 @@ form div {
   width: 290px;
 }
 
+/* keeps canvas centered  */
+.canvas-container {
+  margin-left: auto;
+  margin-right: auto;
+}
 #canvas {
   background-color: rgb(245, 239, 234);
 }

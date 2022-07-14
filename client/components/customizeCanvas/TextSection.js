@@ -5,7 +5,7 @@ import {Button, Grid} from '@material-ui/core'
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from '@material-ui/core/Select'
 import {ChromePicker} from 'react-color'
-
+import TextForm from './TextForm'
 const useStyles = makeStyles(() => ({
   button: {
     marginRight: 15,
@@ -13,6 +13,13 @@ const useStyles = makeStyles(() => ({
     backgroundColor: '#e8dfd7'
   }
 }))
+
+const intialErrors = {
+  text: ['cannot be blank']
+}
+const isRequried = val => {
+  return val.length > 0 ? '' : 'cannot be blank'
+}
 
 const TextSection = ({canvas}) => {
   const classes = useStyles()
@@ -37,7 +44,8 @@ const TextSection = ({canvas}) => {
   const [fontSelected, setFontSelected] = useState('Josefin Slab')
   const [displayColorPicker, setDisplayColorPicker] = useState(false)
   const [fontColor, setFontColor] = useState({})
-
+  const [text, setText] = useState('')
+  const [errors, setErrors] = useState(intialErrors)
   const handleColorClick = e => {
     e.preventDefault()
     setDisplayColorPicker(!displayColorPicker)
@@ -48,14 +56,17 @@ const TextSection = ({canvas}) => {
   }
 
   const addTextbox = () => {
-    let textbox = new fabric.Textbox('', {
-      left: 50,
-      top: 50,
-      width: 150,
-      fontSize: 20,
-      fontFamily: 'Josefin Slab'
-    })
-    canvas.add(textbox).setActiveObject(textbox)
+    if (text.length > 0) {
+      let textbox = new fabric.Textbox(text, {
+        left: 50,
+        top: 50,
+        width: 150,
+        fontSize: 20,
+        fontFamily: 'Josefin Slab',
+        editable: true
+      })
+      canvas.add(textbox).setActiveObject(textbox)
+    }
   }
   const changeFont = e => {
     let activeObject = canvas.getActiveObject()
@@ -96,10 +107,22 @@ const TextSection = ({canvas}) => {
   return (
     <Grid container justify="center">
       <Grid item>
+        <TextForm
+          text={text}
+          handleTextChange={e => {
+            setText(e.target.value)
+          }}
+          validations={[isRequried]}
+          errors={errors}
+          setErrors={setErrors}
+        />
+      </Grid>
+      <Grid item>
         <Button
           className={classes.button}
           varaint="contained"
           onClick={addTextbox}
+          style={{marginRight: '1em'}}
         >
           <Typography componenet="h6" variant="h6">
             Add Text
@@ -110,7 +133,7 @@ const TextSection = ({canvas}) => {
         <Select
           value={fontSelected}
           onChange={changeFont}
-          style={{marginRight: '1em'}}
+          style={{marginLeft: '1em', marginRight: '1em'}}
         >
           {fonts.map(font => (
             <MenuItem key={font} value={font}>

@@ -17,7 +17,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const EditCustomTab = ({canvas, canvasBC, setFormat, canvasFormat}) => {
+const EditCustomTab = ({
+  canvas,
+  canvasBC,
+  setFormat,
+  storedFormat,
+  zoomValue
+}) => {
   const classes = useStyles()
   const [tabValue, setTabValue] = useState(0)
   const [displayValue, setDisplayValue] = useState(0)
@@ -31,7 +37,7 @@ const EditCustomTab = ({canvas, canvasBC, setFormat, canvasFormat}) => {
 
   return (
     <div>
-      <Container>
+      <Container style={{marginTop: '1em', maxWidth: 'fit-content'}}>
         <div className={classes.root}>
           <AppBar position="static" color="secondary">
             <Tabs
@@ -91,7 +97,8 @@ const EditCustomTab = ({canvas, canvasBC, setFormat, canvasFormat}) => {
                   <SizeSection
                     canvas={canvas}
                     setFormat={setFormat}
-                    canvasFormat={canvasFormat}
+                    storedFormat={storedFormat}
+                    zoomValue={zoomValue}
                   />
                 ) : null}
               </Box>

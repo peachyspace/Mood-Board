@@ -7,10 +7,11 @@ const useStyles = makeStyles(() => ({
   paper: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center'
   },
   form: {
-    width: '80%'
+    width: 'fit-content'
   }
 }))
 const MoodboardForm = ({
@@ -60,7 +61,7 @@ const MoodboardForm = ({
             onChange={e => handleDescriptionChange(e)}
             margin="normal"
             required={true}
-            fullWidth
+            fullWidth={true}
             id="description"
             label="Description"
             name="description"

@@ -140,13 +140,15 @@ const Landing = () => {
               flexWrap: 'nowrap'
             }}
           >
-            <img src={logoNote} alt="logoNote" />
-            <img
-              src={pixabayPinkNote}
-              alt="pinkNote"
-              style={{marginLeft: '1em', marginRight: '1em'}}
-            />
-            <img src={paintNote} alt="paintNote" />
+            <Grid items>
+              <img src={logoNote} alt="logoNote" />
+              <img
+                src={pixabayPinkNote}
+                alt="pinkNote"
+                style={{marginLeft: '1em', marginRight: '1em'}}
+              />
+              <img src={paintNote} alt="paintNote" />
+            </Grid>
           </Grid>
         </Grid>
         <Grid

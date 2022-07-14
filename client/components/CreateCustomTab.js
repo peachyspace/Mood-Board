@@ -21,10 +21,13 @@ const CreateCustomTab = ({
   userCanvas,
   setCreateBackgroundColor,
   createBackgroundColor,
-  format,
+  /* format, */
+  createFormat,
   setFormat,
   setCreateHeight,
-  setCreateWidth
+  setCreateWidth,
+  zoomValue,
+  setZoomValue
 }) => {
   const classes = useStyles()
   const [tabValue, setTabValue] = useState(0)
@@ -38,7 +41,7 @@ const CreateCustomTab = ({
 
   return (
     <div>
-      <Container style={{marginTop: '1em'}}>
+      <Container style={{marginTop: '1em', maxWidth: 'fit-content'}}>
         <div className={classes.root}>
           <AppBar position="static" color="secondary">
             <Tabs
@@ -107,9 +110,11 @@ const CreateCustomTab = ({
                     canvas={userCanvas}
                     create="create"
                     setFormat={setFormat}
-                    createFormat={format}
+                    createFormat={createFormat}
                     setCreateHeight={setCreateHeight}
                     setCreateWidth={setCreateWidth}
+                    zoomValue={zoomValue}
+                    setZoomValue={setZoomValue}
                   />
                 ) : null}
               </Box>

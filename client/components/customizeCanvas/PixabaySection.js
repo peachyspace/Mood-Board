@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import {Grid} from '@material-ui/core'
@@ -43,26 +43,44 @@ const PixabaySection = ({searchPixabay, results}) => {
   const classes = useStyles()
   const [searchTerm, setSearchTerm] = useState('')
   const [messege, setMessege] = useState('Powered By Pixabay')
+  const [hasSearchResults, setHasSearchResults] = useState(
+    results && results.length
+  )
+  //let hasSearchResults = results && results.length
 
+  const isMounted = useRef(false)
+  useEffect(
+    () => {
+      if (isMounted.current && results.length === 0) {
+        setMessege('No Results Found')
+        setHasSearchResults(results && results.length)
+      } else if (isMounted.current && results.length) {
+        setMessege('Powered By Pixabay')
+        setHasSearchResults(results && results.length)
+      } else {
+        isMounted.current = true
+      }
+    },
+    [results]
+  )
   const onType = e => {
     setSearchTerm(e.target.value)
   }
 
   const onSearchClick = async e => {
-    e.preventDefault()
     try {
-      await searchPixabay(searchTerm)
-      if (results.length === 0) {
-        setMessege('No Results Found')
-      } else {
-        setMessege('Powered By Pixabay')
+      e.preventDefault()
+      if (searchTerm.length === 0) {
+        setMessege('cannot be blank')
+        setHasSearchResults(0)
+        return
       }
+      await searchPixabay(searchTerm)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const hasSearchResults = results && results.length
   return (
     <Grid container justify="center">
       <Paper component="form" className={classes.root}>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import {connect} from 'react-redux'
 import {saveMoodboard, fetchAMoodboard, me} from '../store'
 import CanvasBoard from './Canvas'
@@ -42,7 +42,8 @@ function EditPage({
   const [headerTitle, setHeaderTitle] = useState('')
   const [headerDescription, setHeaderDescription] = useState('')
   const [editCanvas, setEditCanvas] = useState({})
-
+  const [zoomValue, setZoomValue] = useState(100)
+  const isMounted = useRef(false)
   useEffect(() => {
     async function fetchMoodboard() {
       await getMoodboard(userId, moodboardId)
@@ -50,6 +51,17 @@ function EditPage({
     }
     fetchMoodboard()
   }, [])
+
+  useEffect(
+    () => {
+      if (isMounted.current) {
+        setFormat(canvasFormat)
+      } else {
+        isMounted.current = true
+      }
+    },
+    [canvasFormat]
+  )
 
   const saveButtonClick = async (e, canvasObject) => {
     e.preventDefault()
@@ -90,7 +102,7 @@ function EditPage({
   let hasMoodboard = oneMoodboard && moodKeys.length
 
   return (
-    <Container maxWidth="xs">
+    <Container maxWidth="xs" justify="center">
       <Grid className={classes.titlesContainer}>
         <div>
           <DisplayMoodboardInfo
@@ -117,7 +129,9 @@ function EditPage({
                 canvas={editCanvas}
                 canvasBC={canvasBC}
                 setFormat={setFormat}
-                canvasFormat={canvasFormat}
+                storedFormat={format}
+                zoomValue={zoomValue}
+                setZoomValue={setZoomValue}
               />
             </div>
             <Grid>
@@ -125,12 +139,14 @@ function EditPage({
                 saveButtonClick={saveButtonClick}
                 moodboardCanvas={oneMoodboard}
                 setFormat={setFormat}
-                canvasFormat={canvasFormat}
+                storedFormat={format}
                 canvasHeight={canvasHeight}
                 canvasWidth={canvasWidth}
                 canvasTitle={canvasTitle}
                 canvasBC={canvasBC}
                 setEditCanvas={setEditCanvas}
+                zoomValue={zoomValue}
+                setZoomValue={setZoomValue}
               />
             </Grid>
           </Container>

@@ -94,8 +94,10 @@ function UpdateTitleAndDescription({
                 </Button>
                 {displayForm ? (
                   <div>
-                    <div style={cover} onClick={e => handleFormClose(e)} />
-                    <Grid item style={{marginLeft: '2em', marginBottom: '1em'}}>
+                    <div
+                      /* style={cover} */ onClick={e => handleFormClose(e)}
+                    />
+                    <Grid item style={{marginBottom: '1em'}}>
                       <MoodboardForm
                         title={title}
                         handleTitleChange={e => {

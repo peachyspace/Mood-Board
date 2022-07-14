@@ -30,7 +30,7 @@ const SearchResultsFromPixabay = ({results}) => {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{marginTop: '1.5em'}}>
       <GridList cellHeight={180} className={classes.gridList} cols={5}>
         <GridListTile key="Subheader" cols={5} style={{height: 'auto'}}>
           <ListSubheader
