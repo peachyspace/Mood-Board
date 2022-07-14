@@ -85,6 +85,20 @@ img {
   width: 0px;
   background: transparent;
 }
+.pinkNoteHolder {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+@media screen and (max-width: 928px) {
+  .notesGrid {
+    width: 30%;
+  }
+  .pinkNoteHolder {
+    margin-left: 0em;
+    margin-right: 0em;
+  }
+}
 /*  #no-scroll1{
  border:1px solid;
  } */
