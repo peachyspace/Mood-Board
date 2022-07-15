@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography'
 import {Grid} from '@material-ui/core'
 import MoodboardForm from './MoodboardForm'
 import CreateCustomTab from './CreateCustomTab'
-import Footer from './Footer'
 
 const useStyles = makeStyles(() => ({
   titlesContainer: {
@@ -148,9 +147,6 @@ function CreatePage({idOfUser, createMoodboard}) {
           </Grid>
         </Grid>
       </Container>
-      <Grid style={{marginTop: '6em'}}>
-        <Footer />
-      </Grid>
     </Grid>
   )
 }

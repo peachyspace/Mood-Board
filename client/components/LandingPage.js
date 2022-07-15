@@ -16,7 +16,6 @@ import summer from '../../public/images/summer.png'
 import logoNote from '../../public/images/logoNote.png'
 import pixabayPinkNote from '../../public/images/pixabayPinkNote.png'
 import paintNote from '../../public/images/paintNote.png'
-import Footer from './Footer'
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -130,7 +129,7 @@ const Landing = () => {
             justify="center"
             style={{
               marginTop: '4em',
-              marginBottom: '9em',
+              marginBottom: '7em',
               width: '100%',
               flexWrap: 'nowrap'
             }}
@@ -143,7 +142,6 @@ const Landing = () => {
           </Grid>
         </Grid>
       </Grid>
-      <Footer />
     </Grid>
   )
 }

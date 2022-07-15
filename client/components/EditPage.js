@@ -8,7 +8,6 @@ import {Grid} from '@material-ui/core'
 import EditCanvasTab from './EditCustomTab'
 import UpdateTitleAndDescription from './UpdateTitleAndDescription'
 import DisplayMoodboardInfo from './DisplayMoodboardInfo'
-import Footer from './Footer'
 
 const useStyles = makeStyles(() => ({
   titlesContainer: {
@@ -151,9 +150,6 @@ function EditPage({
           <h4>No canvas</h4>
         )}
       </Container>
-      <Grid style={{marginTop: '6em'}}>
-        <Footer />
-      </Grid>
     </Grid>
   )
 }

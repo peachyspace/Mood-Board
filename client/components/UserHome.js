@@ -87,88 +87,90 @@ export const UserHome = ({
 
   const userHasMoodboards = moodboards && moodboards.length
   return (
-    <Container maxWidth="xs">
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h1">
-          Welcome, {name} {lastName}
-        </Typography>
-        <Typography component="h3" variant="h3">
-          {email}
-        </Typography>
-        {userHasMoodboards ? (
-          <Typography component="h3" variant="h3" style={{marginTop: '2em'}}>
-            Your Moodboards
+    <Grid>
+      <Container maxWidth="xs" style={{marginBottom: '7em'}}>
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h1">
+            Welcome, {name} {lastName}
           </Typography>
-        ) : (
-          <Typography component="h3" variant="h3" style={{marginTop: '2em'}}>
-            Time To Create Your Moodboard
+          <Typography component="h3" variant="h3">
+            {email}
           </Typography>
-        )}
-      </div>
-      <Grid container direction="column" alignItems="center">
-        <Grid
-          item
-          container
-          direction="column"
-          style={{
-            width: '50%',
-            marginTop: '2em'
-          }}
-        >
-          {moodboards &&
-            moodboards.map(moodboard => (
-              <Card
-                className={classes.cardRoot}
-                key={moodboard.id}
-                style={{
-                  marginBottom: '3em',
-                  backgroundImage: `url(${brownPaperTextured})`
-                }}
-              >
-                <div className={classes.details}>
-                  <CardContent>
-                    <Typography component="h3" variant="h3">
-                      {moodboard.title}
-                    </Typography>
-                    <Typography
-                      component="h5"
-                      variant="h5"
-                      style={{color: 'grey'}}
-                    >
-                      {moodboard.description}
-                    </Typography>
-                  </CardContent>
-                  <div className={classes.controls}>
-                    <Button
-                      onClick={e => {
-                        handleSelecetedMoodboard(e, moodboard.id)
-                      }}
-                    >
+          {userHasMoodboards ? (
+            <Typography component="h3" variant="h3" style={{marginTop: '2em'}}>
+              Your Moodboards
+            </Typography>
+          ) : (
+            <Typography component="h3" variant="h3" style={{marginTop: '2em'}}>
+              Time To Create Your Moodboard
+            </Typography>
+          )}
+        </div>
+        <Grid container direction="column" alignItems="center">
+          <Grid
+            item
+            container
+            direction="column"
+            style={{
+              width: '50%',
+              marginTop: '2em'
+            }}
+          >
+            {moodboards &&
+              moodboards.map(moodboard => (
+                <Card
+                  className={classes.cardRoot}
+                  key={moodboard.id}
+                  style={{
+                    marginBottom: '3em',
+                    backgroundImage: `url(${brownPaperTextured})`
+                  }}
+                >
+                  <div className={classes.details}>
+                    <CardContent>
+                      <Typography component="h3" variant="h3">
+                        {moodboard.title}
+                      </Typography>
                       <Typography
-                        component="h6"
-                        variant="h6"
-                        style={{color: 'black'}}
+                        component="h5"
+                        variant="h5"
+                        style={{color: '#4d4848'}}
                       >
-                        Edit
+                        {moodboard.description}
                       </Typography>
-                    </Button>
+                    </CardContent>
+                    <div className={classes.controls}>
+                      <Button
+                        onClick={e => {
+                          handleSelecetedMoodboard(e, moodboard.id)
+                        }}
+                      >
+                        <Typography
+                          component="h6"
+                          variant="h6"
+                          style={{color: 'black'}}
+                        >
+                          Edit
+                        </Typography>
+                      </Button>
 
-                    <Button
-                      onClick={e => {
-                        removeSelectedMoodboard(e, moodboard.id)
-                      }}
-                    >
-                      <Typography component="h6" variant="h6">
-                        Delete
-                      </Typography>
-                    </Button>
+                      <Button
+                        onClick={e => {
+                          removeSelectedMoodboard(e, moodboard.id)
+                        }}
+                      >
+                        <Typography component="h6" variant="h6">
+                          Delete
+                        </Typography>
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              ))}
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </Grid>
   )
 }
 

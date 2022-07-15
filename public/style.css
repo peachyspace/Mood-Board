@@ -29,6 +29,14 @@ form div {
   /* margin: 1em; */
   display: inline-block;
 }
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.contentWrap {
+  flex: 1;
+}
 .parentOfDropzone {
   min-height: 500px;
   border: 10px solid rgba(0, 0, 0, 0.3);

@@ -196,7 +196,7 @@ const CanvasBoard = ({
             item
             container
             className={classes.container}
-            style={{marginBottom: '1em'}}
+            style={{marginBottom: '7em'}}
             justify="center"
           >
             <Grid item>
