@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import {Grid} from '@material-ui/core'
 import MoodboardForm from './MoodboardForm'
 import CreateCustomTab from './CreateCustomTab'
+import Footer from './Footer'
 
 const useStyles = makeStyles(() => ({
   titlesContainer: {
@@ -89,14 +90,14 @@ function CreatePage({idOfUser, createMoodboard}) {
   }
 
   return (
-    <Container maxWidth="xs" justify="center">
-      <div>
+    <Grid>
+      <Container maxWidth="xs" justify="center">
         <Grid
           item
           container
           className={classes.container}
           justify="center"
-          style={{marginTop: '3em' /* , marginLeft: '6em' */}}
+          style={{marginTop: '3em'}}
         >
           <MoodboardForm
             title={title}
@@ -112,20 +113,17 @@ function CreatePage({idOfUser, createMoodboard}) {
             setErrors={setErrors}
           />
         </Grid>
-        <div>
-          <CreateCustomTab
-            userCanvas={userCanvas}
-            setCreateBackgroundColor={setCreateBackgroundColor}
-            createBackgroundColor={createBackgroundColor}
-            setFormat={setFormat}
-            createFormat={format}
-            setCreateHeight={setCreateHeight}
-            setCreateWidth={setCreateWidth}
-            zoomValue={zoomValue}
-            setZoomValue={setZoomValue}
-          />
-        </div>
-
+        <CreateCustomTab
+          userCanvas={userCanvas}
+          setCreateBackgroundColor={setCreateBackgroundColor}
+          createBackgroundColor={createBackgroundColor}
+          setFormat={setFormat}
+          createFormat={format}
+          setCreateHeight={setCreateHeight}
+          setCreateWidth={setCreateWidth}
+          zoomValue={zoomValue}
+          setZoomValue={setZoomValue}
+        />
         <Grid>
           <CanvasBoard
             createButtonClick={createButtonClick}
@@ -149,8 +147,11 @@ function CreatePage({idOfUser, createMoodboard}) {
             )}
           </Grid>
         </Grid>
-      </div>
-    </Container>
+      </Container>
+      <Grid style={{marginTop: '6em'}}>
+        <Footer />
+      </Grid>
+    </Grid>
   )
 }
 const mapState = state => {

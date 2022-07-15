@@ -8,6 +8,7 @@ import {Grid} from '@material-ui/core'
 import EditCanvasTab from './EditCustomTab'
 import UpdateTitleAndDescription from './UpdateTitleAndDescription'
 import DisplayMoodboardInfo from './DisplayMoodboardInfo'
+import Footer from './Footer'
 
 const useStyles = makeStyles(() => ({
   titlesContainer: {
@@ -102,38 +103,34 @@ function EditPage({
   let hasMoodboard = oneMoodboard && moodKeys.length
 
   return (
-    <Container maxWidth="xs" justify="center">
-      <Grid className={classes.titlesContainer}>
-        <div>
+    <Grid>
+      <Container maxWidth="xs" justify="center">
+        <Grid className={classes.titlesContainer}>
           <DisplayMoodboardInfo
             titleOfCanvas={titleOfCanvas}
             headerTitle={headerTitle}
             descriptionOfCanvas={descriptionOfCanvas}
             headerDescription={headerDescription}
           />
-        </div>
-        <Grid>
-          <UpdateTitleAndDescription
-            title={title}
-            setTitle={setTitle}
-            description={description}
-            setDescription={setDescription}
-          />
+          <Grid>
+            <UpdateTitleAndDescription
+              title={title}
+              setTitle={setTitle}
+              description={description}
+              setDescription={setDescription}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-      {hasMoodboard ? (
-        <div>
+        {hasMoodboard ? (
           <Container>
-            <div>
-              <EditCanvasTab
-                canvas={editCanvas}
-                canvasBC={canvasBC}
-                setFormat={setFormat}
-                storedFormat={format}
-                zoomValue={zoomValue}
-                setZoomValue={setZoomValue}
-              />
-            </div>
+            <EditCanvasTab
+              canvas={editCanvas}
+              canvasBC={canvasBC}
+              setFormat={setFormat}
+              storedFormat={format}
+              zoomValue={zoomValue}
+              setZoomValue={setZoomValue}
+            />
             <Grid>
               <CanvasBoard
                 saveButtonClick={saveButtonClick}
@@ -150,11 +147,14 @@ function EditPage({
               />
             </Grid>
           </Container>
-        </div>
-      ) : (
-        <h4>No canvas</h4>
-      )}
-    </Container>
+        ) : (
+          <h4>No canvas</h4>
+        )}
+      </Container>
+      <Grid style={{marginTop: '6em'}}>
+        <Footer />
+      </Grid>
+    </Grid>
   )
 }
 const mapState = state => {
