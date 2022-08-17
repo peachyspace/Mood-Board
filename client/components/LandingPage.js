@@ -61,13 +61,7 @@ const Landing = () => {
   ]
 
   return (
-    <Grid
-      container
-      direction="row"
-      style={{
-        backgroundImage: 'linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)'
-      }}
-    >
+    <Grid container direction="row">
       <Grid
         item
         container
