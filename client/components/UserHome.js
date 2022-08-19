@@ -35,11 +35,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column'
   },
-  details: {
+  /*   details: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
+    justifyContent: 'space-between',
+  }, */
   controls: {
     display: 'flex',
     alignItems: 'center',
@@ -88,7 +88,7 @@ export const UserHome = ({
   const userHasMoodboards = moodboards && moodboards.length
   return (
     <Grid>
-      <Container maxWidth="xs" style={{marginBottom: '7em'}}>
+      <Container style={{marginBottom: '7em'}}>
         <div className={classes.paper}>
           <Typography component="h1" variant="h1">
             Welcome, {name} {lastName}
@@ -123,10 +123,11 @@ export const UserHome = ({
                   key={moodboard.id}
                   style={{
                     marginBottom: '3em',
+                    width: '100%',
                     backgroundImage: `url(${brownPaperTextured})`
                   }}
                 >
-                  <div className={classes.details}>
+                  <div className="details">
                     <CardContent>
                       <Typography component="h3" variant="h3">
                         {moodboard.title}

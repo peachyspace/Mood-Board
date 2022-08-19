@@ -76,7 +76,8 @@ export default createMuiTheme({
   },
   breakpoints: {
     values: {
-      ml: 1720
+      s: 0
+      /* didn't add more breakpoints because it allows for the tabs in the navbar to be spaced evenly */
     }
   }
 })

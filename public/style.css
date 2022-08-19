@@ -45,6 +45,7 @@ form div {
     rgb(226, 209, 195) 100%
   );
 }
+
 .parentOfDropzone {
   min-height: 500px;
   border: 10px solid rgba(0, 0, 0, 0.3);
@@ -102,6 +103,28 @@ img {
   background: transparent;
 }
 
+/* nav bar */
+.MuiTabs-fixed {
+  max-width: 1400px;
+}
+.MuiToolbar-regular {
+  justify-content: center;
+}
+.MuiTabs-flexContainer {
+  justify-content: space-between;
+}
+
+/* landing page */
+.details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+@media screen and (max-width: 691px) {
+  .details {
+    display: block;
+  }
+}
 @media screen and (max-width: 928px) {
   .notesGrid {
     width: 30%;

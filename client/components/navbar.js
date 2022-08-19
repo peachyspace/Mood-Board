@@ -16,7 +16,10 @@ const useStyles = makeStyles(theme => ({
     minWidth: 500
   },
   tabsCont: {
-    marginLeft: '1em'
+    /* width: '1400px', */
+  },
+  tabsContSigned: {
+    /* width: '250px' */
   },
   tab: {
     textDecoration: 'none',
@@ -101,11 +104,14 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
     <React.Fragment>
       <AppBar>
         {isLoggedIn ? (
-          <Toolbar className={classes.navbar}>
+          <Toolbar
+            className={classes.navbar}
+            style={{justifyContent: 'center'}}
+          >
             {/*  Navbar will render these links after a user logs in */}
             <img src={logo} alt="logo" style={{width: '3em', height: '3em'}} />
             <Tabs
-              className={classes.tabsCont}
+              className={classes.tabsContSigned}
               value={value}
               onChange={handleChange}
               indicatorColor="secondary"
@@ -141,6 +147,16 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
           </Toolbar>
         ) : (
           <Toolbar>
+            <img
+              src={logo}
+              alt="logo"
+              style={{
+                position: 'fixed',
+                left: '16px',
+                width: '3em',
+                height: '3em'
+              }}
+            />
             <Tabs
               className={classes.tabsCont}
               value={value}
@@ -154,6 +170,7 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
                 component={Link}
                 to="/"
                 label="Main"
+                style={{position: 'fixed', left: '60px'}}
               />
 
               <Tab
@@ -161,15 +178,15 @@ const Navbar = ({handleLogOut, isLoggedIn, userId, moodboardId}) => {
                 to="/login"
                 label="Login"
                 className={classes.tabs2}
-                style={{marginLeft: '55em'}}
+                style={{position: 'fixed', right: '0'}}
               />
-              <Tab
+              {/*               <Tab
                 component={Link}
                 to="/signup"
                 label="Sign Up"
                 className={classes.tabs2}
                 style={{marginLeft: '55em'}}
-              />
+              /> */}
             </Tabs>
           </Toolbar>
         )}
